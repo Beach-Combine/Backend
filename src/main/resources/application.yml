@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/security?serverTimezone=Asia/Seoul
+    username: root
+    password: Cntjdus00!
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
