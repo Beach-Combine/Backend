@@ -1,6 +1,7 @@
 package beachcombine.backend.domain;
 
 
+import beachcombine.backend.dto.member.MemberResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,4 +33,8 @@ public class Member {
 
     @Builder.Default
     private Boolean profilePublic = true; // 프로필 공개 여부
+
+    public MemberResponse getMemberInfo() {
+        return new MemberResponse(id, email, nickname, image, totalPoint, monthPoint, profilePublic);
+    }
 }

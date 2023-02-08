@@ -30,8 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable() // 매 요청마다 id, pwd 보내는 방식으로 인증하는 httpBasic 사용X
                 .authorizeRequests() // 요청에 대한 사용권한 체크
                 .antMatchers("/oauth2/*").permitAll()
-                .anyRequest().authenticated(); // 그외 나머지 요청은 인증 필요
+                .anyRequest().permitAll();
+    // .anyRequest().authenticated(); // 그외 나머지 요청은 인증 필요
     }
-
-
 }
