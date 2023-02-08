@@ -24,6 +24,7 @@ public class Member {
     private String email;
     private String nickname;
     private String image;
+    private String roles; // USER 혹은 ADMIN
 
     private Integer totalPoint; // 전체 포인트
     private Integer monthPoint; // 월간 포인트
