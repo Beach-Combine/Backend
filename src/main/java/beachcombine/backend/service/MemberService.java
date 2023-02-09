@@ -31,8 +31,8 @@ public class MemberService {
 
     // 회원 정보 수정
     @Transactional
-    public void updateMemberInfo(MemberUpdateRequest dto){
-        Member findMember = memberRepository.findById(Long.valueOf(1))
+    public void updateMemberInfo(Long id, MemberUpdateRequest dto){
+        Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
         findMember.updateMemberInfo(dto);
