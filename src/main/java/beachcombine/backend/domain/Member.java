@@ -2,6 +2,7 @@ package beachcombine.backend.domain;
 
 
 import beachcombine.backend.dto.member.MemberResponse;
+import beachcombine.backend.dto.member.MemberUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,8 +43,8 @@ public class Member {
         return new MemberResponse(id, email, nickname, image, totalPoint, monthPoint, profilePublic);
     }
 
-    public void updateMemberInfo(String nickname, String image) {
-        this.nickname = nickname;
-        this.image = image;
+    public void updateMemberInfo(MemberUpdateRequest dto) {
+        this.nickname = dto.getNickname();
+        this.image = dto.getImage();
     }
 }

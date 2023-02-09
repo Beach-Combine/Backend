@@ -1,14 +1,12 @@
 package beachcombine.backend.dto.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Builder
 public class MemberUpdateRequest {
 
     private Long id;

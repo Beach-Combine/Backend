@@ -31,12 +31,12 @@ public class MemberService {
 
     // 회원 정보 수정
     @Transactional
-    public void updateMemberInfo(long id, String nickname, String image){
-        Member updateMember = memberRepository.findById(id)
+    public void updateMemberInfo(MemberUpdateRequest dto){
+        Member findMember = memberRepository.findById(dto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
         try{
-            updateMember.updateMemberInfo(nickname, image);
+            findMember.updateMemberInfo(dto);
         } catch (Exception e){
             throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
         }

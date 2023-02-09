@@ -33,8 +33,8 @@ public class MemberController {
 
     // 회원 정보 수정
     @PatchMapping("/members")
-    public String changeMemberInfo(@RequestBody MemberUpdateRequest params)  {
-        memberService.updateMemberInfo(params.getId(), params.getNickname(), params.getImage() );
+    public String updateMemberInfo(@RequestBody MemberUpdateRequest dto)  {
+        memberService.updateMemberInfo(dto);
 
         return  "redirect:/members";
     }
