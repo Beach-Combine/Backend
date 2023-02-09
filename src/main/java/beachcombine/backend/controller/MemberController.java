@@ -33,9 +33,9 @@ public class MemberController {
 
     // 회원 정보 수정
     @PatchMapping("/members")
-    public String updateMemberInfo(@RequestBody MemberUpdateRequest dto)  {
+    public ResponseEntity<MemberResponse> updateMemberInfo(@RequestBody MemberUpdateRequest dto)  {
         memberService.updateMemberInfo(dto);
 
-        return  "redirect:/members";
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

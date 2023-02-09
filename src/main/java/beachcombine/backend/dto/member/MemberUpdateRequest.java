@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class MemberUpdateRequest {
 
-    private Long id;
     private String nickname;
     private String image;
 
