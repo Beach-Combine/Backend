@@ -38,8 +38,9 @@ public class MemberController {
 
     // 닉네임 중복확인
     @GetMapping("/members/nickname-check/{nickname}")
-    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
-        return ResponseEntity.ok(memberService.checkNicknameDuplicate(nickname));
+    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+        memberService.checkNicknameDuplicate(nickname);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
