@@ -35,6 +35,16 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        findMember.updateMemberInfo(dto);
+        if (dto.getNickname() == findMember.getNickname() ){
+            return;
+        }
+        else if (memberRepository.existsByNickname(dto.getNickname())){
+            throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
+        }
+        else{
+            findMember.updateMemberInfo(dto);
+        }
     }
+
+
 }
