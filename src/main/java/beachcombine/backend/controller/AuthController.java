@@ -1,10 +1,13 @@
 package beachcombine.backend.controller;
 
+import beachcombine.backend.common.exception.CustomException;
+import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.request.AuthJoinRequest;
+import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.AuthService;
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +35,7 @@ public class AuthController {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
     // 일반 회원가입 (테스트용)
@@ -51,6 +55,27 @@ public class AuthController {
     }
 
     // 일반 로그인 (테스트용)
+    @PostMapping("/login")
+    public String login(@RequestBody AuthLoginRequest authLoginRequest) {
+
+        Member findMember = memberRepository.findByLoginId(authLoginRequest.getLoginId());
+
+        if(findMember == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ID);
+        }
+        if (!passwordEncoder.matches(authLoginRequest.getPassword(), findMember.getPassword())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_PASSWORD);
+        }
+
+        String jwtToken = JWT.create()
+                .withSubject(findMember.getLoginId())
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", findMember.getId())
+                .withClaim("username", findMember.getLoginId())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+
+        return jwtToken;
+    }
 
     // 구글 로그인
     @PostMapping("login/google")
