@@ -35,7 +35,7 @@ public class JwtController {
         if(memberEntity == null) {
             Member memberRequest = Member.builder()
                     .loginId(googleUser.getProvider()+"_"+googleUser.getProviderId())
-                    .password(bCryptPasswordEncoder.encode("password"))
+                    .password(bCryptPasswordEncoder.encode("beach4321"))
                     .email(googleUser.getEmail())
                     .provider(googleUser.getProvider())
                     .providerId(googleUser.getProviderId())
