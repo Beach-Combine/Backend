@@ -4,7 +4,10 @@ import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.request.AuthJoinRequest;
+import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.repository.MemberRepository;
+import beachcombine.backend.service.AuthService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +32,25 @@ public class AuthController {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final AuthService authService;
+
     // 일반 회원가입 (테스트용)
     @PostMapping("join")
-    public ResponseEntity<Void> join(@RequestBody Member member) {
+    public ResponseEntity<AuthJoinResponse> join(@RequestBody AuthJoinRequest authJoinRequest) {
 
-        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-        member.setRole("ROLE_USER");
-        memberRepository.save(member);
+        Member member = authService.saveMember(authJoinRequest);
 
-        return new ResponseEntity(HttpStatus.OK);
+        AuthJoinResponse authJoinResponse = AuthJoinResponse.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(authJoinResponse);
     }
+
+    // 일반 로그인 (테스트용)
 
     // 구글 로그인
     @PostMapping("login/google")

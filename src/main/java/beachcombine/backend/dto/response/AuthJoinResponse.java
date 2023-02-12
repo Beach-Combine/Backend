@@ -1,4 +1,4 @@
-package beachcombine.backend.dto.request;
+package beachcombine.backend.dto.response;
 
 import lombok.*;
 
@@ -7,10 +7,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuthSaveRequest {
+public class AuthJoinResponse {
 
+    private Long id;
     private String loginId;
-    private String password;
     private String email;
     private String nickname;
 }
