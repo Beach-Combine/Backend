@@ -9,6 +9,7 @@ import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
+import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.AuthService;
 import com.auth0.jwt.JWT;
@@ -42,39 +43,18 @@ public class AuthController {
     @PostMapping("join")
     public ResponseEntity<AuthJoinResponse> join(@RequestBody AuthJoinRequest authJoinRequest) {
 
-        Member member = authService.saveMember(authJoinRequest);
-
-        AuthJoinResponse authJoinResponse = AuthJoinResponse.builder()
-                .id(member.getId())
-                .loginId(member.getLoginId())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
-                .build();
+        AuthJoinResponse authJoinResponse = authService.saveMember(authJoinRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(authJoinResponse);
     }
 
     // 일반 로그인 (테스트용)
     @PostMapping("/login")
-    public String login(@RequestBody AuthLoginRequest authLoginRequest) {
+    public ResponseEntity<AuthTokenResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
 
-        Member findMember = memberRepository.findByLoginId(authLoginRequest.getLoginId());
+        AuthTokenResponse authJoinResponse = authService.login(authLoginRequest);
 
-        if(findMember == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_ID);
-        }
-        if (!passwordEncoder.matches(authLoginRequest.getPassword(), findMember.getPassword())) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_PASSWORD);
-        }
-
-        String jwtToken = JWT.create()
-                .withSubject(findMember.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", findMember.getId())
-                .withClaim("username", findMember.getLoginId())
-                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
-
-        return jwtToken;
+        return ResponseEntity.status(HttpStatus.OK).body(authJoinResponse);
     }
 
     // 구글 로그인
