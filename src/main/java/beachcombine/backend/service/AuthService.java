@@ -31,7 +31,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     // 일반 회원가입 (테스트용)
-    @Transactional
     public AuthJoinResponse saveMember(AuthJoinRequest requestDto) {
 
         Member member = Member.builder()
@@ -55,7 +54,6 @@ public class AuthService {
     }
 
     // 일반 로그인 (테스트용)
-    @Transactional
     public AuthTokenResponse login(AuthLoginRequest requestDto) {
 
         Member findMember = memberRepository.findByLoginId(requestDto.getLoginId());
