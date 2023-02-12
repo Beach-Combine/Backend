@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +21,9 @@ public class MemberController {
 
     // 회원 정보 조회
     @GetMapping("")
-    public ResponseEntity<MemberResponse> findMemberInfo(Authentication authentication) {
-        // @AuthenticationPrincipal CustomUserDetails userDetails
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println(principal.getMember().getId());
-        MemberResponse memberResponse = memberService.findMemberInfo(principal.getMember().getId());
-//        MemberResponse memberResponse = memberService.findMemberInfo(1);
+    public ResponseEntity<MemberResponse> findMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        MemberResponse memberResponse = memberService.findMemberInfo(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
     }

@@ -1,6 +1,5 @@
 package beachcombine.backend.common.config;
 
-import beachcombine.backend.common.jwt.JwtAuthenticationFilter;
 import beachcombine.backend.common.jwt.JwtAuthorizationFilter;
 import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.repository.MemberRepository;
@@ -36,7 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsConfig.corsFilter()) // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증O)
                 .formLogin().disable() // jwt 서버라서 아이디,비밀번호를 formLogin으로 안함
                 .httpBasic().disable() // 매 요청마다 id, pwd 보내는 방식으로 인증하는 httpBasic 사용X
-
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository, jwtUtils))
                 .authorizeRequests() // 요청에 대한 사용권한 체크
                 .antMatchers("/oauth2/*").permitAll()
@@ -44,4 +42,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // .anyRequest().authenticated(); // 그외 나머지 요청은 인증 필요
     }
 }
-//                .addFilter(new JwtAuthenticationFilter((authenticationManager())))
