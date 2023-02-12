@@ -11,9 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"nickname"}, name = "unique_data")
-})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,15 +32,18 @@ public class Member {
 
     // 회원 기본 정보
     private String email;
-    @Column(nullable =false)
+    @Column(nullable = false, unique = true)
     private String nickname;
     private String image;
     private String role; // USER 혹은 ADMIN
 
     // 회원 추가 정보
-    private Integer totalPoint; // 전체 포인트
-    private Integer monthPoint; // 월간 포인트
-    private Integer purchasePoint; // 구매 포인트
+    @Builder.Default
+    private Integer totalPoint = 0; // 전체 포인트
+    @Builder.Default
+    private Integer monthPoint = 0; // 월간 포인트
+    @Builder.Default
+    private Integer purchasePoint = 0; // 구매 포인트
 
     @Builder.Default
     private Boolean profilePublic = true; // 프로필 공개 여부
@@ -59,7 +59,7 @@ public class Member {
 
     public List<String> getRoleList() {
 
-        if(this.role.length() > 0) {
+        if (this.role.length() > 0) {
             return Arrays.asList(this.role.split(","));
         }
         return new ArrayList<>();
