@@ -25,7 +25,7 @@ public class JwtUtils {
 
     // JWT 토큰 생성
     public TokenDto createToken(Member member) {
-        System.out.println(secretKey);
+
         String accessToken = JWT.create()
                 .withSubject(member.getLoginId())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME)) // 시간 제대로 동작하는지 확인 필요함

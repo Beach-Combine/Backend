@@ -1,6 +1,7 @@
 package beachcombine.backend.common.config;
 
 import beachcombine.backend.common.jwt.JwtAuthorizationFilter;
+import beachcombine.backend.common.jwt.JwtExceptionFilter;
 import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,8 @@ public class WebSecurityConfig {
                 .apply(new MyCustomDsl()) // 커스텀 필터 등록
                 .and()
                 .authorizeRequests(authorize -> authorize
-                        .antMatchers("/members/**").access("hasRole('ROLE_USER')")
                         .antMatchers("/auth/**").permitAll()
+                        .antMatchers("/members/**").access("hasRole('ROLE_USER')")
                         .anyRequest().authenticated() // 그외 나머지 요청은 인증 필요
                 )// 요청에 대한 사용권한 체크
                 .build();
@@ -53,8 +54,8 @@ public class WebSecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsConfig.corsFilter()) // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증O)
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, jwtUtils));
-
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, jwtUtils))
+                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthorizationFilter.class);
         }
     }
 }
