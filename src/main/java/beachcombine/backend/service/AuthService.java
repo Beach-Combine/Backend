@@ -2,15 +2,14 @@ package beachcombine.backend.service;
 
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
-import beachcombine.backend.common.jwt.JwtProperties;
+import beachcombine.backend.common.jwt.dto.TokenDto;
+import beachcombine.backend.common.jwt.provider.JwtTokenProvider;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +28,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 일반 회원가입 (테스트용)
     @Transactional
@@ -67,19 +67,12 @@ public class AuthService {
             throw new CustomException(ErrorCode.UNAUTHORIZED_PASSWORD);
         }
 
-        // 분리 예정
-
-        String jwtToken = JWT.create()
-                .withSubject(findMember.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", findMember.getId())
-                .withClaim("username", findMember.getLoginId())
-                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
-
-        // 분리 예정
+        TokenDto tokenDto = jwtTokenProvider.createToken(findMember);
+        // 토큰 저장 필요
 
         AuthTokenResponse responseDto = AuthTokenResponse.builder()
-                .accessToken(jwtToken)
+                .accessToken(tokenDto.getAccessToken())
+                .refreshToken(tokenDto.getRefreshToken())
                 .role(findMember.getRole())
                 .build();
 

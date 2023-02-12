@@ -12,3 +12,7 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+jwt:
+  secret: ${application.jwt.secret}
+  secret_refresh: ${application.jwt.secret_refresh}

@@ -1,7 +1,5 @@
 package beachcombine.backend.controller;
 
-import beachcombine.backend.common.exception.CustomException;
-import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
@@ -19,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +33,6 @@ public class AuthController {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
     // 일반 회원가입 (테스트용)
@@ -82,7 +78,7 @@ public class AuthController {
 
         String jwtToken = JWT.create()
                 .withSubject(memberEntity.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
                 .withClaim("id", memberEntity.getId())
                 .withClaim("username", memberEntity.getLoginId())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
