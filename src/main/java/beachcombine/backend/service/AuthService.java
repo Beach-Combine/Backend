@@ -29,6 +29,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenService refreshTokenService;
 
     // 일반 회원가입 (테스트용)
     public AuthJoinResponse saveMember(AuthJoinRequest requestDto) {
@@ -66,7 +67,7 @@ public class AuthService {
         }
 
         TokenDto tokenDto = jwtTokenProvider.createToken(findMember);
-        // 토큰 저장 필요
+        refreshTokenService.saveRefreshToken(tokenDto);
 
         AuthTokenResponse responseDto = AuthTokenResponse.builder()
                 .accessToken(tokenDto.getAccessToken())

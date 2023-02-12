@@ -28,7 +28,6 @@ public class MemberService {
         return findMember.getMemberInfo();
     }
 
-
     // 회원 정보 수정
     @Transactional
     public void updateMemberInfo(Long id, MemberUpdateRequest dto){
