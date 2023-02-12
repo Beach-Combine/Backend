@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -24,8 +23,6 @@ public class JwtUtils {
     @Value("${jwt.secret_refresh}")
     private String refreshSecretKey;
 
-    private final UserDetailsService userDetailsService;
-
     // JWT 토큰 생성
     public TokenDto createToken(Member member) {
         System.out.println(secretKey);
@@ -35,7 +32,7 @@ public class JwtUtils {
                 .withClaim("id", member.getId())
                 .withClaim("username", member.getLoginId())
                 .withClaim("role", member.getRole())
-                .sign(Algorithm.HMAC512(secretKey)); // Base64로 인코딩 굳이 필요한지, 없어도 되는지 확인 필요함
+                .sign(Algorithm.HMAC512(secretKey));
 
         String refreshToken = JWT.create()
                 .withSubject(member.getLoginId())
