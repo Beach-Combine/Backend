@@ -25,13 +25,21 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    // 소셜 로그인
+    @Column(unique = true)
     private String loginId; // 소셜로그인 구분 & 로컬 로그인 확장 대비
+    private String password;
+    private String providerId;
+    private String provider;
+
+    // 회원 기본 정보
     private String email;
     @Column(nullable =false)
     private String nickname;
     private String image;
-    private String roles; // USER 혹은 ADMIN
+    private String role; // USER 혹은 ADMIN
 
+    // 회원 추가 정보
     private Integer totalPoint; // 전체 포인트
     private Integer monthPoint; // 월간 포인트
     private Integer purchasePoint; // 구매 포인트
