@@ -2,7 +2,6 @@ package beachcombine.backend.service;
 
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
-import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
@@ -13,8 +12,6 @@ import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -65,7 +61,7 @@ public class AuthService {
 
         Member findMember = memberRepository.findByLoginId(requestDto.getLoginId());
 
-        if(findMember == null) {
+        if (findMember == null) {
             throw new CustomException(ErrorCode.UNAUTHORIZED_ID);
         }
         if (!passwordEncoder.matches(requestDto.getPassword(), findMember.getPassword())) {
@@ -87,13 +83,13 @@ public class AuthService {
     // 구글 로그인
     public AuthTokenResponse googleLogin(Map<String, Object> data) {
 
-        OAuthUserInfo googleUser = new GoogleUser((Map<String, Object>)data.get("profileObj"));
+        OAuthUserInfo googleUser = new GoogleUser((Map<String, Object>) data.get("profileObj"));
 
-        Member findMember = memberRepository.findByLoginId(googleUser.getProvider()+"_"+googleUser.getProviderId());
+        Member findMember = memberRepository.findByLoginId(googleUser.getProvider() + "_" + googleUser.getProviderId());
 
-        if(findMember == null) {
+        if (findMember == null) {
             Member memberRequest = Member.builder()
-                    .loginId(googleUser.getProvider()+"_"+googleUser.getProviderId())
+                    .loginId(googleUser.getProvider() + "_" + googleUser.getProviderId())
                     .password(bCryptPasswordEncoder.encode("beachcombine"))
                     .email(googleUser.getEmail())
                     .provider(googleUser.getProvider())

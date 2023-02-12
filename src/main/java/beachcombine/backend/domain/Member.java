@@ -49,10 +49,19 @@ public class Member {
     private Boolean profilePublic = true; // 프로필 공개 여부
 
     public MemberResponse getMemberInfo() {
-        return new MemberResponse(id, email, nickname, image, totalPoint, monthPoint, profilePublic);
+
+        return MemberResponse.builder()
+                .id(id)
+                .nickname(nickname)
+                .image(image)
+                .totalPoint(totalPoint)
+                .monthPoint(monthPoint)
+                .profilePublic(profilePublic)
+                .build();
     }
 
     public void updateMemberInfo(MemberUpdateRequest dto) {
+
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
     }
