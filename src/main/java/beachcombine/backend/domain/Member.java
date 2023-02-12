@@ -6,6 +6,9 @@ import beachcombine.backend.dto.member.MemberUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {
@@ -25,7 +28,7 @@ public class Member {
 
     // 소셜 로그인
     @Column(unique = true)
-    private String loginId; // 소셜로그인 구분 & 로컬 로그인 확장 대비
+    private String loginId; // 소셜로그인 구분 & 로컬 로그인 확장 대비. username 역할
     private String password;
     private String providerId;
     private String provider;
@@ -52,5 +55,13 @@ public class Member {
     public void updateMemberInfo(MemberUpdateRequest dto) {
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
+    }
+
+    public List<String> getRoleList() {
+
+        if(this.role.length() > 0) {
+            return Arrays.asList(this.role.split(","));
+        }
+        return new ArrayList<>();
     }
 }
