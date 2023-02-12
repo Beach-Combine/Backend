@@ -1,9 +1,12 @@
 package beachcombine.backend.controller;
 
+import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.repository.MemberRepository;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -45,7 +49,14 @@ public class JwtController {
             memberEntity = memberRepository.save(memberRequest);
         }
 
-        // 구현 예정
-        return "";
+
+        String jwtToken = JWT.create()
+                .withSubject(memberEntity.getLoginId())
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", memberEntity.getId())
+                .withClaim("username", memberEntity.getLoginId())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+
+        return jwtToken;
     }
 }
