@@ -3,10 +3,7 @@ package beachcombine.backend.domain;
 
 import beachcombine.backend.dto.member.MemberResponse;
 import beachcombine.backend.dto.member.MemberUpdateRequest;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = {"nickname"}, name = "unique_data")
 })
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
