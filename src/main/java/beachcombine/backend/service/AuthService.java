@@ -3,7 +3,7 @@ package beachcombine.backend.service;
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.common.jwt.dto.TokenDto;
-import beachcombine.backend.common.jwt.provider.JwtTokenProvider;
+import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +26,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
 
     // 일반 회원가입 (테스트용)
@@ -66,7 +64,7 @@ public class AuthService {
             throw new CustomException(ErrorCode.UNAUTHORIZED_PASSWORD);
         }
 
-        TokenDto tokenDto = jwtTokenProvider.createToken(findMember);
+        TokenDto tokenDto = jwtUtils.createToken(findMember);
         refreshTokenService.saveRefreshToken(tokenDto);
 
         AuthTokenResponse responseDto = AuthTokenResponse.builder()

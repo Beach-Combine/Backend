@@ -1,7 +1,7 @@
 package beachcombine.backend.service;
 
 import beachcombine.backend.common.jwt.dto.TokenDto;
-import beachcombine.backend.common.jwt.provider.JwtTokenProvider;
+import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.domain.RefreshToken;
 import beachcombine.backend.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RefreshTokenService {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtils jwtUtils;
     private final RefreshTokenRepository refreshTokenRepository;
 
     public void saveRefreshToken(TokenDto tokenDto) {

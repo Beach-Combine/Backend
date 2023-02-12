@@ -1,23 +1,22 @@
-package beachcombine.backend.common.jwt.provider;
+package beachcombine.backend.common.jwt;
 
-import beachcombine.backend.common.jwt.JwtProperties;
 import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.domain.Member;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.time.Duration;
-import java.util.Base64;
 import java.util.Date;
 
-@RequiredArgsConstructor
+@Slf4j
 @Component
-public class JwtTokenProvider {
+@RequiredArgsConstructor
+public class JwtUtils {
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -27,15 +26,9 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    // 객체 초기화, secretKey를 Base64로 인코딩
-    @PostConstruct
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
-
     // JWT 토큰 생성
     public TokenDto createToken(Member member) {
-
+        System.out.println(secretKey);
         String accessToken = JWT.create()
                 .withSubject(member.getLoginId())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME)) // 시간 제대로 동작하는지 확인 필요함
@@ -56,5 +49,10 @@ public class JwtTokenProvider {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .key(member.getLoginId()).build();
+    }
+
+    public String getUsernameFromToken(String token) {
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+        return jwt.getClaim("username").asString();
     }
 }
