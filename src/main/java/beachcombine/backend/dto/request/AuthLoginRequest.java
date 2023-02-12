@@ -1,4 +1,4 @@
-package beachcombine.backend.dto.member;
+package beachcombine.backend.dto.request;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberLoginRequest {
+public class AuthLoginRequest {
     private String loginId;
     private String password;
 }

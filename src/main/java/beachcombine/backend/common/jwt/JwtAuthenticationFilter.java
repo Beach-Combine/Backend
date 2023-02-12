@@ -1,7 +1,7 @@
 package beachcombine.backend.common.jwt;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
-import beachcombine.backend.dto.member.MemberLoginRequest;
+import beachcombine.backend.dto.request.AuthLoginRequest;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,17 +33,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // request에 있는 loginId와 password를 파싱해서 자바 Object로 받기
         ObjectMapper om = new ObjectMapper();
-        MemberLoginRequest memberLoginRequest = null;
+        AuthLoginRequest authLoginRequest = null;
         try {
-            memberLoginRequest = om.readValue(request.getInputStream(), MemberLoginRequest.class);
+            authLoginRequest = om.readValue(request.getInputStream(), AuthLoginRequest.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // 로그인아이디,패스워드로 토큰 생성
-        System.out.println("JwtAuthenticationFilter : " + memberLoginRequest);
+        System.out.println("JwtAuthenticationFilter : " + authLoginRequest);
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(memberLoginRequest.getLoginId(), memberLoginRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(authLoginRequest.getLoginId(), authLoginRequest.getPassword());
 
         System.out.println("JwtAuthenticationFilter : 토큰생성완료");
 

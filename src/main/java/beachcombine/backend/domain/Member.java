@@ -1,8 +1,8 @@
 package beachcombine.backend.domain;
 
 
-import beachcombine.backend.dto.member.MemberResponse;
-import beachcombine.backend.dto.member.MemberUpdateRequest;
+import beachcombine.backend.dto.response.MemberResponse;
+import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;

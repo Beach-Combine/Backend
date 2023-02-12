@@ -1,4 +1,4 @@
-package beachcombine.backend.dto.member;
+package beachcombine.backend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

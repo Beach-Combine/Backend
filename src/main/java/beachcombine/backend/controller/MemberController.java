@@ -1,13 +1,12 @@
 package beachcombine.backend.controller;
 
-import beachcombine.backend.dto.member.MemberResponse;
-import beachcombine.backend.dto.member.MemberUpdateRequest;
+import beachcombine.backend.dto.response.MemberResponse;
+import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
