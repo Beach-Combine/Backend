@@ -3,6 +3,7 @@ package beachcombine.backend.domain;
 
 import beachcombine.backend.dto.member.MemberResponse;
 import beachcombine.backend.dto.member.MemberUpdateRequest;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +45,15 @@ public class Member {
     }
 
     public void updateMemberInfo(MemberUpdateRequest dto) {
+
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
+    }
+
+    public boolean isUpdatedNickname(String nickname){
+        if(StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)){
+            return true;
+        }
+        return false;
     }
 }
