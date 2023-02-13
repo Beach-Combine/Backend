@@ -31,7 +31,7 @@ public class MemberController {
     // 회원 정보 수정
     @PatchMapping("/members")
     public ResponseEntity<Void> updateMemberInfo(@RequestBody MemberUpdateRequest dto)  {
-        memberService.updateMemberInfo(Long.valueOf(1), dto);
+        memberService.updateMemberInfo(1, dto);
 
         return new ResponseEntity(HttpStatus.OK);
     }
