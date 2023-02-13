@@ -30,12 +30,18 @@ public class MemberService {
 
 
     // 회원 정보 수정
-    @Transactional
-    public void updateMemberInfo(long id, MemberUpdateRequest dto){
+    public void updateMemberInfo(long id, MemberUpdateRequest dto) {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        findMember.updateMemberInfo(dto);
+        if (!dto.getNickname().equals(findMember.getNickname())
+                && (memberRepository.existsByNickname(dto.getNickname()))
+        ) {
+            throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
+        } else {
+            findMember.updateMemberInfo(dto);
+        }
+
     }
 
     // 닉네임 중복확인
