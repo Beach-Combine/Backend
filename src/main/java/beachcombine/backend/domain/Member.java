@@ -44,8 +44,11 @@ public class Member {
     }
 
     public void updateMemberInfo(MemberUpdateRequest dto) {
+
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
+        this.totalPoint = dto.getTotalPoint();
+        this.monthPoint = dto.getMonthPoint();
         this.profilePublic = dto.getProfilePublic();
     }
 }
