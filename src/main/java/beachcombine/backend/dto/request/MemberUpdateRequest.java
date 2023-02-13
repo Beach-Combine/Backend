@@ -1,4 +1,4 @@
-package beachcombine.backend.dto.member;
+package beachcombine.backend.dto.request;
 
 import lombok.*;
 
