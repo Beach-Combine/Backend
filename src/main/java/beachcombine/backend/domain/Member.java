@@ -46,5 +46,6 @@ public class Member {
     public void updateMemberInfo(MemberUpdateRequest dto) {
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
+        this.profilePublic = dto.getProfilePublic();
     }
 }
