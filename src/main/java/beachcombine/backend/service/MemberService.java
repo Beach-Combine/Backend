@@ -34,7 +34,7 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        if (!dto.getNickname().equals(findMember.getNickname())) {
+        if (findMember.isUpdatedNickname(dto.getNickname())) {
             checkNicknameDuplicate(dto.getNickname());
         }
         findMember.updateMemberInfo(dto);
