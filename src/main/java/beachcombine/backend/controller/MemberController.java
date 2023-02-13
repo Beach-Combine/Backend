@@ -36,4 +36,14 @@ public class MemberController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    // 닉네임 중복확인
+    @GetMapping("nickname-check/{nickname}")
+    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+
+        memberService.checkNicknameDuplicate(nickname);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

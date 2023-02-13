@@ -35,6 +35,18 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
+        if (findMember.isUpdatedNickname(dto.getNickname())) {
+            checkNicknameDuplicate(dto.getNickname());
+        }
         findMember.updateMemberInfo(dto);
     }
+
+    // 닉네임 중복확인
+    @Transactional(readOnly = true)
+    public void checkNicknameDuplicate(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
+        }
+    }
+
 }

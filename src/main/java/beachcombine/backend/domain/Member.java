@@ -4,6 +4,7 @@ package beachcombine.backend.domain;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -64,6 +65,13 @@ public class Member {
 
         this.nickname = dto.getNickname();
         this.image = dto.getImage();
+    }
+
+    public boolean isUpdatedNickname(String nickname){
+        if(StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)){
+            return true;
+        }
+        return false;
     }
 
     public List<String> getRoleList() {
