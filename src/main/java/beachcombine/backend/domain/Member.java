@@ -67,6 +67,10 @@ public class Member {
         this.image = dto.getImage();
     }
 
+    public void updateProfilePublic(Boolean option) {
+        this.profilePublic = option;
+    }
+
     public boolean isUpdatedNickname(String nickname){
         if(StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)){
             return true;
@@ -81,4 +85,6 @@ public class Member {
         }
         return new ArrayList<>();
     }
+
+
 }

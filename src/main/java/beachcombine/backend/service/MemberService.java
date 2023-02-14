@@ -49,4 +49,10 @@ public class MemberService {
         }
     }
 
+    // 프로필 공개여부 지정
+    public void UpdateProfilePublic(Long id, Boolean option) {
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        findMember.updateProfilePublic(option);
+    }
 }
