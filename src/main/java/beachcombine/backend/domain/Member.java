@@ -68,10 +68,12 @@ public class Member {
     }
 
     public void updateProfilePublic(Boolean option) {
+
         this.profilePublic = option;
     }
 
     public boolean isUpdatedNickname(String nickname){
+
         if(StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)){
             return true;
         }

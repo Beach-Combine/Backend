@@ -49,6 +49,7 @@ public class MemberController {
     // 프로필 공개여부 지정
     @PatchMapping("profile-public/{option}")
     public ResponseEntity<Void> UpdateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option){
+
         memberService.UpdateProfilePublic(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
