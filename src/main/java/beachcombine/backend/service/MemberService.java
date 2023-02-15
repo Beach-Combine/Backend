@@ -44,9 +44,17 @@ public class MemberService {
     // 닉네임 중복확인
     @Transactional(readOnly = true)
     public void checkNicknameDuplicate(String nickname) {
+
         if (memberRepository.existsByNickname(nickname)) {
             throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
         }
     }
 
+    // 프로필 공개여부 지정
+    public void UpdateProfilePublic(Long id, Boolean option) {
+
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        findMember.updateProfilePublic(option);
+    }
 }
