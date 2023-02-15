@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     // 일반 로그인 (테스트용)
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<AuthTokenResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
 
         AuthTokenResponse authTokenResponse = authService.login(authLoginRequest);
@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     // 구글 로그인
-    @PostMapping("login/google")
+    @PostMapping("google")
     public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody Map<String, Object> data) {
 
         System.out.println("jwtCreate 실행됨");
