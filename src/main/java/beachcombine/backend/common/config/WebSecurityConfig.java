@@ -1,8 +1,6 @@
 package beachcombine.backend.common.config;
 
-import beachcombine.backend.common.jwt.JwtAuthorizationFilter;
-import beachcombine.backend.common.jwt.JwtExceptionFilter;
-import beachcombine.backend.common.jwt.JwtUtils;
+import beachcombine.backend.common.jwt.*;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -26,8 +22,8 @@ public class WebSecurityConfig {
     private final CorsConfig corsConfig;
     private final MemberRepository memberRepository;
     private final JwtUtils jwtUtils;
-    private final AccessDeniedHandler accessDeniedHandler;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,6 +39,12 @@ public class WebSecurityConfig {
                 .formLogin().disable() // jwt 서버라서 아이디,비밀번호를 formLogin으로 안함
                 .httpBasic().disable() // 매 요청마다 id, pwd 보내는 방식으로 인증하는 httpBasic 사용X
                 .apply(new MyCustomDsl()) // 커스텀 필터 등록
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/auth/**").permitAll()
