@@ -1,5 +1,6 @@
 package beachcombine.backend.service;
 
+import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.common.jwt.dto.TokenDto;
@@ -7,11 +8,13 @@ import beachcombine.backend.common.jwt.JwtUtils;
 import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.domain.RefreshToken;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
+import beachcombine.backend.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +36,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     // 일반 회원가입 (테스트용)
     public AuthJoinResponse saveMember(AuthJoinRequest requestDto) {
@@ -130,5 +134,30 @@ public class AuthService {
                 .build();
 
         return responseDto;
+    }
+
+    // accessToken 재발급
+    public String refresh(String request) {
+
+        String refreshToken = request.replace("Bearer ", "");
+
+        // refresh 토큰 유효한지 확인
+        jwtUtils.validateRefreshToken(refreshToken);
+        String loginId = jwtUtils.getUsernameFromToken(refreshToken);
+        RefreshToken findRefreshToken = refreshTokenRepository.findByKeyLoginId(loginId)
+                .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_INVALID));
+        if(!refreshToken.equals(findRefreshToken.getRefreshToken())) {
+            throw new CustomException(ErrorCode.TOKEN_INVALID);
+        }
+
+        Member findMember = memberRepository.findByLoginId(loginId);
+
+        String createdAccessToken = jwtUtils.recreateAccessToken(findMember);
+
+        if (createdAccessToken == null) {
+            throw new CustomException(ErrorCode.TOKEN_EXPIRED);
+        }
+
+        return createdAccessToken;
     }
 }
