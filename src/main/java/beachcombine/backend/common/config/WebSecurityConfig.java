@@ -24,7 +24,6 @@ public class WebSecurityConfig {
     private final JwtUtils jwtUtils;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,7 +41,7 @@ public class WebSecurityConfig {
                 .and()
                 .addFilter(corsConfig.corsFilter()) // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증O)
                 .addFilter(jwtAuthorizationFilter())
-                .addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class)
+                .addFilterBefore(jwtExceptionFilter(), JwtAuthorizationFilter.class)
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/auth/**").permitAll()
                         .antMatchers("/members/**").access("hasRole('ROLE_USER')")
@@ -64,5 +63,10 @@ public class WebSecurityConfig {
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() throws Exception {
         return new JwtAuthorizationFilter(authenticationManagerBean(), memberRepository, jwtUtils);
+    }
+
+    @Bean
+    public JwtExceptionFilter jwtExceptionFilter() {
+        return new JwtExceptionFilter();
     }
 }
