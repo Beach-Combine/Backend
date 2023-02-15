@@ -4,12 +4,16 @@ import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.domain.Member;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Slf4j
@@ -48,8 +52,26 @@ public class JwtUtils {
                 .key(member.getLoginId()).build();
     }
 
+    // RefreshToken 생성
+
     public String getUsernameFromToken(String token) {
+
         DecodedJWT jwt = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
         return jwt.getClaim("username").asString();
+    }
+
+    // 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
+    public Boolean validateToken(String token) {
+
+        try {
+            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+            return true;
+        } catch (TokenExpiredException e) {
+            log.warn("[JwtVerificationException] token 기간 만료 : {}", e.getMessage());
+            throw new JwtException("TOKEN_EXPIRED");
+        } catch (JWTVerificationException e) {
+            log.warn("[JWTVerificationException] token 파싱 실패 : {}", e.getMessage());
+            throw new JwtException("TOKEN_INVALID");
+        }
     }
 }
