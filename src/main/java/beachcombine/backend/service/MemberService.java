@@ -63,6 +63,8 @@ public class MemberService {
 
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
-        findMember.updateMemberPoint(option);
+        if (!findMember.updateMemberPoint(option)){
+            throw new CustomException(ErrorCode.BAD_REQUEST_PARAM);
+        }
     }
 }
