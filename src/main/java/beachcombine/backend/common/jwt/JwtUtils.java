@@ -2,7 +2,6 @@ package beachcombine.backend.common.jwt;
 
 import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.domain.Member;
-import beachcombine.backend.domain.RefreshToken;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -32,7 +31,7 @@ public class JwtUtils {
 
         String accessToken = JWT.create()
                 .withSubject(member.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME)) // 시간 제대로 동작하는지 확인 필요함
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
                 .withClaim("id", member.getId())
                 .withClaim("username", member.getLoginId())
                 .withClaim("role", member.getRole())
@@ -52,12 +51,12 @@ public class JwtUtils {
                 .key(member.getLoginId()).build();
     }
 
-    // 토큰 재생성
+    // Access 토큰 재생성
     public String recreateAccessToken(Member member) {
 
         String accessToken = JWT.create()
                 .withSubject(member.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME)) // 시간 제대로 동작하는지 확인 필요함
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
                 .withClaim("id", member.getId())
                 .withClaim("username", member.getLoginId())
                 .withClaim("role", member.getRole())
@@ -66,7 +65,7 @@ public class JwtUtils {
         return accessToken;
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getUsernameFromAccessToken(String token) {
 
         DecodedJWT jwt = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
         return jwt.getClaim("username").asString();
@@ -78,8 +77,8 @@ public class JwtUtils {
         return jwt.getClaim("username").asString();
     }
 
-    // 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
-    public Boolean validateToken(String token) {
+    // access 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
+    public Boolean validateAccessToken(String token) {
 
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
@@ -103,5 +102,4 @@ public class JwtUtils {
             throw new JwtException("TOKEN_INVALID");
         }
     }
-
 }

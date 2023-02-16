@@ -1,13 +1,11 @@
 package beachcombine.backend.controller;
 
-import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthRecreateTokenResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.service.AuthService;
-import beachcombine.backend.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
-    private final RefreshTokenService refreshTokenService;
 
     // 일반 회원가입 (테스트용)
     @PostMapping("join")
