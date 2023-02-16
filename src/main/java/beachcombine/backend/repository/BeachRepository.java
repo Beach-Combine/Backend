@@ -1,8 +1,7 @@
 package beachcombine.backend.repository;
 
 import beachcombine.backend.domain.Beach;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface BeachRepository {
+public interface BeachRepository extends JpaRepository<Beach, Long> {
 }

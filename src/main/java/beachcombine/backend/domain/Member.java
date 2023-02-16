@@ -49,6 +49,7 @@ public class Member {
     @Builder.Default
     private Boolean profilePublic = true; // 프로필 공개 여부
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
 

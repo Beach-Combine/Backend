@@ -1,8 +1,7 @@
 package beachcombine.backend.repository;
 
 import beachcombine.backend.domain.Trashcan;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface TrashcanRepository {
+public interface TrashcanRepository extends JpaRepository<Trashcan, Long> {
 }

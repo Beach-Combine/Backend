@@ -8,10 +8,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class Record {
@@ -25,7 +27,7 @@ public class Record {
     @JoinColumn(name = "beach_id")
     private Beach beach;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -35,6 +37,11 @@ public class Record {
     private String afterImage;
     private Date date;
 
+    // 연관관계 메서드
+    public void setMember(Member member) {
+        this.member = member;
+        member.getRecords().add(this);
+    }
 
     // 생성 메서드
     public static Record createRecord(Member member) {
