@@ -41,6 +41,9 @@ dependencies {
 
 	//redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	//Google Cloud Platform Storage(GCP Storage)
+	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
 }
 
 tasks.named('test') {

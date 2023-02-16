@@ -13,6 +13,12 @@ spring:
       ddl-auto: create
     show-sql: true
 
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:beach-combine-3770712535c0.json
+
 jwt:
   secret: ${application.jwt.secret}
   secret_refresh: ${application.jwt.secret_refresh}
