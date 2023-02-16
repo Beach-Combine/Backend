@@ -34,7 +34,7 @@ public class Member extends BaseEntity {
 
     // 회원 기본 정보
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length=20)
     private String nickname;
     private String image;
     private String role; // USER 혹은 ADMIN
@@ -49,6 +49,10 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     private Boolean profilePublic = true; // 프로필 공개 여부
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
 
     public MemberResponse getMemberInfo() {
 
