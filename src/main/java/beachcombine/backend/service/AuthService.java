@@ -12,6 +12,7 @@ import beachcombine.backend.domain.RefreshToken;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
+import beachcombine.backend.dto.response.AuthRecreateTokenResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RefreshTokenRepository;
@@ -137,13 +138,13 @@ public class AuthService {
     }
 
     // accessToken 재발급
-    public String refresh(String request) {
+    public AuthRecreateTokenResponse refresh(String request) {
 
         String refreshToken = request.replace("Bearer ", "");
 
         // refresh 토큰 유효한지 확인
         jwtUtils.validateRefreshToken(refreshToken);
-        String loginId = jwtUtils.getUsernameFromToken(refreshToken);
+        String loginId = jwtUtils.getUsernameFromRefreshToken(refreshToken);
         RefreshToken findRefreshToken = refreshTokenRepository.findByKeyLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.TOKEN_INVALID));
         if(!refreshToken.equals(findRefreshToken.getRefreshToken())) {
@@ -158,6 +159,11 @@ public class AuthService {
             throw new CustomException(ErrorCode.TOKEN_EXPIRED);
         }
 
-        return createdAccessToken;
+        AuthRecreateTokenResponse authRecreateTokenResponse = AuthRecreateTokenResponse.builder()
+                .accessToken(createdAccessToken)
+                .role(findMember.getRole())
+                .build();
+
+        return authRecreateTokenResponse;
     }
 }

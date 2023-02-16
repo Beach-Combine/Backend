@@ -4,6 +4,7 @@ import beachcombine.backend.common.jwt.dto.TokenDto;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
+import beachcombine.backend.dto.response.AuthRecreateTokenResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.service.AuthService;
 import beachcombine.backend.service.RefreshTokenService;
@@ -56,17 +57,11 @@ public class AuthController {
 
     // accessToken 재발급
     @PostMapping("token")
-    public ResponseEntity<TokenDto> refresh(@RequestBody Map<String, String> refreshToken){
+    public ResponseEntity<AuthRecreateTokenResponse> refresh(@RequestBody Map<String, String> refreshToken){
 
-        //Refresh Token 검증
-        String recreatedAccessToken = authService.refresh(refreshToken.get("refreshToken"));
+        //Refresh Token 검증 및 AccessToken 재발급
+        AuthRecreateTokenResponse authRecreateTokenResponse = authService.refresh(refreshToken.get("refreshToken"));
 
-        //Access Token 재발급
-        TokenDto tokenDto = TokenDto.builder()
-                .accessToken(recreatedAccessToken)
-                .build();
-
-        return ResponseEntity.status(HttpStatus.OK).body(tokenDto);
-
+        return ResponseEntity.status(HttpStatus.OK).body(authRecreateTokenResponse);
     }
 }

@@ -55,20 +55,26 @@ public class JwtUtils {
     // 토큰 재생성
     public String recreateAccessToken(Member member) {
 
-        String refreshToken = JWT.create()
+        String accessToken = JWT.create()
                 .withSubject(member.getLoginId())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.REFRESH_TOKEN_EXPIRATION_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME)) // 시간 제대로 동작하는지 확인 필요함
                 .withClaim("id", member.getId())
                 .withClaim("username", member.getLoginId())
                 .withClaim("role", member.getRole())
-                .sign(Algorithm.HMAC512(refreshSecretKey));
+                .sign(Algorithm.HMAC512(secretKey));
 
-        return refreshToken;
+        return accessToken;
     }
 
     public String getUsernameFromToken(String token) {
 
         DecodedJWT jwt = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+        return jwt.getClaim("username").asString();
+    }
+
+    public String getUsernameFromRefreshToken(String token) {
+
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC512(refreshSecretKey)).build().verify(token);
         return jwt.getClaim("username").asString();
     }
 
