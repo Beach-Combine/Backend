@@ -57,4 +57,14 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
         findMember.updateProfilePublic(option);
     }
+
+    // 포인트 받기
+    public void UpdateMemberPoint(Long id, int option) {
+
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        if (!findMember.updateMemberPoint(option)){
+            throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
+        }
+    }
 }

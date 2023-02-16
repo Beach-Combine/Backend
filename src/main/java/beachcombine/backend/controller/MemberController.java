@@ -54,4 +54,11 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    // 포인트 받기
+    @PatchMapping("point/{option}")
+    public ResponseEntity<Void> UpdateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
+
+        memberService.UpdateMemberPoint(userDetails.getMember().getId(), option);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

@@ -93,5 +93,18 @@ public class Member extends BaseEntity {
         return new ArrayList<>();
     }
 
+    public Boolean updateMemberPoint(int option) {
 
+        if(option ==0){ // 기존 등록된 쓰레기통
+            this.totalPoint += 100;
+            this.monthPoint += 100;
+            return true;
+        }
+        else if(option ==1){
+            this.totalPoint += 30;
+            this.monthPoint += 30;
+            return true;
+        }
+        return false;
+    }
 }

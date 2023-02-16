@@ -1,6 +1,7 @@
 package beachcombine.backend.domain;
 
 
+import beachcombine.backend.common.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Record {
+public class Record extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
