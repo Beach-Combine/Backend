@@ -1,6 +1,9 @@
 package beachcombine.backend.dto.response;
 
 import lombok.*;
+import beachcombine.backend.common.entity.Coordinates;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,5 +12,6 @@ import lombok.*;
 @Builder
 public class TrashcanResponse {
 
-    private String test;
+    private List<Coordinates> trashcans;
+
 }
