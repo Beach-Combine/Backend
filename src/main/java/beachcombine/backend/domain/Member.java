@@ -54,10 +54,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
 
-    public List<String> getRoleList() {
+    public List<String> getRoleAsList() {
 
         if (this.role.length() > 0) {
-            return Arrays.asList(this.role.split(","));
+            return Arrays.asList(this.role);
         }
         return new ArrayList<>();
     }
