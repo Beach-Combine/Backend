@@ -62,12 +62,12 @@ public class Member extends BaseEntity {
         return new ArrayList<>();
     }
 
-    public MemberResponse getMemberInfo() {
+    public MemberResponse getMemberInfo(String imageUrl) {
 
         return MemberResponse.builder()
                 .id(id)
                 .nickname(nickname)
-                .image(image)
+                .image(imageUrl)
                 .totalPoint(totalPoint)
                 .monthPoint(monthPoint)
                 .profilePublic(profilePublic)

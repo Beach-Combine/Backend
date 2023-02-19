@@ -29,7 +29,10 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        return findMember.getMemberInfo();
+        // 이미지 처리
+        String imageUrl = imageService.processImage(findMember.getImage());
+
+        return findMember.getMemberInfo(imageUrl);
     }
 
     // 회원 정보 수정

@@ -2,6 +2,7 @@ package beachcombine.backend.service;
 
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,5 +37,13 @@ public class ImageService {
         );
 
         return uuid;
+    }
+
+    public String processImage(String image) {
+
+        if (StringUtils.isBlank(image)) {
+            return null;
+        }
+        return "https://storage.googleapis.com/" + bucketName + "/" + image;
     }
 }
