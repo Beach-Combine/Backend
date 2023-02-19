@@ -17,11 +17,8 @@ spring:
     gcp:
       storage:
         credentials:
-          location: classpath:beach-combine-3770712535c0.json
-        bucket: ${application.spring.cloud.gcp.storage.bucket}
-
-gcp:
-  project-id: ${application.gcp.project-id}
+          location: ${application.spring.cloud.gcp.storage.credentials.location}
+        project-id: ${application.spring.cloud.gcp.storage.project-id}
 
 jwt:
   secret: ${application.jwt.secret}
