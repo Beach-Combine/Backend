@@ -38,12 +38,19 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
+        // 중복 검증
         if (findMember.isUpdatedNickname(dto.getNickname())) {
             checkNicknameDuplicate(dto.getNickname());
         }
 
-        String uuid = imageService.uploadImage(dto.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
+        // 이미지 업로드
+        String uuid = null; // 유저가 이미지를 없애도록 수정한 경우
 
+        if(!dto.getImage().isEmpty()) { // 유저가 이미지를 다른 파일로 수정한 경우
+            uuid = imageService.uploadImage(dto.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
+        }
+
+        // DB 업데이트
         findMember.updateMemberInfo(dto, uuid);
     }
 

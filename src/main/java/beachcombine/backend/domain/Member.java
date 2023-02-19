@@ -77,7 +77,9 @@ public class Member extends BaseEntity {
     public void updateMemberInfo(MemberUpdateRequest dto, String imageUrl) {
 
         this.nickname = dto.getNickname();
-        this.image = imageUrl;
+        if(dto.getIsChanged()) { // image 수정 여부 체크. 변경한 이미지가 null 값으로 들어올 수도 있어서 null로 체크하면 안됨
+            this.image = imageUrl;
+        }
     }
 
     public void updateProfilePublic(Boolean option) {
@@ -100,7 +102,7 @@ public class Member extends BaseEntity {
             this.monthPoint += 100;
             return true;
         }
-        else if(option ==1){
+        if(option ==1){
             this.totalPoint += 30;
             this.monthPoint += 30;
             return true;
