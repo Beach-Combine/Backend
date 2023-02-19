@@ -47,16 +47,15 @@ public class MemberService {
 
         String uuid = UUID.randomUUID().toString(); // Google Cloud Storage에 저장될 파일 이름
         String ext = dto.getImage().getContentType();
-        String imageUrl = uuid + ext;
 
         BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder("bucket-name", uuid)
+                BlobInfo.newBuilder("beach-combine-bucket", uuid)
                         .setContentType(ext)
                         .build(),
                 dto.getImage().getInputStream()
         );
 
-        findMember.updateMemberInfo(dto, imageUrl);
+        findMember.updateMemberInfo(dto, uuid);
     }
 
     // 닉네임 중복확인
