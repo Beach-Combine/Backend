@@ -36,7 +36,7 @@ public class Member extends BaseEntity {
     private String email;
     @Column(nullable = false, unique = true, length=20)
     private String nickname;
-    private String image;
+    private String image; // Google Cloud Storage에 저장된 이미지 파일 이름
     private String role; // USER 혹은 ADMIN
 
     // 회원 추가 정보
@@ -74,10 +74,10 @@ public class Member extends BaseEntity {
                 .build();
     }
 
-    public void updateMemberInfo(MemberUpdateRequest dto) {
+    public void updateMemberInfo(MemberUpdateRequest dto, String imageUrl) {
 
         this.nickname = dto.getNickname();
-        this.image = dto.getImage();
+        this.image = imageUrl;
     }
 
     public void updateProfilePublic(Boolean option) {

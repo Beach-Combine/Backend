@@ -1,6 +1,7 @@
 package beachcombine.backend.dto.request;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -10,6 +11,5 @@ import lombok.*;
 public class MemberUpdateRequest {
 
     private String nickname;
-    private String image;
-
+    private MultipartFile image;
 }
