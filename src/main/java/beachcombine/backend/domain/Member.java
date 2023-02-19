@@ -54,6 +54,14 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
 
+    public List<String> getRoleList() {
+
+        if (this.role.length() > 0) {
+            return Arrays.asList(this.role.split(","));
+        }
+        return new ArrayList<>();
+    }
+
     public MemberResponse getMemberInfo() {
 
         return MemberResponse.builder()
@@ -83,14 +91,6 @@ public class Member extends BaseEntity {
             return true;
         }
         return false;
-    }
-
-    public List<String> getRoleList() {
-
-        if (this.role.length() > 0) {
-            return Arrays.asList(this.role.split(","));
-        }
-        return new ArrayList<>();
     }
 
     public Boolean updateMemberPoint(int option) {
