@@ -6,15 +6,12 @@ import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.repository.MemberRepository;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ import java.util.UUID;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final Storage storage;
+    private final ImageService imageService;
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
@@ -45,15 +42,7 @@ public class MemberService {
             checkNicknameDuplicate(dto.getNickname());
         }
 
-        String uuid = UUID.randomUUID().toString(); // Google Cloud Storage에 저장될 파일 이름
-        String ext = dto.getImage().getContentType();
-
-        BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder("beach-combine-bucket", uuid)
-                        .setContentType(ext)
-                        .build(),
-                dto.getImage().getInputStream()
-        );
+        String uuid = imageService.uploadImage(dto.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
 
         findMember.updateMemberInfo(dto, uuid);
     }
