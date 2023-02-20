@@ -2,6 +2,8 @@ package beachcombine.backend.domain;
 
 
 import beachcombine.backend.common.entity.BaseEntity;
+import beachcombine.backend.dto.response.BeachMarkerImageResponse;
+import beachcombine.backend.dto.response.BeachResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
@@ -106,5 +108,12 @@ public class Member extends BaseEntity {
             return true;
         }
         return false;
+    }
+
+    public BeachMarkerImageResponse getProfileImage() {
+
+        return BeachMarkerImageResponse.builder()
+                .latestRecordImage(image)
+                .build();
     }
 }
