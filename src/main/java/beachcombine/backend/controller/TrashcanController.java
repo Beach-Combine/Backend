@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -20,9 +22,9 @@ public class TrashcanController {
 
     // (지도) 쓰레기통 위치 조회
     @GetMapping("/maps/trashcans")
-    public ResponseEntity<TrashcanResponse> findTrashcanLocation(){
+    public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
 
-        TrashcanResponse trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
+        List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
         return ResponseEntity.status(HttpStatus.OK).body(trashcanResponse);
     }
 }

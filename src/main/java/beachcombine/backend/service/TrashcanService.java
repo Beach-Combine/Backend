@@ -21,11 +21,9 @@ public class TrashcanService {
 
     // (지도) 쓰레기통 위치 조회
     @Transactional(readOnly = true)
-    public TrashcanResponse findCertifiedTrashcanCoords() {
+    public List<TrashcanResponse> findCertifiedTrashcanCoords() {
 
-        List<Coordinates> result = trashcanRepository.findCoordsByCertified(true); //  인증된(certified=true) 쓰레기통들의 좌표 반환
-        return TrashcanResponse.builder()
-                .trashcans(result)
-                .build();
+        List<TrashcanResponse> trashcanResponseList  = trashcanRepository.findCoordsByCertified(true); //  인증된(certified=true) 쓰레기통들의 좌표 반환
+        return trashcanResponseList;
     }
 }
