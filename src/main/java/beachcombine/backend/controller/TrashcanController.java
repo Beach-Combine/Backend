@@ -1,9 +1,6 @@
 package beachcombine.backend.controller;
 
-import beachcombine.backend.dto.request.MemberUpdateRequest;
-import beachcombine.backend.dto.request.TrashcanLocationRequest;
 import beachcombine.backend.dto.response.TrashcanResponse;
-import beachcombine.backend.service.RecordService;
 import beachcombine.backend.service.TrashcanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
