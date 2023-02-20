@@ -13,6 +13,14 @@ spring:
       ddl-auto: create
     show-sql: true
 
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: ${application.spring.cloud.gcp.storage.credentials.location}
+        project-id: ${application.spring.cloud.gcp.storage.project-id}
+        bucket: ${application.spring.cloud.gcp.storage.bucket}
+
 jwt:
   secret: ${application.jwt.secret}
   secret_refresh: ${application.jwt.secret_refresh}
