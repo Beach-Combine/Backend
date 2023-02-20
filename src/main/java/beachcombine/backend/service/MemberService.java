@@ -24,37 +24,37 @@ public class MemberService {
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
-    public MemberResponse findMemberInfo(long id) {
+    public MemberResponse getMember(Long memberId) {
 
-        Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        // 예외 처리
+        Member findMember = getMemberOrThrow(memberId);
 
         // 이미지 처리
         String imageUrl = imageService.processImage(findMember.getImage());
 
-        return findMember.getMemberInfo(imageUrl);
+        MemberResponse response = findMember.getMember(imageUrl);
+        return response;
     }
 
     // 회원 정보 수정
-    public void updateMemberInfo(Long id, MemberUpdateRequest dto) throws IOException {
+    public void updateMember(Long memberId, MemberUpdateRequest request) throws IOException {
 
-        Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        // 예외 처리
+        Member findMember = getMemberOrThrow(memberId);
 
         // 중복 검증
-        if (findMember.isUpdatedNickname(dto.getNickname())) {
-            checkNicknameDuplicate(dto.getNickname());
+        if (findMember.isUpdatedNickname(request.getNickname())) {
+            checkNicknameDuplicate(request.getNickname());
         }
 
         // 이미지 업로드
         String uuid = null; // 유저가 이미지를 없애도록 수정한 경우
 
-        if(!dto.getImage().isEmpty()) { // 유저가 이미지를 다른 파일로 수정한 경우
-            uuid = imageService.uploadImage(dto.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
+        if (!request.getImage().isEmpty()) { // 유저가 이미지를 다른 파일로 수정한 경우
+            uuid = imageService.uploadImage(request.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
         }
 
-        // DB 업데이트
-        findMember.updateMemberInfo(dto, uuid);
+        findMember.updateMember(request, uuid);
     }
 
     // 닉네임 중복확인
@@ -67,20 +67,29 @@ public class MemberService {
     }
 
     // 프로필 공개여부 지정
-    public void UpdateProfilePublic(Long id, Boolean option) {
+    public void updateProfilePublic(Long memberId, Boolean option) {
 
-        Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        // 예외 처리
+        Member findMember = getMemberOrThrow(memberId);
+
         findMember.updateProfilePublic(option);
     }
 
     // 포인트 받기
-    public void UpdateMemberPoint(Long id, int option) {
+    public void updateMemberPoint(Long memberId, int option) {
 
-        Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
-        if (!findMember.updateMemberPoint(option)){
+        // 예외 처리
+        Member findMember = getMemberOrThrow(memberId);
+
+        if (!findMember.updateMemberPoint(option)) {
             throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
         }
+    }
+
+    // 예외 처리 - 존재하는 member인지
+    private Member getMemberOrThrow(Long id) {
+
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 }

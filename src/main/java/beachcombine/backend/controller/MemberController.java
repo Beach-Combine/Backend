@@ -23,18 +23,18 @@ public class MemberController {
 
     // 회원 정보 조회
     @GetMapping("")
-    public ResponseEntity<MemberResponse> findMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails) {
+    public ResponseEntity<MemberResponse> getMember(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        MemberResponse memberResponse = memberService.findMemberInfo(userDetails.getMember().getId());
+        MemberResponse memberResponse = memberService.getMember(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
     }
 
     // 회원 정보 수정
     @PatchMapping("")
-    public ResponseEntity<Void> updateMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
+    public ResponseEntity<Void> updateMember(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
 
-        memberService.updateMemberInfo(userDetails.getMember().getId(), dto);
+        memberService.updateMember(userDetails.getMember().getId(), dto);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -52,7 +52,7 @@ public class MemberController {
     @PatchMapping("profile-public/{option}")
     public ResponseEntity<Void> updateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option) {
 
-        memberService.UpdateProfilePublic(userDetails.getMember().getId(), option);
+        memberService.updateProfilePublic(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -60,7 +60,7 @@ public class MemberController {
     @PatchMapping("point/{option}")
     public ResponseEntity<Void> updateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
 
-        memberService.UpdateMemberPoint(userDetails.getMember().getId(), option);
+        memberService.updateMemberPoint(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
