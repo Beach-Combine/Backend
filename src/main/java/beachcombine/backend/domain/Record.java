@@ -26,11 +26,11 @@ public class Record extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "beach_id")
-    private Beach beach;
+    private Beach beach; // 청소한 곳 (Record:Beach=다:1)
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; // 청소한 사람 (Record:Member=다:1)
 
     private Time duration; // 밀리세컨드 값
     private Long distance;
@@ -40,14 +40,14 @@ public class Record extends BaseEntity {
 
     // 연관관계 메서드
     public void setMember(Member member) {
+
         this.member = member;
         member.getRecords().add(this);
     }
 
-    // 생성 메서드
-    public static Record createRecord(Member member) {
-        Record record = new Record();
-        record.setMember(member);
-        return record;
+    public void setBeach(Beach beach) {
+
+        this.beach = beach;
+        beach.getRecords().add(this);
     }
 }

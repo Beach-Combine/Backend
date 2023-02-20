@@ -50,7 +50,7 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
-    private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
+    private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트 (Record:Member=다:1)
 
     public List<String> getRoleAsList() {
 
