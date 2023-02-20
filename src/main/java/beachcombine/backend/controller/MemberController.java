@@ -1,8 +1,10 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
+import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.service.ImageService;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +22,27 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ImageService imageService;
 
     // 회원 정보 조회
     @GetMapping("")
     public ResponseEntity<MemberResponse> getMember(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        MemberResponse memberResponse = memberService.getMember(userDetails.getMember().getId());
+        Member member = memberService.getMember(userDetails.getMember().getId());
+        String imageUrl = imageService.processImage(member.getImage());
 
-        return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
+        MemberResponse response = MemberResponse.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .image(imageUrl)
+                .totalPoint(member.getTotalPoint())
+                .monthPoint(member.getMonthPoint())
+                .profilePublic(member.getProfilePublic())
+                .role(member.getRole())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 회원 정보 수정

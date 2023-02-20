@@ -60,20 +60,6 @@ public class Member extends BaseEntity {
         return new ArrayList<>();
     }
 
-    public MemberResponse getMember(String imageUrl) {
-
-        return MemberResponse.builder()
-                .id(id)
-                .email(email)
-                .nickname(nickname)
-                .image(imageUrl)
-                .totalPoint(totalPoint)
-                .monthPoint(monthPoint)
-                .profilePublic(profilePublic)
-                .role(role)
-                .build();
-    }
-
     public void updateMember(MemberUpdateRequest dto, String imageUrl) {
 
         this.nickname = dto.getNickname();

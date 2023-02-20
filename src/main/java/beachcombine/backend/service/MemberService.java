@@ -24,22 +24,16 @@ public class MemberService {
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
-    public MemberResponse getMember(Long memberId) {
+    public Member getMember(Long memberId) {
 
-        // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
 
-        // 이미지 처리
-        String imageUrl = imageService.processImage(findMember.getImage());
-
-        MemberResponse response = findMember.getMember(imageUrl);
-        return response;
+        return findMember;
     }
 
     // 회원 정보 수정
     public void updateMember(Long memberId, MemberUpdateRequest request) throws IOException {
 
-        // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
 
         // 중복 검증
