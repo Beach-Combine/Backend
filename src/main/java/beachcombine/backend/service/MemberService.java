@@ -24,11 +24,24 @@ public class MemberService {
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
-    public Member getMember(Long memberId) {
+    public MemberResponse getMember(Long memberId) {
 
         Member findMember = getMemberOrThrow(memberId);
 
-        return findMember;
+        String imageUrl = imageService.processImage(findMember.getImage());
+
+        MemberResponse response = MemberResponse.builder()
+                .id(findMember.getId())
+                .email(findMember.getEmail())
+                .nickname(findMember.getNickname())
+                .image(imageUrl)
+                .totalPoint(findMember.getTotalPoint())
+                .monthPoint(findMember.getMonthPoint())
+                .profilePublic(findMember.getProfilePublic())
+                .role(findMember.getRole())
+                .build();
+
+        return response;
     }
 
     // 회원 정보 수정

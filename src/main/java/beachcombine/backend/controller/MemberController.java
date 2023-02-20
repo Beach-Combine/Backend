@@ -22,25 +22,12 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
-    private final ImageService imageService;
 
     // 회원 정보 조회
     @GetMapping("")
     public ResponseEntity<MemberResponse> getMember(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        Member member = memberService.getMember(userDetails.getMember().getId());
-        String imageUrl = imageService.processImage(member.getImage());
-
-        MemberResponse response = MemberResponse.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
-                .image(imageUrl)
-                .totalPoint(member.getTotalPoint())
-                .monthPoint(member.getMonthPoint())
-                .profilePublic(member.getProfilePublic())
-                .role(member.getRole())
-                .build();
+        MemberResponse response = memberService.getMember(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
