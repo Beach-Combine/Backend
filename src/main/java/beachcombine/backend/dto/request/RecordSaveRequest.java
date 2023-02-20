@@ -10,12 +10,11 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecordAddRequest {
+public class RecordSaveRequest {
 
     private Long beachId;
     private Time duration;
     private Long distance;
     private String beforeImage;
     private String afterImage;
-    private Date date;
 }

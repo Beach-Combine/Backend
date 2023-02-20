@@ -50,7 +50,7 @@ public class MemberController {
 
     // 프로필 공개여부 지정
     @PatchMapping("profile-public/{option}")
-    public ResponseEntity<Void> UpdateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option) {
+    public ResponseEntity<Void> updateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option) {
 
         memberService.UpdateProfilePublic(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
@@ -58,7 +58,7 @@ public class MemberController {
 
     // 포인트 받기
     @PatchMapping("point/{option}")
-    public ResponseEntity<Void> UpdateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
+    public ResponseEntity<Void> updateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
 
         memberService.UpdateMemberPoint(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
