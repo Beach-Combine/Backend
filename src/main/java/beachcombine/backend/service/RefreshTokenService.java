@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RefreshTokenService {
 
-    private final JwtUtils jwtUtils;
     private final RefreshTokenRepository refreshTokenRepository;
 
     public void saveRefreshToken(TokenDto tokenDto) {
@@ -29,6 +28,7 @@ public class RefreshTokenService {
         if(refreshTokenRepository.existsByKeyLoginId(loginId)) {
             refreshTokenRepository.deleteByKeyLoginId(loginId);
         }
+
         refreshTokenRepository.save(refreshToken);
     }
 }
