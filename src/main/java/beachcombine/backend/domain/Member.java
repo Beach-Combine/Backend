@@ -26,11 +26,9 @@ public class Member extends BaseEntity {
     private Long id;
 
     // 소셜 로그인
-    @Column(unique = true)
-    private String loginId; // 소셜로그인 구분 & 로컬 로그인 확장 대비. username 역할
-    private String password;
-    private String providerId;
-    private String provider;
+    private String loginId; // 로컬 로그인 확장 대비. username 역할
+    private String password; // 일반 로그인 위함
+    private String provider; // 소셜로그인 구분 위함.
 
     // 회원 기본 정보
     private String email;

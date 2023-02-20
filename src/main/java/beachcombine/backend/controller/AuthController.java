@@ -1,5 +1,6 @@
 package beachcombine.backend.controller;
 
+import beachcombine.backend.dto.request.AuthGoogleLoginRequest;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
@@ -42,12 +43,9 @@ public class AuthController {
 
     // 구글 로그인
     @PostMapping("google")
-    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody Map<String, Object> data) {
+    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody AuthGoogleLoginRequest authGoogleLoginRequest) {
 
-        System.out.println("jwtCreate 실행됨");
-        System.out.println(data.get("profileObj"));
-
-        AuthTokenResponse authTokenResponse = authService.googleLogin(data);
+        AuthTokenResponse authTokenResponse = authService.googleLogin(authGoogleLoginRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(authTokenResponse);
     }

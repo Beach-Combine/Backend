@@ -1,18 +1,21 @@
 package beachcombine.backend.common.oauth.provider;
 
+import beachcombine.backend.dto.request.AuthGoogleLoginRequest;
+import beachcombine.backend.repository.MemberRepository;
+
 import java.util.Map;
 
 public class GoogleUser implements OAuthUserInfo{
 
-    private Map<String, Object> attribute;
+    private AuthGoogleLoginRequest attribute;
 
-    public GoogleUser(Map<String, Object> attribute) {
+    public GoogleUser(AuthGoogleLoginRequest attribute) {
         this.attribute = attribute;
     }
 
     @Override
     public String getProviderId() {
-        return (String)attribute.get("googleId");
+        return attribute.getId();
     }
 
     @Override
@@ -22,16 +25,17 @@ public class GoogleUser implements OAuthUserInfo{
 
     @Override
     public String getEmail() {
-        return (String)attribute.get("email");
+        return attribute.getEmail();
     }
 
     @Override
-    public String getName() {
-        return (String)attribute.get("name");
+    public String getNickname() {
+
+        return attribute.getDisplayName();
     }
 
     @Override
     public String getImage() {
-        return (String)attribute.get("image");
+        return attribute.getPhotoUrl();
     }
 }

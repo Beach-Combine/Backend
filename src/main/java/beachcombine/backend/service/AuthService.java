@@ -9,6 +9,7 @@ import beachcombine.backend.common.oauth.provider.GoogleUser;
 import beachcombine.backend.common.oauth.provider.OAuthUserInfo;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.RefreshToken;
+import beachcombine.backend.dto.request.AuthGoogleLoginRequest;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
 import beachcombine.backend.dto.response.AuthJoinResponse;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -87,37 +89,30 @@ public class AuthService {
     }
 
     // 구글 로그인
-    public AuthTokenResponse googleLogin(Map<String, Object> data) {
+    public AuthTokenResponse googleLogin(AuthGoogleLoginRequest requestDto) {
 
         // 1. 클라에서 구글로그인 통한 토큰(앱 자체적인 토큰)을 받음
-        // 2. 클라에서 `POST /auth/google` 로 api 요청함. 이때, 클라는 request body에 `Map<String, Object> data` 를 담아 보냄
-        // 3. 서버는 request body로 들어온 data를 이용해 사용자 정보를 얻음. data는 map 형태로 되어 있고, key값이 profileObj인 value에 사용자 정보가 들어있음
-        OAuthUserInfo googleUser = new GoogleUser((Map<String, Object>) data.get("profileObj"));
-        /*
-        Map<String, Object> data -> map.put("profileObj", object);
-
-        data를 Map으로 받아오긴 하지만, Object 형태로 그려보자면 아래와 같음!
-        data = {
-            "profileObj" : {
-                "googleId" : "구글아이디"
-                "email" : "이메일"
-                "name" : "이름"
-            }
-        }
-         */
+        // 2. 클라에서 `POST /auth/google` 로 api 요청함. 이때, 클라는 request body에 data를 담아 보냄
+        // 3. 서버는 request body로 들어온 data를 이용해 사용자 정보를 얻음.
+        OAuthUserInfo googleUser = new GoogleUser(requestDto);
 
         // 4. DB에 data에서 받아온 정보를 가진 사용자가 있는지 조회
         Member findMember = memberRepository.findByLoginId(googleUser.getProvider() + "_" + googleUser.getProviderId());
 
         // 5. DB에 사용자가 없다면, 구글 로그인을 처음 한 사용자이니, DB에 사용자 정보를 저장(회원가입 시켜줌)
         if (findMember == null) {
+            String nickname = googleUser.getNickname();
+
+            while(memberRepository.existsByNickname(nickname)) {
+                String uuid = UUID.randomUUID().toString().substring(0, 7);
+                nickname = "user_" + uuid;
+            }
+
             Member memberRequest = Member.builder()
                     .loginId(googleUser.getProvider() + "_" + googleUser.getProviderId())
-                    .password(bCryptPasswordEncoder.encode("beachcombine"))
-                    .email(googleUser.getEmail())
                     .provider(googleUser.getProvider())
-                    .providerId(googleUser.getProviderId())
-                    .nickname(googleUser.getName())
+                    .email(googleUser.getEmail())
+                    .nickname(nickname)
                     .image(googleUser.getImage())
                     .role("ROLE_USER")
                     .build();
