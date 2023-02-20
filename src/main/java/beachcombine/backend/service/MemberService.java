@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ImageService imageService;
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
@@ -26,19 +29,32 @@ public class MemberService {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        return findMember.getMemberInfo();
+        // 이미지 처리
+        String imageUrl = imageService.processImage(findMember.getImage());
+
+        return findMember.getMemberInfo(imageUrl);
     }
 
     // 회원 정보 수정
-    public void updateMemberInfo(Long id, MemberUpdateRequest dto){
+    public void updateMemberInfo(Long id, MemberUpdateRequest dto) throws IOException {
 
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
+        // 중복 검증
         if (findMember.isUpdatedNickname(dto.getNickname())) {
             checkNicknameDuplicate(dto.getNickname());
         }
-        findMember.updateMemberInfo(dto);
+
+        // 이미지 업로드
+        String uuid = null; // 유저가 이미지를 없애도록 수정한 경우
+
+        if(!dto.getImage().isEmpty()) { // 유저가 이미지를 다른 파일로 수정한 경우
+            uuid = imageService.uploadImage(dto.getImage()); // GCS에 이미지 업로드한 후, UUID 값만 받아와 DB에 저장함
+        }
+
+        // DB 업데이트
+        findMember.updateMemberInfo(dto, uuid);
     }
 
     // 닉네임 중복확인
