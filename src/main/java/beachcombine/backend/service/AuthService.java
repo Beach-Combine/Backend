@@ -117,6 +117,8 @@ public class AuthService {
                     .email(googleUser.getEmail())
                     .provider(googleUser.getProvider())
                     .providerId(googleUser.getProviderId())
+                    .nickname(googleUser.getName())
+                    .image(googleUser.getImage())
                     .role("ROLE_USER")
                     .build();
 
