@@ -4,14 +4,12 @@ import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.service.MemberService;
-import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -43,7 +41,7 @@ public class MemberController {
 
     // 닉네임 중복확인
     @GetMapping("nickname-check/{nickname}")
-    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
 
         memberService.checkNicknameDuplicate(nickname);
 
@@ -52,7 +50,7 @@ public class MemberController {
 
     // 프로필 공개여부 지정
     @PatchMapping("profile-public/{option}")
-    public ResponseEntity<Void> UpdateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option){
+    public ResponseEntity<Void> UpdateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option) {
 
         memberService.UpdateProfilePublic(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
