@@ -29,7 +29,7 @@ public class RecordService {
     private final BeachRepository beachRepository;
 
     // 청소 기록하기
-    public void saveRecord(Long memberId, RecordSaveRequest request) throws IOException {
+    public Long saveRecord(Long memberId, RecordSaveRequest request) throws IOException {
 
         // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
@@ -50,6 +50,8 @@ public class RecordService {
                 .build();
 
         recordRepository.save(record);
+
+        return record.getId();
     }
 
     // 예외 처리 - 존재하는 member인지

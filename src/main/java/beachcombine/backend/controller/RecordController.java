@@ -2,6 +2,7 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.RecordSaveRequest;
+import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +25,15 @@ public class RecordController {
 
     // 청소 기록하기
     @PostMapping("")
-    public ResponseEntity<Void> saveRecord (@AuthenticationPrincipal PrincipalDetails userDetails,
-                                            RecordSaveRequest recordSaveRequest) throws IOException {
+    public ResponseEntity<IdResponse> saveRecord (@AuthenticationPrincipal PrincipalDetails userDetails,
+                                                  RecordSaveRequest request) throws IOException {
 
-        recordService.saveRecord(userDetails.getMember().getId(), recordSaveRequest);
+        Long recordId = recordService.saveRecord(userDetails.getMember().getId(), request);
 
-        return new ResponseEntity(HttpStatus.OK);
+        IdResponse response = IdResponse.builder()
+                .id(recordId)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -11,7 +11,6 @@ import beachcombine.backend.domain.RefreshToken;
 import beachcombine.backend.dto.request.AuthGoogleLoginRequest;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
-import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthRecreateTokenResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
 import beachcombine.backend.repository.MemberRepository;
@@ -39,7 +38,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     // 일반 회원가입 (테스트용)
-    public AuthJoinResponse saveMember(AuthJoinRequest request) {
+    public Long saveMember(AuthJoinRequest request) {
 
         Member member = Member.builder()
                 .loginId(request.getLoginId())
@@ -51,14 +50,7 @@ public class AuthService {
 
         memberRepository.save(member);
 
-        AuthJoinResponse response = AuthJoinResponse.builder()
-                .id(member.getId())
-                .loginId(member.getLoginId())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
-                .build();
-
-        return response;
+        return member.getId();
     }
 
     // 일반 로그인 (테스트용)
