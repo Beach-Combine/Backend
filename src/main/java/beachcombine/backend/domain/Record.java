@@ -36,7 +36,6 @@ public class Record extends BaseEntity {
     private Long distance;
     private String beforeImage;
     private String afterImage;
-    private Date date;
 
     // 연관관계 메서드
     public void setMember(Member member) {

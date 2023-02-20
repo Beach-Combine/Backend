@@ -42,26 +42,26 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     // 일반 회원가입 (테스트용)
-    public AuthJoinResponse saveMember(AuthJoinRequest requestDto) {
+    public AuthJoinResponse saveMember(AuthJoinRequest request) {
 
         Member member = Member.builder()
-                .loginId(requestDto.getLoginId())
-                .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
-                .email(requestDto.getEmail())
-                .nickname(requestDto.getNickname())
+                .loginId(request.getLoginId())
+                .password(bCryptPasswordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .nickname(request.getNickname())
                 .role("ROLE_USER")
                 .build();
 
         memberRepository.save(member);
 
-        AuthJoinResponse responseDto = AuthJoinResponse.builder()
+        AuthJoinResponse response = AuthJoinResponse.builder()
                 .id(member.getId())
                 .loginId(member.getLoginId())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .build();
 
-        return responseDto;
+        return response;
     }
 
     // 일반 로그인 (테스트용)
