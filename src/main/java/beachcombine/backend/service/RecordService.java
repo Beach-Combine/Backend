@@ -69,9 +69,9 @@ public class RecordService {
     }
 
     // 예외 처리 - 이미지 있는지
-    private void checkExistsImage(RecordSaveRequest dto) {
+    private void checkExistsImage(RecordSaveRequest request) {
 
-        if (dto.getAfterImage().isEmpty() || dto.getBeforeImage().isEmpty()) {
+        if (request.getAfterImage().isEmpty() || request.getBeforeImage().isEmpty()) {
             throw new CustomException(ErrorCode.SHOULD_EXIST_IMAGE);
         }
     }
