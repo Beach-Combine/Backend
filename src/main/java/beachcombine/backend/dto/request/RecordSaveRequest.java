@@ -12,7 +12,6 @@ import java.sql.Time;
 @Builder
 public class RecordSaveRequest {
 
-    private Long beachId;
     private Time duration;
     private Long distance;
     private MultipartFile beforeImage;

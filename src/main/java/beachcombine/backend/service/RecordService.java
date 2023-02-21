@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +29,11 @@ public class RecordService {
     private final BeachRepository beachRepository;
 
     // 청소 기록하기
-    public Long saveRecord(Long memberId, RecordSaveRequest request) throws IOException {
+    public Long saveRecord(Long memberId, RecordSaveRequest request, Long beachId) throws IOException {
 
         // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
-        Beach findBeach = getBeachOrThrow(request.getBeachId());
+        Beach findBeach = getBeachOrThrow(beachId);
         checkExistsImage(request.getAfterImage());
         checkExistsImage(request.getBeforeImage());
 
@@ -56,14 +55,14 @@ public class RecordService {
         return record.getId();
     }
 
-    // 예외 처리 - 존재하는 member인지
+    // 예외 처리 - 존재하는 member 인가
     private Member getMemberOrThrow(Long id) {
 
         return memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
-    // 예외 처리 - 존재하는 beach인지
+    // 예외 처리 - 존재하는 beach 인가
     private Beach getBeachOrThrow(Long id) {
 
         return beachRepository.findById(id)

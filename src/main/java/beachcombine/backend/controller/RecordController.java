@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +25,12 @@ public class RecordController {
     private final RecordService recordService;
 
     // 청소 기록하기
-    @PostMapping("")
+    @PostMapping("{beachId}")
     public ResponseEntity<IdResponse> saveRecord (@AuthenticationPrincipal PrincipalDetails userDetails,
+                                                  @PathVariable("beachId") Long beachId,
                                                   RecordSaveRequest request) throws IOException {
 
-        Long recordId = recordService.saveRecord(userDetails.getMember().getId(), request);
+        Long recordId = recordService.saveRecord(userDetails.getMember().getId(), request, beachId);
 
         IdResponse response = IdResponse.builder()
                 .id(recordId)

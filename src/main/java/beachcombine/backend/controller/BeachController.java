@@ -20,10 +20,18 @@ public class BeachController {
     private final BeachService beachService;
 
     // 해변 뱃지 조회
-    @GetMapping("badge/{beachId}")
+    @GetMapping("{beachId}/badge")
     public ResponseEntity<BeachBadgeResponse> findBadgeImage(@PathVariable("beachId") Long beachId) {
 
         BeachBadgeResponse beachBadgeResponse = beachService.findBadgeImage(beachId);
         return ResponseEntity.status(HttpStatus.OK).body(beachBadgeResponse);
+    }
+
+    // 해변 상세조회 (최근 청소 기록 제공)
+    @GetMapping("{beachId}")
+    public ResponseEntity<Void> findLatestRecord(@PathVariable("beachId") Long beachId) {
+        // BeachLatestRecordResponse
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
