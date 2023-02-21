@@ -17,12 +17,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("trashcans")
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
 
     // (지도) 쓰레기통 위치 조회
-    @GetMapping("/trashcans/maps")
+    @GetMapping("/maps")
     public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
 
         List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
@@ -31,7 +32,7 @@ public class TrashcanController {
     }
 
     // 쓰레기통 신고하기
-    @PostMapping("/trashcans")
+    @PostMapping("")
     public ResponseEntity<Long> saveTrashcan (@AuthenticationPrincipal PrincipalDetails userDetails,
                                               TrashcanSaveRequest request) throws IOException {
 
