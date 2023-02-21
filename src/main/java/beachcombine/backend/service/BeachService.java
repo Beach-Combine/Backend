@@ -28,8 +28,8 @@ public class BeachService {
     private final RecordRepository recordRepository;
     private final ImageService imageService;
 
-    private final String defaultBeachImage= "defaultImageLink";
-    private final String hiddenProfileImage= "hiddenImageLink";
+    private final String defaultBeachImage = "defaultImageLink";
+    private final String hiddenProfileImage = "hiddenImageLink";
 
     // 해변 뱃지 조회
     @Transactional(readOnly = true)
@@ -48,7 +48,7 @@ public class BeachService {
 
         List<Beach> findBeaches = beachRepository.findAll();
         List<BeachMarkerResponse> beachResponseList = findBeaches.stream()
-                .map(m-> BeachMarkerResponse.builder()
+                .map(m -> BeachMarkerResponse.builder()
                         .id(m.getId())
                         .lat(String.valueOf(m.getLat()))
                         .lng(String.valueOf(m.getLng()))
@@ -60,7 +60,7 @@ public class BeachService {
 
     public String getRecordMemberImage(Beach beach) {
 
-        Member findMember =  getLatestRecord(beach.getId());
+        Member findMember = getLatestRecord(beach.getId()).getMember();
         if (findMember == null) {
             return imageService.processImage("defaultImageLink");
         }
@@ -70,10 +70,9 @@ public class BeachService {
         return imageService.processImage(findMember.getImage());
     }
 
-    public Member getLatestRecord(Long beachId){
+    public Record getLatestRecord(Long beachId) {
 
         Record findRecord = recordRepository.findTopByBeachIdOrderByCreatedDateDesc(beachId);
-        if(findRecord==null) return null;
-        return findRecord.getMember();
+        return findRecord;
     }
 }
