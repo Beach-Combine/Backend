@@ -3,9 +3,9 @@ package beachcombine.backend.controller;
 import beachcombine.backend.dto.request.AuthGoogleLoginRequest;
 import beachcombine.backend.dto.request.AuthJoinRequest;
 import beachcombine.backend.dto.request.AuthLoginRequest;
-import beachcombine.backend.dto.response.AuthJoinResponse;
 import beachcombine.backend.dto.response.AuthRecreateTokenResponse;
 import beachcombine.backend.dto.response.AuthTokenResponse;
+import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,29 +25,33 @@ public class AuthController {
 
     // 일반 회원가입 (테스트용)
     @PostMapping("join")
-    public ResponseEntity<AuthJoinResponse> join(@RequestBody AuthJoinRequest authJoinRequest) {
+    public ResponseEntity<IdResponse> join(@RequestBody AuthJoinRequest request) {
 
-        AuthJoinResponse authJoinResponse = authService.saveMember(authJoinRequest);
+        Long memberId = authService.saveMember(request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(authJoinResponse);
+        IdResponse response = IdResponse.builder()
+                .id(memberId)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 일반 로그인 (테스트용)
     @PostMapping("login")
-    public ResponseEntity<AuthTokenResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
+    public ResponseEntity<AuthTokenResponse> login(@RequestBody AuthLoginRequest request) {
 
-        AuthTokenResponse authTokenResponse = authService.login(authLoginRequest);
+        AuthTokenResponse response = authService.login(request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(authTokenResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 구글 로그인
     @PostMapping("google")
-    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody AuthGoogleLoginRequest authGoogleLoginRequest) {
+    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody AuthGoogleLoginRequest request) {
 
-        AuthTokenResponse authTokenResponse = authService.googleLogin(authGoogleLoginRequest);
+        AuthTokenResponse response = authService.googleLogin(request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(authTokenResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // accessToken 재발급
@@ -55,8 +59,8 @@ public class AuthController {
     public ResponseEntity<AuthRecreateTokenResponse> refresh(@RequestBody Map<String, String> refreshToken){
 
         //Refresh Token 검증 및 AccessToken 재발급
-        AuthRecreateTokenResponse authRecreateTokenResponse = authService.refresh(refreshToken.get("refreshToken"));
+        AuthRecreateTokenResponse response = authService.refresh(refreshToken.get("refreshToken"));
 
-        return ResponseEntity.status(HttpStatus.OK).body(authRecreateTokenResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
