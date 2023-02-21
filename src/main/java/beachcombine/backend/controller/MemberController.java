@@ -1,17 +1,17 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
+import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.service.ImageService;
 import beachcombine.backend.service.MemberService;
-import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -25,25 +25,25 @@ public class MemberController {
 
     // 회원 정보 조회
     @GetMapping("")
-    public ResponseEntity<MemberResponse> findMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails) {
+    public ResponseEntity<MemberResponse> getMember(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        MemberResponse memberResponse = memberService.findMemberInfo(userDetails.getMember().getId());
+        MemberResponse response = memberService.getMember(userDetails.getMember().getId());
 
-        return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 회원 정보 수정
     @PatchMapping("")
-    public ResponseEntity<Void> updateMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
+    public ResponseEntity<Void> updateMember(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
 
-        memberService.updateMemberInfo(userDetails.getMember().getId(), dto);
+        memberService.updateMember(userDetails.getMember().getId(), dto);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
     // 닉네임 중복확인
     @GetMapping("nickname-check/{nickname}")
-    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+    public ResponseEntity<Void> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
 
         memberService.checkNicknameDuplicate(nickname);
 
@@ -52,17 +52,17 @@ public class MemberController {
 
     // 프로필 공개여부 지정
     @PatchMapping("profile-public/{option}")
-    public ResponseEntity<Void> UpdateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option){
+    public ResponseEntity<Void> updateProfilePublic(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") Boolean option) {
 
-        memberService.UpdateProfilePublic(userDetails.getMember().getId(), option);
+        memberService.updateProfilePublic(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     // 포인트 받기
     @PatchMapping("point/{option}")
-    public ResponseEntity<Void> UpdateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
+    public ResponseEntity<Void> updateMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("option") int option) {
 
-        memberService.UpdateMemberPoint(userDetails.getMember().getId(), option);
+        memberService.updateMemberPoint(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

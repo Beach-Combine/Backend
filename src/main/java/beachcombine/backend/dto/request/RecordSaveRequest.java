@@ -1,8 +1,8 @@
 package beachcombine.backend.dto.request;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
 import java.sql.Time;
 
 @Getter
@@ -10,12 +10,11 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecordAddRequest {
+public class RecordSaveRequest {
 
     private Long beachId;
     private Time duration;
     private Long distance;
-    private String beforeImage;
-    private String afterImage;
-    private Date date;
+    private MultipartFile beforeImage;
+    private MultipartFile afterImage;
 }
