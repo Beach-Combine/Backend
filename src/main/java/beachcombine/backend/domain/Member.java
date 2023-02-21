@@ -33,7 +33,7 @@ public class Member extends BaseEntity {
 
     // 회원 기본 정보
     private String email;
-    @Column(nullable = false, unique = true, length=20)
+    @Column(nullable = false, unique = true, length = 20)
     private String nickname;
     private String image; // Google Cloud Storage에 저장된 이미지 파일 이름
     private String role; // USER 혹은 ADMIN
@@ -51,7 +51,7 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "member")
-    private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
+    private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Member=다:1)
 
     public List<String> getRoleAsList() {
 
@@ -61,22 +61,10 @@ public class Member extends BaseEntity {
         return new ArrayList<>();
     }
 
-    public MemberResponse getMemberInfo(String imageUrl) {
-
-        return MemberResponse.builder()
-                .id(id)
-                .nickname(nickname)
-                .image(imageUrl)
-                .totalPoint(totalPoint)
-                .monthPoint(monthPoint)
-                .profilePublic(profilePublic)
-                .build();
-    }
-
-    public void updateMemberInfo(MemberUpdateRequest dto, String imageUrl) {
+    public void updateMember(MemberUpdateRequest dto, String imageUrl) {
 
         this.nickname = dto.getNickname();
-        if(dto.getIsChanged()) { // image 수정 여부 체크. 변경한 이미지가 null 값으로 들어올 수도 있어서 null로 체크하면 안됨
+        if (dto.getIsChanged()) { // image 수정 여부 체크. 변경한 이미지가 null 값으로 들어올 수도 있어서 null로 체크하면 안됨
             this.image = imageUrl;
         }
     }
@@ -86,24 +74,24 @@ public class Member extends BaseEntity {
         this.profilePublic = option;
     }
 
-    public boolean isUpdatedNickname(String nickname){
+    public Boolean updateMemberPoint(int option) {
 
-        if(StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)){
+        if (option == 0) { // 기존 등록된 쓰레기통
+            this.totalPoint += 100;
+            this.monthPoint += 100;
+            return true;
+        }
+        if (option == 1) {
+            this.totalPoint += 30;
+            this.monthPoint += 30;
             return true;
         }
         return false;
     }
 
-    public Boolean updateMemberPoint(int option) {
+    public boolean isUpdatedNickname(String nickname) {
 
-        if(option ==0){ // 기존 등록된 쓰레기통
-            this.totalPoint += 100;
-            this.monthPoint += 100;
-            return true;
-        }
-        if(option ==1){
-            this.totalPoint += 30;
-            this.monthPoint += 30;
+        if (StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)) {
             return true;
         }
         return false;
