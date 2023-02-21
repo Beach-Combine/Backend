@@ -41,14 +41,14 @@ public class RecordService {
         String afterUuid = imageService.uploadImage(request.getAfterImage());
 
         Record record = Record.builder()
-                .beach(findBeach)
-                .member(findMember)
                 .duration(request.getDuration())
                 .distance(request.getDistance())
                 .beforeImage(beforeUuid)
                 .afterImage(afterUuid)
                 .build();
 
+        record.setMember(findMember);
+        record.setBeach(findBeach);
         recordRepository.save(record);
 
         return record.getId();
