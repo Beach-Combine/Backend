@@ -9,6 +9,7 @@ import beachcombine.backend.dto.response.BeachBadgeResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.RecordRepository;
+import beachcombine.backend.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class BeachService {
 
     private final BeachRepository beachRepository;
     private final RecordRepository recordRepository;
+    private final ImageService imageService;
 
     private final String defaultBeachImage= "defaultImageLink";
     private final String hiddenProfileImage= "hiddenImageLink";
@@ -60,12 +62,12 @@ public class BeachService {
 
         Member findMember =  getLatestRecord(beach.getId());
         if (findMember == null) {
-            return "defaultImageLink";
+            return imageService.processImage("defaultImageLink");
         }
         if (!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
-            return "hiddenImageLink";
+            return imageService.processImage("hiddenImageLink");
         }
-        return findMember.getImage();
+        return imageService.processImage(findMember.getImage());
     }
 
     public Member getLatestRecord(Long beachId){
