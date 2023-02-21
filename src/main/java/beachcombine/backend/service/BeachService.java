@@ -49,21 +49,22 @@ public class BeachService {
         List<Beach> findBeaches = beachRepository.findAll();
         List<BeachMarkerResponse> beachResponseList = findBeaches.stream()
                 .map(m -> BeachMarkerResponse.builder()
-                        .id(m.getId())
-                        .lat(String.valueOf(m.getLat()))
-                        .lng(String.valueOf(m.getLng()))
-                        .image(getRecordMemberImage(m))
-                        .build())
+                    .id(m.getId())
+                    .lat(String.valueOf(m.getLat()))
+                    .lng(String.valueOf(m.getLng()))
+                    .image(getRecordMemberImage(m))
+                    .build())
                 .collect(Collectors.toList());
         return beachResponseList;
     }
 
     public String getRecordMemberImage(Beach beach) {
 
-        Member findMember = getLatestRecord(beach.getId()).getMember();
-        if (findMember == null) {
+        Record findRecord = getLatestRecord(beach.getId());
+        if (findRecord == null) {
             return imageService.processImage("defaultImageLink");
         }
+        Member findMember = findRecord.getMember();
         if (!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
             return imageService.processImage("hiddenImageLink");
         }
