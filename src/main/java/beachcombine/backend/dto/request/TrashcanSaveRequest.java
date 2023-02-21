@@ -1,6 +1,7 @@
 package beachcombine.backend.dto.request;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -9,9 +10,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TrashcanAddRequest {
+public class TrashcanSaveRequest {
 
     private BigDecimal lat;
-    private BigDecimal  lng;
-    private String image;
+    private BigDecimal lng;
+    private MultipartFile image;
 }

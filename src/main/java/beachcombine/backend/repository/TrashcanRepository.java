@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TrashcanRepository extends JpaRepository<Trashcan, Long> {
 
-    List<TrashcanResponse> findByCertified(Boolean certified);
+    List<TrashcanResponse> findByIsCertified(Boolean isCertified);
 }
