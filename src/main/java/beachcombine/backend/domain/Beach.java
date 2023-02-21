@@ -1,7 +1,10 @@
 package beachcombine.backend.domain;
 
 import beachcombine.backend.common.entity.BaseEntity;
+import beachcombine.backend.common.exception.CustomException;
+import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
+import beachcombine.backend.repository.RecordRepository;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,8 +31,6 @@ public class Beach extends BaseEntity {
     @Column(nullable = false, precision =11, scale = 8)
     private BigDecimal  lng;
 
-    @Column(name = "record_id") // 가장 최근 청소 기록 1개
-    private Long recordId;
 
     public BeachBadgeResponse getBeachBadgeImage() {
 

@@ -18,7 +18,7 @@ public class TrashcanController {
     private final TrashcanService trashcanService;
 
     // (지도) 쓰레기통 위치 조회
-    @GetMapping("/maps/trashcans")
+    @GetMapping("/trashcans/maps")
     public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
 
         List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();

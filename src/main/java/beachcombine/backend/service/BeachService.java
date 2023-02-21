@@ -6,13 +6,16 @@ import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
-import beachcombine.backend.dto.response.BeachMarkerImageResponse;
+import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,26 +39,39 @@ public class BeachService {
         return findBeach.getBeachBadgeImage();
     }
 
-    // (지도) 최근 청소 기록 조회
+    // (지도) 전체 해변 위치 조회
     @Transactional(readOnly = true)
-    public BeachMarkerImageResponse findLatestRecord(Long beachId) {
+    public List<BeachMarkerResponse> findBeachMarkers() {
 
-        Beach findBeach = beachRepository.findById(beachId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_BEACH));
-        if(findBeach.getRecordId()==null) { // 청소기록 없을 때
-            return BeachMarkerImageResponse.builder()
-                    .latestRecordImage(defaultBeachImage)
-                    .build();
-        }
-        Record findRecord = recordRepository.findById(findBeach.getRecordId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RECORD));
-        Member findMember = findRecord.getMember();
-        if(!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
-            return BeachMarkerImageResponse.builder()
-                    .latestRecordImage(hiddenProfileImage)
-                    .build();
-        }
-        return findMember.getProfileImage();
+
+        List<Beach> findBeaches = beachRepository.findAll();
+        List<BeachMarkerResponse> beachResponseList = findBeaches.stream()
+                .map(m-> BeachMarkerResponse.builder()
+                        .id(m.getId())
+                        .lat(String.valueOf(m.getLat()))
+                        .lng(String.valueOf(m.getLng()))
+                        .image(getRecordMemberImage(m))
+                        .build())
+                .collect(Collectors.toList());
+        return beachResponseList;
     }
 
+    public String getRecordMemberImage(Beach beach) {
+
+        Member findMember =  getLatestRecord(beach.getId());
+        if (findMember == null) {
+            return "defaultImageLink";
+        }
+        if (!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
+            return "hiddenImageLink";
+        }
+        return findMember.getImage();
+    }
+
+    public Member getLatestRecord(Long beachId){
+
+        Record findRecord = recordRepository.findTopByBeachIdOrderByCreatedDateDesc(beachId);
+        if(findRecord==null) return null;
+        return findRecord.getMember();
+    }
 }
