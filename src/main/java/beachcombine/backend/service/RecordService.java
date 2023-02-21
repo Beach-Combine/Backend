@@ -42,8 +42,8 @@ public class RecordService {
         String afterUuid = imageService.uploadImage(request.getAfterImage());
 
         Record record = Record.builder()
-                .duration(request.getDuration())
-                .distance(request.getDistance())
+                .duration(request.getTime())
+                .distance(request.getRange())
                 .beforeImage(beforeUuid)
                 .afterImage(afterUuid)
                 .build();
