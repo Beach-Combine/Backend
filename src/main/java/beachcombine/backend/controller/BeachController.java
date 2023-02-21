@@ -1,6 +1,7 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.dto.response.BeachBadgeResponse;
+import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.BeachLatestRecordResponse;
 import beachcombine.backend.service.BeachService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +39,13 @@ public class BeachController {
         BeachLatestRecordResponse response = beachService.findLatestRecord(beachId);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // (지도) 전체 해변 위치 조회
+    @GetMapping("/maps")
+    public ResponseEntity<List<BeachMarkerResponse>> findBeachMarkers() {
+
+        List<BeachMarkerResponse> beachMarkerResponse = beachService.findBeachMarkers();
+        return ResponseEntity.status(HttpStatus.OK).body(beachMarkerResponse);
     }
 }
