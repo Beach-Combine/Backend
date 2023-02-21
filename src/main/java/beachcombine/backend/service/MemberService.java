@@ -49,7 +49,6 @@ public class MemberService {
 
         Member findMember = getMemberOrThrow(memberId);
 
-        // 중복 검증
         if (findMember.isUpdatedNickname(request.getNickname())) {
             checkNicknameDuplicate(request.getNickname());
         }
@@ -76,7 +75,6 @@ public class MemberService {
     // 프로필 공개여부 지정
     public void updateProfilePublic(Long memberId, Boolean option) {
 
-        // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
 
         findMember.updateProfilePublic(option);
@@ -85,7 +83,6 @@ public class MemberService {
     // 포인트 받기
     public void updateMemberPoint(Long memberId, int option) {
 
-        // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
 
         if (!findMember.updateMemberPoint(option)) {
@@ -94,9 +91,9 @@ public class MemberService {
     }
 
     // 예외 처리 - 존재하는 member인지
-    private Member getMemberOrThrow(Long id) {
+    private Member getMemberOrThrow(Long memberId) {
 
-        return memberRepository.findById(id)
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 }
