@@ -28,17 +28,15 @@ public class Member extends BaseEntity {
     private Long id;
 
     // 소셜 로그인
-    @Column(unique = true)
-    private String loginId; // 소셜로그인 구분 & 로컬 로그인 확장 대비. username 역할
-    private String password;
-    private String providerId;
-    private String provider;
+    private String loginId; // 로컬 로그인 확장 대비. username 역할
+    private String password; // 일반 로그인 위함
+    private String provider; // 소셜로그인 구분 위함.
 
     // 회원 기본 정보
     private String email;
     @Column(nullable = false, unique = true, length=20)
     private String nickname;
-    private String image;
+    private String image; // Google Cloud Storage에 저장된 이미지 파일 이름
     private String role; // USER 혹은 ADMIN
 
     // 회원 추가 정보
@@ -56,22 +54,32 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Record>  records = new ArrayList<>();  // 청소 기록 리스트
 
-    public MemberResponse getMemberInfo() {
+    public List<String> getRoleAsList() {
+
+        if (this.role.length() > 0) {
+            return Arrays.asList(this.role);
+        }
+        return new ArrayList<>();
+    }
+
+    public MemberResponse getMemberInfo(String imageUrl) {
 
         return MemberResponse.builder()
                 .id(id)
                 .nickname(nickname)
-                .image(image)
+                .image(imageUrl)
                 .totalPoint(totalPoint)
                 .monthPoint(monthPoint)
                 .profilePublic(profilePublic)
                 .build();
     }
 
-    public void updateMemberInfo(MemberUpdateRequest dto) {
+    public void updateMemberInfo(MemberUpdateRequest dto, String imageUrl) {
 
         this.nickname = dto.getNickname();
-        this.image = dto.getImage();
+        if(dto.getIsChanged()) { // image 수정 여부 체크. 변경한 이미지가 null 값으로 들어올 수도 있어서 null로 체크하면 안됨
+            this.image = imageUrl;
+        }
     }
 
     public void updateProfilePublic(Boolean option) {
@@ -87,14 +95,6 @@ public class Member extends BaseEntity {
         return false;
     }
 
-    public List<String> getRoleList() {
-
-        if (this.role.length() > 0) {
-            return Arrays.asList(this.role.split(","));
-        }
-        return new ArrayList<>();
-    }
-
     public Boolean updateMemberPoint(int option) {
 
         if(option ==0){ // 기존 등록된 쓰레기통
@@ -102,7 +102,7 @@ public class Member extends BaseEntity {
             this.monthPoint += 100;
             return true;
         }
-        else if(option ==1){
+        if(option ==1){
             this.totalPoint += 30;
             this.monthPoint += 30;
             return true;

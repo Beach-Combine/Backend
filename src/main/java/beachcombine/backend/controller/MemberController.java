@@ -4,12 +4,16 @@ import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.service.MemberService;
+import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +34,7 @@ public class MemberController {
 
     // 회원 정보 수정
     @PatchMapping("")
-    public ResponseEntity<Void> updateMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails, @RequestBody MemberUpdateRequest dto)  {
+    public ResponseEntity<Void> updateMemberInfo(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
 
         memberService.updateMemberInfo(userDetails.getMember().getId(), dto);
 
