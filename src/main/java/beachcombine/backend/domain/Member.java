@@ -2,6 +2,7 @@ package beachcombine.backend.domain;
 
 
 import beachcombine.backend.common.entity.BaseEntity;
+import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
@@ -95,4 +96,5 @@ public class Member extends BaseEntity {
         }
         return false;
     }
+
 }
