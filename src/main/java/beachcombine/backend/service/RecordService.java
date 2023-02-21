@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +35,8 @@ public class RecordService {
         // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
         Beach findBeach = getBeachOrThrow(request.getBeachId());
-        checkExistsImage(request);
+        checkExistsImage(request.getAfterImage());
+        checkExistsImage(request.getBeforeImage());
 
         // 이미지 업로드
         String beforeUuid = imageService.uploadImage(request.getBeforeImage());
@@ -69,11 +71,10 @@ public class RecordService {
     }
 
     // 예외 처리 - 이미지 있는지
-    private void checkExistsImage(RecordSaveRequest request) {
+    private void checkExistsImage(MultipartFile image) {
 
-        if (request.getAfterImage().isEmpty() || request.getBeforeImage().isEmpty()) {
+        if (image.isEmpty()) {
             throw new CustomException(ErrorCode.SHOULD_EXIST_IMAGE);
         }
     }
-
 }
