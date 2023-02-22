@@ -7,6 +7,7 @@ spring:
     url: ${application.spring.datasource.url}
     username: ${application.spring.datasource.username}
     password: ${application.spring.datasource.password}
+    databaseAPI: ${application.spring.datasource.databaseAPI}
 
   jpa:
     hibernate:
@@ -20,6 +21,7 @@ spring:
           location: ${application.spring.cloud.gcp.storage.credentials.location}
         project-id: ${application.spring.cloud.gcp.storage.project-id}
         bucket: ${application.spring.cloud.gcp.storage.bucket}
+      geocodingAPI: ${application.spring.cloud.gcp.geocodingAPI}
 
 jwt:
   secret: ${application.jwt.secret}

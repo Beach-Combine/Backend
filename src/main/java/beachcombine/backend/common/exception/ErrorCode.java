@@ -26,6 +26,8 @@ public enum ErrorCode {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않습니다.");
 
+    // Geocoding 예외
+
     private final HttpStatus httpStatus;
     private final String detail;
 }
