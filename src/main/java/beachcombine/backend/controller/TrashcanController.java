@@ -3,6 +3,7 @@ package beachcombine.backend.controller;
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.dto.request.TrashcanSaveRequest;
+import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.TrashcanResponse;
 import beachcombine.backend.service.GeocodingService;
 import beachcombine.backend.service.TrashcanService;
@@ -30,12 +31,13 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("trashcans")
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
 
     // (지도) 쓰레기통 위치 조회
-    @GetMapping("/maps/trashcans")
+    @GetMapping("map")
     public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
 
         List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
@@ -44,13 +46,17 @@ public class TrashcanController {
     }
 
     // 쓰레기통 신고하기
-    @PostMapping("/trashcans")
-    public ResponseEntity<Long> saveTrashcan (@AuthenticationPrincipal PrincipalDetails userDetails,
-                                              TrashcanSaveRequest request) throws IOException {
+    @PostMapping("")
+    public ResponseEntity<IdResponse> saveTrashcan (@AuthenticationPrincipal PrincipalDetails userDetails,
+                                                    TrashcanSaveRequest request) throws IOException {
 
         Long trashcanId = trashcanService.saveTrashcan(userDetails.getMember().getId(), request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(trashcanId);
+        IdResponse response = IdResponse.builder()
+                .id(trashcanId)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // test

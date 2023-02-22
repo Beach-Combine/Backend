@@ -32,8 +32,8 @@ public class Record extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member; // 청소한 사람 (Record:Member=다:1)
 
-    private Time duration; // 00:00:00 (시, 분, 초)
-    private Long distance;
+    private Time duration; // time -> 00:00:00 (시, 분, 초)
+    private Long distance; // range
     private String beforeImage;
     private String afterImage;
 

@@ -1,7 +1,10 @@
 package beachcombine.backend.domain;
 
 import beachcombine.backend.common.entity.BaseEntity;
+import beachcombine.backend.common.exception.CustomException;
+import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
+import beachcombine.backend.repository.RecordRepository;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +38,7 @@ public class Beach extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "beach")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Beach=다:1)
+
 
     public BeachBadgeResponse getBeachBadgeImage() {
 
