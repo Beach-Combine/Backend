@@ -42,7 +42,7 @@ public class BeachController {
     }
 
     // (지도) 전체 해변 위치 조회
-    @GetMapping("/maps")
+    @GetMapping("/map")
     public ResponseEntity<List<BeachMarkerResponse>> findBeachMarkers() {
 
         List<BeachMarkerResponse> beachMarkerResponse = beachService.findBeachMarkers();
