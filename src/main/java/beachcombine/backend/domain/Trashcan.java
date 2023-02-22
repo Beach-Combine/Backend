@@ -26,7 +26,7 @@ public class Trashcan extends BaseEntity {
     @Column(nullable = false, precision =11, scale = 8)
     private BigDecimal  lng;
 
-    private Boolean isCertified;
+    private Boolean isCertified=false;
     private Boolean isAddedByUser;
 
     private String image; // 사용자가 쓰레기통 등록할 때 업로드하는 사진. 나중에 쓰레기통 인증할 때 사용

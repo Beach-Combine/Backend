@@ -7,6 +7,7 @@ import beachcombine.backend.dto.response.TrashcanResponse;
 import beachcombine.backend.service.TrashcanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,4 +46,5 @@ public class TrashcanController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
 }
