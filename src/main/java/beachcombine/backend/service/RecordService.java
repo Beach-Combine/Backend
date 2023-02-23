@@ -6,6 +6,8 @@ import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.RecordSaveRequest;
+import beachcombine.backend.dto.response.RecordResponse;
+import beachcombine.backend.dto.response.TrashcanResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +78,13 @@ public class RecordService {
         if (image.isEmpty()) {
             throw new CustomException(ErrorCode.SHOULD_EXIST_IMAGE);
         }
+    }
+
+    // 청소기록 목록 조회
+    public List<RecordResponse> getRecord(Long memberId) {
+
+        //Member findmember = getMemberOrThrow(memberId);
+        List<RecordResponse> recordResponseList = recordRepository.findAllByMemberId(memberId);
+        return recordResponseList;
     }
 }

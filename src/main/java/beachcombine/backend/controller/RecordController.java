@@ -3,18 +3,17 @@ package beachcombine.backend.controller;
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.RecordSaveRequest;
 import beachcombine.backend.dto.response.IdResponse;
+import beachcombine.backend.dto.response.RecordResponse;
 import beachcombine.backend.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +34,15 @@ public class RecordController {
         IdResponse response = IdResponse.builder()
                 .id(recordId)
                 .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 청소기록 목록 조회
+    @GetMapping("")
+    public ResponseEntity<List<RecordResponse>> getRecord(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        List<RecordResponse> response = recordService.getRecord(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
