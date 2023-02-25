@@ -52,9 +52,9 @@ jobs:
       with:
         host: 35.216.84.77
         username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         envs: GITHUB_SHA
-        port: 80
         script: |
           sudo docker pull choo000407/beach_combine:${GITHUB_SHA::7}
           sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beach_combine
