@@ -46,3 +46,15 @@ jobs:
         docker build -t beach_combine .
         docker tag beach_combine choo000407/beach_combine:${GITHUB_SHA::7}
         docker push choo000407/beach_combine:${GITHUB_SHA::7}
+    # Deploy
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: 35.216.84.77
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          sudo docker pull choo000407/beach_combine:${GITHUB_SHA::7}
+          sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beach_combine
+          sudo docker-compose up -d
