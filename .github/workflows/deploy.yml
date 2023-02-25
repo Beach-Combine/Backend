@@ -43,6 +43,6 @@ jobs:
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-        docker build -t atties_spring .
-        docker tag atties_spring choo000407/atties_spring:${GITHUB_SHA::7}
-        docker push choo000407/atties_spring:${GITHUB_SHA::7}
+        docker build -t beach_combine .
+        docker tag beach_combine choo000407/beach_combine:${GITHUB_SHA::7}
+        docker push choo000407/beach_combine:${GITHUB_SHA::7}
