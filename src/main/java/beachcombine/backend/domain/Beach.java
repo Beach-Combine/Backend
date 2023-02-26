@@ -1,10 +1,7 @@
 package beachcombine.backend.domain;
 
 import beachcombine.backend.common.entity.BaseEntity;
-import beachcombine.backend.common.exception.CustomException;
-import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
-import beachcombine.backend.repository.RecordRepository;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
