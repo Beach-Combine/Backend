@@ -36,6 +36,7 @@ public class InitService {
     @Transactional
     public void initDatabase() {
 
+        // 해변 마커용 위치 정보
         Beach beach1 = Beach.builder()
                 .id(1L)
                 .name("Haeundae Beach")
@@ -43,8 +44,40 @@ public class InitService {
                 .lng(BigDecimal.valueOf(129.160920))
                 .badgeImage("imageUrl")
                 .build();
+        Beach beach2 = Beach.builder()
+                .id(2L)
+                .name("Gwangali Beach")
+                .lat(BigDecimal.valueOf(35.1531696))
+                .lng(BigDecimal.valueOf(129.118666))
+                .badgeImage("imageUrl")
+                .build();
+        Beach beach3 = Beach.builder()
+                .id(3L)
+                .name("Gwangan Beach Park")
+                .lat(BigDecimal.valueOf(35.1554))
+                .lng(BigDecimal.valueOf(129.1234))
+                .badgeImage("imageUrl")
+                .build();
+        Beach beach4 = Beach.builder()
+                .id(4L)
+                .name("Namcheon Beach Park")
+                .lat(BigDecimal.valueOf(35.1465704))
+                .lng(BigDecimal.valueOf(129.1147768))
+                .badgeImage("imageUrl")
+                .build();
+        Beach beach5 = Beach.builder()
+                .id(5L)
+                .name("Millak Waterside Park")
+                .lat(BigDecimal.valueOf(35.1545716))
+                .lng(BigDecimal.valueOf(129.1329907))
+                .badgeImage("imageUrl")
+                .build();
 
         em.merge(beach1);
+        em.merge(beach2);
+        em.merge(beach3);
+        em.merge(beach4);
+        em.merge(beach5);
     }
 
 

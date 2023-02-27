@@ -54,8 +54,8 @@ public class GeocodingService {
                 Double lng = jsonObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
                 ret.put("lat", lat.toString());
                 ret.put("lng", lng.toString());
-                System.out.println("LAT:\t\t"+lat);
-                System.out.println("LNG:\t\t"+lng);
+                //System.out.println("LAT:\t\t"+lat);
+                //System.out.println("LNG:\t\t"+lng);
 
                 return ret;
             }
