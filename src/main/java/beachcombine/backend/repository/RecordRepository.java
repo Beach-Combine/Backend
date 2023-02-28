@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface RecordRepository extends JpaRepository<Record, Long> {
 
     Record findTopByBeachIdOrderByCreatedDateDesc (Long beachId);
-    List<RecordResponse> findAllByMemberId(Long memberId);
+    List<Record> findAllByMemberId(Long memberId);
 }

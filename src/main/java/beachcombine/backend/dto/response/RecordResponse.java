@@ -21,14 +21,4 @@ public class RecordResponse {
     private String beforeImage;
     private String afterImage;
 
-
-    public RecordResponse(Record record) {
-        this.recordId = record.getId();
-        this.beachId = record.getBeach().getId();
-        this.duration = record.getDuration();
-        this.date = record.getCreatedDate();
-        this.distance = record.getDistance();
-        this.beforeImage = record.getBeforeImage();
-        this.afterImage = record.getAfterImage();
-    }
 }

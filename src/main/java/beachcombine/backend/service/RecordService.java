@@ -83,7 +83,24 @@ public class RecordService {
     // 청소기록 목록 조회
     public List<RecordResponse> getRecordList(Long memberId) {
 
-        List<RecordResponse> recordResponseList = recordRepository.findAllByMemberId(memberId);
+        List<RecordResponse> recordResponseList = null;
+        List<Record> recordList = recordRepository.findAllByMemberId(memberId);
+        for (Record record: recordList){
+
+            String beforeImageUrl = imageService.processImage(record.getBeforeImage());
+            String afterImageUrl = imageService.processImage(record.getAfterImage());
+            RecordResponse recordResponse = RecordResponse.builder()
+                    .recordId(record.getId())
+                    .beachId(record.getBeach().getId())
+                    .time(record.getDuration())
+                    .date(record.getCreatedDate())
+                    .range(record.getDistance())
+                    .beforeImage(beforeImageUrl)
+                    .afterImage(afterImageUrl)
+                    .build();
+            recordResponseList.add(recordResponse);
+        }
+
         return recordResponseList;
     }
 }
