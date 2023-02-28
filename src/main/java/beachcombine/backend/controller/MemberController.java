@@ -1,6 +1,7 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
+import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
@@ -78,8 +79,8 @@ public class MemberController {
                                                                         @RequestParam(required = false) Long lastId,
                                                                         @RequestParam(required = false) Integer lastPoint) {
 
-        // List<MemberRankingResponse> response = memberService.getMemberRanking(range);
+        List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
 
-        return ResponseEntity.status(HttpStatus.OK).body(memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
