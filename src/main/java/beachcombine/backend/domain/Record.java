@@ -30,6 +30,10 @@ public class Record extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member; // 청소한 사람 (Record:Member=다:1)
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "record_id", referencedColumnName = "id")
+    private Feed feed;
+
     private Time duration; // time -> 00:00:00 (시, 분, 초)
     private Long distance; // range
     private String beforeImage;
@@ -46,5 +50,11 @@ public class Record extends BaseEntity {
 
         this.beach = beach;
         beach.getRecords().add(this);
+    }
+
+    public void setFeed(Feed feed) {
+
+        this.feed = feed;
+        feed.setRecord(this);
     }
 }
