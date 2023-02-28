@@ -81,9 +81,8 @@ public class RecordService {
     }
 
     // 청소기록 목록 조회
-    public List<RecordResponse> getRecord(Long memberId) {
+    public List<RecordResponse> getRecordList(Long memberId) {
 
-        //Member findmember = getMemberOrThrow(memberId);
         List<RecordResponse> recordResponseList = recordRepository.findAllByMemberId(memberId);
         return recordResponseList;
     }

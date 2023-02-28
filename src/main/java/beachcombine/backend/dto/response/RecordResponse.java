@@ -15,9 +15,9 @@ public class RecordResponse {
 
     private Long recordId;
     private Long beachId;
-    private Time duration;
+    private Time time;
     private LocalDateTime date; // created_date , datetime(6)
-    private Long distance;
+    private Long range;
     private String beforeImage;
     private String afterImage;
 

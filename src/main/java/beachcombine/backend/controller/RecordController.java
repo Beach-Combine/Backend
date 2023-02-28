@@ -40,9 +40,9 @@ public class RecordController {
 
     // 청소기록 목록 조회
     @GetMapping("")
-    public ResponseEntity<List<RecordResponse>> getRecord(@AuthenticationPrincipal PrincipalDetails userDetails) {
+    public ResponseEntity<List<RecordResponse>> getRecordList(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        List<RecordResponse> response = recordService.getRecord(userDetails.getMember().getId());
+        List<RecordResponse> response = recordService.getRecordList(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
