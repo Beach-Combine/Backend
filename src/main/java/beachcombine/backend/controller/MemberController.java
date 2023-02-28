@@ -4,6 +4,7 @@ import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     // 회원 정보 조회
     @GetMapping("")
@@ -70,13 +72,14 @@ public class MemberController {
     }
 
     // 랭킹 조회
-//    @GetMapping("ranking")
-//    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
-//                                                                        @RequestParam(defaultValue = "0") int page,
-//                                                                        @RequestParam(defaultValue = "10") int size) {
-//
-//        List<MemberRankingResponse> response = memberService.getMemberRanking(range);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
+    @GetMapping("ranking")
+    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
+                                                                        @RequestParam int pageSize,
+                                                                        @RequestParam(required = false) Long lastId,
+                                                                        @RequestParam(required = false) Integer lastPoint) {
+
+        // List<MemberRankingResponse> response = memberService.getMemberRanking(range);
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint));
+    }
 }
