@@ -3,6 +3,7 @@ package beachcombine.backend.service;
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.repository.MemberRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -90,6 +92,16 @@ public class MemberService {
         }
     }
 
+    // 랭킹 조회
+//    public List<MemberRankingResponse> getMemberRanking(String range) {
+//
+//        List<Member> memberList;
+//
+//        if(range.equals("all")) {
+//            memberList = memberRepository.findAllByOrderByTotalPointDesc();
+//        }
+//    }
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long memberId) {
 
@@ -97,3 +109,4 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 }
+

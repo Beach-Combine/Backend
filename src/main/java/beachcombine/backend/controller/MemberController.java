@@ -1,19 +1,22 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
-import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
-import beachcombine.backend.service.ImageService;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,4 +68,15 @@ public class MemberController {
         memberService.updateMemberPoint(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    // 랭킹 조회
+//    @GetMapping("ranking")
+//    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
+//                                                                        @RequestParam(defaultValue = "0") int page,
+//                                                                        @RequestParam(defaultValue = "10") int size) {
+//
+//        List<MemberRankingResponse> response = memberService.getMemberRanking(range);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(response);
+//    }
 }
