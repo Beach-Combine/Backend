@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -83,7 +84,7 @@ public class RecordService {
     // 청소기록 목록 조회
     public List<RecordResponse> getRecordList(Long memberId) {
 
-        List<RecordResponse> recordResponseList = null;
+        List<RecordResponse> recordResponseList = new ArrayList<>();
         List<Record> recordList = recordRepository.findAllByMemberId(memberId);
         for (Record record: recordList){
 
