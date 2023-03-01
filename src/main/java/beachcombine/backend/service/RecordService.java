@@ -58,6 +58,30 @@ public class RecordService {
         return record.getId();
     }
 
+    // 청소기록 목록 조회
+    public List<RecordResponse> getRecordList(Long memberId) {
+
+        List<RecordResponse> responseList = new ArrayList<>();
+        List<Record> recordList = recordRepository.findAllByMemberId(memberId);
+        for (Record record: recordList){
+
+            String beforeImageUrl = imageService.processImage(record.getBeforeImage());
+            String afterImageUrl = imageService.processImage(record.getAfterImage());
+            RecordResponse recordResponse = RecordResponse.builder()
+                    .recordId(record.getId())
+                    .beachId(record.getBeach().getId())
+                    .time(record.getDuration())
+                    .date(record.getCreatedDate())
+                    .range(record.getDistance())
+                    .beforeImage(beforeImageUrl)
+                    .afterImage(afterImageUrl)
+                    .build();
+            responseList.add(recordResponse);
+        }
+
+        return responseList;
+    }
+
     // 예외 처리 - 존재하는 member 인가
     private Member getMemberOrThrow(Long id) {
 
@@ -78,29 +102,5 @@ public class RecordService {
         if (image.isEmpty()) {
             throw new CustomException(ErrorCode.SHOULD_EXIST_IMAGE);
         }
-    }
-
-    // 청소기록 목록 조회
-    public List<RecordResponse> getRecordList(Long memberId) {
-
-        List<RecordResponse> recordResponseList = new ArrayList<>();
-        List<Record> recordList = recordRepository.findAllByMemberId(memberId);
-        for (Record record: recordList){
-
-            String beforeImageUrl = imageService.processImage(record.getBeforeImage());
-            String afterImageUrl = imageService.processImage(record.getAfterImage());
-            RecordResponse recordResponse = RecordResponse.builder()
-                    .recordId(record.getId())
-                    .beachId(record.getBeach().getId())
-                    .time(record.getDuration())
-                    .date(record.getCreatedDate())
-                    .range(record.getDistance())
-                    .beforeImage(beforeImageUrl)
-                    .afterImage(afterImageUrl)
-                    .build();
-            recordResponseList.add(recordResponse);
-        }
-
-        return recordResponseList;
     }
 }
