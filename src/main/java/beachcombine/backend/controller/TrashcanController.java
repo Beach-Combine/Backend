@@ -28,9 +28,9 @@ public class TrashcanController {
     @GetMapping("map")
     public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
 
-        List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
+        List<TrashcanResponse> response = trashcanService.findCertifiedTrashcanCoords();
 
-        return ResponseEntity.status(HttpStatus.OK).body(trashcanResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 쓰레기통 신고하기
