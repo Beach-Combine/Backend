@@ -1,14 +1,10 @@
 package beachcombine.backend.repository;
 
 import beachcombine.backend.domain.Member;
-import beachcombine.backend.dto.response.MemberRankingResponse;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.function.Function;
 
 import static beachcombine.backend.domain.QMember.member;
 

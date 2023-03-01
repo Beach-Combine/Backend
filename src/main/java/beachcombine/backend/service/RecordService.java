@@ -7,7 +7,6 @@ import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.RecordSaveRequest;
 import beachcombine.backend.dto.response.RecordResponse;
-import beachcombine.backend.dto.response.TrashcanResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
