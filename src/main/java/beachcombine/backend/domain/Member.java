@@ -2,8 +2,6 @@ package beachcombine.backend.domain;
 
 
 import beachcombine.backend.common.entity.BaseEntity;
-import beachcombine.backend.dto.response.BeachMarkerResponse;
-import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
 import com.nimbusds.oauth2.sdk.util.StringUtils;

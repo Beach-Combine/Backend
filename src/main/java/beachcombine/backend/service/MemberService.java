@@ -3,6 +3,7 @@ package beachcombine.backend.service;
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.repository.MemberRepository;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,7 @@ public class MemberService {
                 .image(imageUrl)
                 .totalPoint(findMember.getTotalPoint())
                 .monthPoint(findMember.getMonthPoint())
+                .purchasePoint(findMember.getPurchasePoint())
                 .profilePublic(findMember.getProfilePublic())
                 .role(findMember.getRole())
                 .build();
@@ -90,6 +94,36 @@ public class MemberService {
         }
     }
 
+    // 랭킹 조회
+    public List<MemberRankingResponse> getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
+
+        List<Member> memberList = new ArrayList<>();
+        List<MemberRankingResponse> responseList = new ArrayList<>();
+
+        if (range.equals("all")) {
+            memberList = memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint);
+        }
+        if (range.equals("month")) {
+            memberList = memberRepository.findByMonthPointRanking(pageSize, lastId, lastPoint);
+        }
+        if (memberList.isEmpty()) {
+            throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
+        }
+
+        for (Member member : memberList) {
+            String imageUrl = imageService.processImage(member.getImage());
+            MemberRankingResponse response = MemberRankingResponse.builder()
+                    .id(member.getId())
+                    .nickname(member.getNickname())
+                    .image(imageUrl)
+                    .point(range.equals("all") ? member.getTotalPoint() : member.getMonthPoint())
+                    .build();
+            responseList.add(response);
+        }
+
+        return responseList;
+    }
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long memberId) {
 
@@ -97,3 +131,4 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 }
+
