@@ -40,6 +40,7 @@ public class MemberService {
                 .image(imageUrl)
                 .totalPoint(findMember.getTotalPoint())
                 .monthPoint(findMember.getMonthPoint())
+                .purchasePoint(findMember.getPurchasePoint())
                 .profilePublic(findMember.getProfilePublic())
                 .role(findMember.getRole())
                 .build();

@@ -15,6 +15,7 @@ public class MemberResponse {
     private String image;
     private Integer totalPoint; // 전체 포인트
     private Integer monthPoint; // 월간 포인트
+    private Integer purchasePoint;
     private Boolean profilePublic; // 프로필 공개 여부
     private String role;
 }
