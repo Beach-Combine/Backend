@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 
 @Entity
 @Getter
@@ -31,10 +33,11 @@ public class Beach extends BaseEntity {
     @Column(nullable = false, precision =11, scale = 8)
     private BigDecimal  lng;
 
+    private String beachRange;
+
     @Builder.Default
     @OneToMany(mappedBy = "beach")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Beach=다:1)
-
 
     public BeachBadgeResponse getBeachBadgeImage() {
 
@@ -43,4 +46,5 @@ public class Beach extends BaseEntity {
                 .badgeImage(badgeImage)
                 .build();
     }
+
 }

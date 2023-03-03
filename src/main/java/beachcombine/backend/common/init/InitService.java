@@ -3,7 +3,7 @@ package beachcombine.backend.common.init;
 import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.repository.TrashcanRepository;
-import beachcombine.backend.service.GeocodingService;
+import beachcombine.backend.util.GeocodingUtil;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class InitService {
 
     private final EntityManager em;
-    private final GeocodingService geocodingService;
+    private final GeocodingUtil geocodingUtil;
     private final TrashcanRepository trashcanRepository;
     @Value("${spring.datasource.databaseAPI}")
     private String serviceKey;
@@ -36,15 +36,59 @@ public class InitService {
     @Transactional
     public void initDatabase() {
 
+        // 해변 마커용 위치 정보
         Beach beach1 = Beach.builder()
-                .id(1L)
                 .name("Haeundae Beach")
                 .lat(BigDecimal.valueOf(35.158645))
                 .lng(BigDecimal.valueOf(129.160920))
                 .badgeImage("imageUrl")
+                .beachRange("{35.1595, 129.1623}, {35.1597, 129.1657}, {35.1593, 129.1698}, {35.1585, 129.1708}, "+
+                        "{35.1541, 129.1547}, {35.1567, 129.1539}, {35.1585, 129.1578}")
+                .build();
+        Beach beach2 = Beach.builder()
+                .name("Gwangali Beach")
+                .lat(BigDecimal.valueOf(35.1531696))
+                .lng(BigDecimal.valueOf(129.118666))
+                .badgeImage("imageUrl")
+                .beachRange("{35.1558, 129.1236}, {35.1527, 129.1248}, {35.1459, 129.11791}, {35.146, 129.1147}, "+
+                        "{35.1471, 129.1141}, {35.1491, 129.1149}, {35.1535, 129.1182}, {35.1546,129.1199}")
+                .build();
+        Beach beach3 = Beach.builder()
+                .name("Gwangan Beach Park")
+                .lat(BigDecimal.valueOf(35.1554))
+                .lng(BigDecimal.valueOf(129.1234))
+                .badgeImage("imageUrl")
+                .beachRange("{35.1556, 129.1235}, {35.1531, 129.1244}, {35.1534, 129.1223}, {35.1551, 129.1214}")
+                .build();
+        Beach beach4 = Beach.builder()
+                .name("Namcheon Beach Park")
+                .lat(BigDecimal.valueOf(35.1465704))
+                .lng(BigDecimal.valueOf(129.1147768))
+                .badgeImage("imageUrl")
+                .beachRange("{35.1477, 129.1144}, {35.1474, 129.117}, {35.1459, 129.1174}, {35.146, 129.1147}")
+                .build();
+        Beach beach5 = Beach.builder()
+                .name("Millak Waterside Park")
+                .lat(BigDecimal.valueOf(35.1545716))
+                .lng(BigDecimal.valueOf(129.1329907))
+                .badgeImage("imageUrl")
+                .beachRange("{35.1551, 129.1214}, {35.1534, 129.1223}, {35.1474, 129.117}, {35.1477, 129.1144}")
+                .build();
+        Beach beach6 = Beach.builder()
+                .name("Songjeong Beach")
+                .lat(BigDecimal.valueOf(35.1786125))
+                .lng(BigDecimal.valueOf(129.1997133))
+                .badgeImage("imageUrl")
+                .beachRange("{35.1789, 129.199}, {35.1805, 129.2022}, {35.1809, 129.2049}, {35.1795, 129.2052},"+
+                        "{35.1746, 129.1975}, {35.1759, 129.1971}")
                 .build();
 
         em.merge(beach1);
+        em.merge(beach2);
+        em.merge(beach3);
+        em.merge(beach4);
+        em.merge(beach5);
+        em.merge(beach6);
     }
 
 
@@ -77,13 +121,14 @@ public class InitService {
                 JSONObject object = (JSONObject) jsonArray.get(i);
                 String address = (String) object.get("설치장소");
                 // int trashcanCount = (int) object.get("개수");
-                Map<String, String> coords = geocodingService.getGeoDataByAddress(address);
+                Map<String, String> coords = geocodingUtil.getGeoDataByAddress(address);
 
                 Trashcan trashcan = Trashcan.builder()
                         .lat(new BigDecimal(coords.get("lat")))
                         .lng(new BigDecimal(coords.get("lng")))
                         .isCertified(true)
                         .isAddedByUser(false)
+                        .address(address)
                         .build();
                 trashcanRepository.save(trashcan);
 

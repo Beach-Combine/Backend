@@ -1,5 +1,6 @@
 package beachcombine.backend.controller;
 
+import beachcombine.backend.dto.request.NearBeachRequest;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.BeachLatestRecordResponse;
@@ -8,11 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @RestController
@@ -47,5 +47,13 @@ public class BeachController {
 
         List<BeachMarkerResponse> beachMarkerResponse = beachService.findBeachMarkers();
         return ResponseEntity.status(HttpStatus.OK).body(beachMarkerResponse);
+    }
+
+    // 해변 근처 인증하기
+    @GetMapping("/near-beach")
+    public ResponseEntity<Void> verifyNearBeach(NearBeachRequest dto) {
+
+        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()),  new BigDecimal(dto.getLng()));
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

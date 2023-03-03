@@ -25,6 +25,7 @@ public class Trashcan extends BaseEntity {
     private BigDecimal lat;
     @Column(nullable = false, precision =11, scale = 8)
     private BigDecimal  lng;
+    private String address;
 
     private Boolean isCertified=false;
     private Boolean isAddedByUser;

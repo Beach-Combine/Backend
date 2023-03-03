@@ -38,6 +38,7 @@ public class TrashcanService {
                         .id(m.getId())
                         .lat(String.valueOf(m.getLat()))
                         .lng(String.valueOf(m.getLng()))
+                        .address(m.getAddress())
                         .build())
                 .collect(Collectors.toList());
         
