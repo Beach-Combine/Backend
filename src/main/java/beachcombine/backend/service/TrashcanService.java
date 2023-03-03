@@ -5,7 +5,7 @@ import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.dto.request.TrashcanSaveRequest;
-import beachcombine.backend.dto.response.TrashcanResponse;
+import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.TrashcanRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +28,20 @@ public class TrashcanService {
     private final MemberRepository memberRepository;
     private final ImageService imageService;
 
-    // (지도) 쓰레기통 위치 조회
+    // (지도) 인증된 쓰레기통 위치 조회
     @Transactional(readOnly = true)
-    public List<TrashcanResponse> findCertifiedTrashcanCoords() {
+    public List<TrashcanMarkerResponse> findCertifiedTrashcanMarkers() {
 
-        List<TrashcanResponse> trashcanResponseList  = trashcanRepository.findByIsCertified(true); //  인증된(isCertified=true) 쓰레기통들의 좌표 반환
+        List<Trashcan> findTrashcanList  = trashcanRepository.findByIsCertified(true); //  인증된(isCertified=true) 쓰레기통들의 좌표 반환
+        List<TrashcanMarkerResponse> responseList = findTrashcanList.stream()
+                .map(m -> TrashcanMarkerResponse.builder()
+                        .id(m.getId())
+                        .lat(String.valueOf(m.getLat()))
+                        .lng(String.valueOf(m.getLng()))
+                        .build())
+                .collect(Collectors.toList());
         
-        return trashcanResponseList;
+        return responseList;
     }
 
     // 쓰레기통 신고하기

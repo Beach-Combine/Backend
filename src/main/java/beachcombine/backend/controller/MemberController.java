@@ -2,18 +2,23 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
-import beachcombine.backend.service.ImageService;
+import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     // 회원 정보 조회
     @GetMapping("")
@@ -64,5 +70,17 @@ public class MemberController {
 
         memberService.updateMemberPoint(userDetails.getMember().getId(), option);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 랭킹 조회
+    @GetMapping("ranking")
+    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
+                                                                        @RequestParam int pageSize,
+                                                                        @RequestParam(required = false) Long lastId,
+                                                                        @RequestParam(required = false) Integer lastPoint) {
+
+        List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

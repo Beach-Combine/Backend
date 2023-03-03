@@ -3,7 +3,7 @@ package beachcombine.backend.controller;
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.TrashcanSaveRequest;
 import beachcombine.backend.dto.response.IdResponse;
-import beachcombine.backend.dto.response.TrashcanResponse;
+import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.service.TrashcanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,13 @@ public class TrashcanController {
 
     private final TrashcanService trashcanService;
 
-    // (지도) 쓰레기통 위치 조회
+    // (지도) 인증된 쓰레기통 위치 조회
     @GetMapping("map")
-    public ResponseEntity<List<TrashcanResponse>> findTrashcanLocation(){
+    public ResponseEntity<List<TrashcanMarkerResponse>> findCertifiedTrashcanMarkers(){
 
-        List<TrashcanResponse> trashcanResponse = trashcanService.findCertifiedTrashcanCoords();
+        List<TrashcanMarkerResponse> response = trashcanService.findCertifiedTrashcanMarkers();
 
-        return ResponseEntity.status(HttpStatus.OK).body(trashcanResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 쓰레기통 신고하기
