@@ -1,5 +1,6 @@
 package beachcombine.backend.controller;
 
+import beachcombine.backend.dto.request.NearBeachRequest;
 import beachcombine.backend.dto.response.BeachBadgeResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.BeachLatestRecordResponse;
@@ -49,10 +50,10 @@ public class BeachController {
     }
 
     // 해변 근처 인증하기
-    @GetMapping("/verify-near-beach")
-    public ResponseEntity<Void> verifyNearBeach(@RequestParam Long beachId, @RequestParam String lat, @RequestParam String lng) {
+    @GetMapping("/near-beach")
+    public ResponseEntity<Void> verifyNearBeach(NearBeachRequest dto) {
 
-        beachService.verifyNearBeach(beachId, new BigDecimal(lat),  new BigDecimal(lng));
+        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()),  new BigDecimal(dto.getLng()));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

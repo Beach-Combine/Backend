@@ -38,7 +38,6 @@ public class InitService {
 
         // 해변 마커용 위치 정보
         Beach beach1 = Beach.builder()
-                .id(1L)
                 .name("Haeundae Beach")
                 .lat(BigDecimal.valueOf(35.158645))
                 .lng(BigDecimal.valueOf(129.160920))
@@ -47,7 +46,6 @@ public class InitService {
                         "{35.1541, 129.1547}, {35.1567, 129.1539}, {35.1585, 129.1578}")
                 .build();
         Beach beach2 = Beach.builder()
-                .id(2L)
                 .name("Gwangali Beach")
                 .lat(BigDecimal.valueOf(35.1531696))
                 .lng(BigDecimal.valueOf(129.118666))
@@ -56,7 +54,6 @@ public class InitService {
                         "{35.1471, 129.1141}, {35.1491, 129.1149}, {35.1535, 129.1182}, {35.1546,129.1199}")
                 .build();
         Beach beach3 = Beach.builder()
-                .id(3L)
                 .name("Gwangan Beach Park")
                 .lat(BigDecimal.valueOf(35.1554))
                 .lng(BigDecimal.valueOf(129.1234))
@@ -64,7 +61,6 @@ public class InitService {
                 .beachRange("{35.1556, 129.1235}, {35.1531, 129.1244}, {35.1534, 129.1223}, {35.1551, 129.1214}")
                 .build();
         Beach beach4 = Beach.builder()
-                .id(4L)
                 .name("Namcheon Beach Park")
                 .lat(BigDecimal.valueOf(35.1465704))
                 .lng(BigDecimal.valueOf(129.1147768))
@@ -72,7 +68,6 @@ public class InitService {
                 .beachRange("{35.1477, 129.1144}, {35.1474, 129.117}, {35.1459, 129.1174}, {35.146, 129.1147}")
                 .build();
         Beach beach5 = Beach.builder()
-                .id(5L)
                 .name("Millak Waterside Park")
                 .lat(BigDecimal.valueOf(35.1545716))
                 .lng(BigDecimal.valueOf(129.1329907))
@@ -80,7 +75,6 @@ public class InitService {
                 .beachRange("{35.1551, 129.1214}, {35.1534, 129.1223}, {35.1474, 129.117}, {35.1477, 129.1144}")
                 .build();
         Beach beach6 = Beach.builder()
-                .id(6L)
                 .name("Songjeong Beach")
                 .lat(BigDecimal.valueOf(35.1786125))
                 .lng(BigDecimal.valueOf(129.1997133))
