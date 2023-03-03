@@ -50,10 +50,10 @@ public class BeachController {
     }
 
     // 해변 근처 인증하기
-    @GetMapping("/range")
-    public ResponseEntity<Void> verifyNearBeach(NearBeachRequest dto) {
+    @GetMapping("{beachId}/range")
+    public ResponseEntity<Void> verifyNearBeach(@PathVariable("beachId") Long beachId, NearBeachRequest dto) {
 
-        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()),  new BigDecimal(dto.getLng()));
+        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

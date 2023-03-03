@@ -146,6 +146,5 @@ public class BeachService {
         if (!isInside) {
             throw new CustomException(ErrorCode.NOT_NEAR_BEACH);
         }
-        return;
     }
 }
