@@ -37,9 +37,8 @@ public class Beach extends BaseEntity {
     @OneToMany(mappedBy = "beach")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Beach=다:1)
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "beachRange_id")
-    private BeachRange beachRange;
+
+    private String beachRange;
 
     public BeachBadgeResponse getBeachBadgeImage() {
 
@@ -49,16 +48,4 @@ public class Beach extends BaseEntity {
                 .build();
     }
 
-    // 연관관계 메서드
-    public void setBeachRange(BeachRange beachRange) {
-        this.beachRange = beachRange;
-        beachRange.setBeach(this);
-    }
-
-    public static Beach createBeach(Member member, BeachRange beachRange, List<Record> records) {
-        Beach beach = new Beach();
-        beach.setBeachRange(beachRange);
-        beach.setRecords(records);
-        return beach;
-    }
 }

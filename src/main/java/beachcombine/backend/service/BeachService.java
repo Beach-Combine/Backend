@@ -11,12 +11,15 @@ import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.RecordRepository;
 import beachcombine.backend.service.ImageService;
+import beachcombine.backend.service.RayCastingAlgorithmService;
 import beachcombine.backend.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,5 +121,33 @@ public class BeachService {
 
         return beachRepository.findById(beachId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_BEACH));
+    }
+
+    // 해변 근처 인증하기
+    @Transactional(readOnly = true)
+    public void verifyNearBeach(Long beachId, BigDecimal lat, BigDecimal lng) {
+
+        Beach findBeach = getBeachOrThrow(beachId);
+        String beachRange = findBeach.getBeachRange();
+        beachRange = beachRange.replace("{","");
+        beachRange = beachRange.replace(" ","");
+        beachRange = beachRange.substring(0,beachRange.length()-1);
+        String[] s1 = beachRange.split("},");
+
+        List<BigDecimal> xCoords = new ArrayList();
+        List<BigDecimal> yCoords = new ArrayList();
+        for(int i=0; i<s1.length; i++){
+            String[] group1 = s1[i].split(",");
+            xCoords.add(new BigDecimal(group1[0]));
+            yCoords.add(new BigDecimal(group1[1]));
+        }
+
+        RayCastingAlgorithmService rayCasting = new RayCastingAlgorithmService();
+        boolean isInside = rayCasting.isInsidePolygon(xCoords, yCoords, lat, lng);
+
+        if (isInside) {
+            return;
+        }
+        throw new CustomException(ErrorCode.NOT_NEAR_BEACH);
     }
 }
