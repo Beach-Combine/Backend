@@ -12,5 +12,6 @@ public class TrashcanMarkerResponse {
 
     private String lat;
     private String lng;
+    private String address;
     private Long id;
 }
