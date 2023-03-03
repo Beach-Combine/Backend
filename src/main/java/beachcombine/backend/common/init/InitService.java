@@ -3,7 +3,7 @@ package beachcombine.backend.common.init;
 import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.repository.TrashcanRepository;
-import beachcombine.backend.service.GeocodingService;
+import beachcombine.backend.util.GeocodingUtil;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class InitService {
 
     private final EntityManager em;
-    private final GeocodingService geocodingService;
+    private final GeocodingUtil geocodingUtil;
     private final TrashcanRepository trashcanRepository;
     @Value("${spring.datasource.databaseAPI}")
     private String serviceKey;
@@ -121,7 +121,7 @@ public class InitService {
                 JSONObject object = (JSONObject) jsonArray.get(i);
                 String address = (String) object.get("설치장소");
                 // int trashcanCount = (int) object.get("개수");
-                Map<String, String> coords = geocodingService.getGeoDataByAddress(address);
+                Map<String, String> coords = geocodingUtil.getGeoDataByAddress(address);
 
                 Trashcan trashcan = Trashcan.builder()
                         .lat(new BigDecimal(coords.get("lat")))

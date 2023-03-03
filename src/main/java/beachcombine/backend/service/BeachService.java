@@ -10,9 +10,7 @@ import beachcombine.backend.dto.response.BeachLatestRecordResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.RecordRepository;
-import beachcombine.backend.service.ImageService;
-import beachcombine.backend.service.RayCastingAlgorithmService;
-import beachcombine.backend.repository.RecordRepository;
+import beachcombine.backend.util.RayCastingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -142,7 +140,7 @@ public class BeachService {
             yCoords.add(new BigDecimal(group1[1]));
         }
 
-        RayCastingAlgorithmService rayCasting = new RayCastingAlgorithmService();
+        RayCastingUtil rayCasting = new RayCastingUtil();
         boolean isInside = rayCasting.isInsidePolygon(xCoords, yCoords, lat, lng);
 
         if (isInside) {

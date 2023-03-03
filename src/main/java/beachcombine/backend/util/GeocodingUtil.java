@@ -1,7 +1,5 @@
-package beachcombine.backend.service;
+package beachcombine.backend.util;
 
-import beachcombine.backend.common.exception.CustomException;
-import beachcombine.backend.common.exception.ErrorCode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class GeocodingService {
+public class GeocodingUtil {
 
     @Value("${application.spring.cloud.gcp.geocodingAPI}")
     private String API_KEY;

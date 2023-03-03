@@ -1,4 +1,4 @@
-package beachcombine.backend.service;
+package beachcombine.backend.util;
 
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import static java.lang.Math.min;
 
 @Component
-public class RayCastingAlgorithmService {
+public class RayCastingUtil {
 
     // 점 (x, y)가 다각형 내부에 있는지 판별하는 메서드
     public boolean isInsidePolygon(List<BigDecimal> xCoords, List<BigDecimal> yCoords, BigDecimal x, BigDecimal y) {
