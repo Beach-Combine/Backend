@@ -17,7 +17,6 @@ public class RayCastingAlgorithmService {
         // 정확도를 위해 double로 계산
         // 광선은 왼쪽에서 쏜다고 가정
         int nPoints = xCoords.size();
-        System.out.println(">>>> xCoords.size():"+ nPoints);
         int nIntersections = 0;
 
         for (int i = 0; i < nPoints; i++) {

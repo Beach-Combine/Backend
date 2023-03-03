@@ -134,6 +134,7 @@ public class InitService {
                         .lng(new BigDecimal(coords.get("lng")))
                         .isCertified(true)
                         .isAddedByUser(false)
+                        .address(address)
                         .build();
                 trashcanRepository.save(trashcan);
 
