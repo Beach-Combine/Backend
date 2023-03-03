@@ -30,6 +30,7 @@ public class BeachService {
     private final BeachRepository beachRepository;
     private final RecordRepository recordRepository;
     private final ImageService imageService;
+    private final RayCastingUtil rayCastingUtil;
 
     private final String defaultBeachImage = "defaultImageLink";
     private final String hiddenProfileImage = "hiddenImageLink";
@@ -140,12 +141,11 @@ public class BeachService {
             yCoords.add(new BigDecimal(group1[1]));
         }
 
-        RayCastingUtil rayCasting = new RayCastingUtil();
-        boolean isInside = rayCasting.isInsidePolygon(xCoords, yCoords, lat, lng);
+        boolean isInside = rayCastingUtil.isInsidePolygon(xCoords, yCoords, lat, lng);
 
-        if (isInside) {
-            return;
+        if (!isInside) {
+            throw new CustomException(ErrorCode.NOT_NEAR_BEACH);
         }
-        throw new CustomException(ErrorCode.NOT_NEAR_BEACH);
+        return;
     }
 }
