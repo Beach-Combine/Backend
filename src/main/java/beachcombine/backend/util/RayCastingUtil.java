@@ -26,7 +26,8 @@ public class RayCastingUtil {
             BigDecimal y2 = yCoords.get((i + 1) % nPoints);
 
             BigDecimal minNum = (x1.compareTo(x2)<=0)? x1:x2; // x1<=x2
-            if(y1.equals(y2) && y.equals(y1) && minNum.compareTo(x)<=0 ){ // minNum <=x
+            BigDecimal maxNum = (x1.compareTo(x2)<=0)? x2:x1;
+            if(y1.equals(y2) && y.equals(y1) && minNum.compareTo(x)<=0 && maxNum.compareTo(x)>=0){ // minNum <= x <= maxNum
                 return true;
             }
             if (isIntersect(x1, y1, x2, y2, x, y)) {
