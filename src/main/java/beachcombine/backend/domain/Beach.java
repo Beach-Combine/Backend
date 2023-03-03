@@ -37,9 +37,6 @@ public class Beach extends BaseEntity {
     @OneToMany(mappedBy = "beach")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Beach=다:1)
 
-
-    private String beachRange;
-
     public BeachBadgeResponse getBeachBadgeImage() {
 
         return BeachBadgeResponse.builder()
