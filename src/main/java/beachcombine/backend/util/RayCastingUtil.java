@@ -55,7 +55,7 @@ public class RayCastingUtil {
 
         // 선분의 기울기가 0이 아닌 경우, 선분의 x 좌표값을 구한다.
         // (y0 - y1) * (x2 - x1) / (y2 - y1) + x1
-        BigDecimal x =  (((y0.subtract(y1)).multiply(y2.subtract(y1))).divide(y2.subtract(y1), 20, RoundingMode.HALF_UP)).add(x1);
+        BigDecimal x =  (((y0.subtract(y1)).multiply(x2.subtract(x1))).divide(y2.subtract(y1), 20, RoundingMode.HALF_UP)).add(x1);
 
         // x 좌표값이 범위 안에 있는지 확인
         // x 좌표는 이미 (x-x1)(x-x2)<=0 만족해서 확인필요 없음
