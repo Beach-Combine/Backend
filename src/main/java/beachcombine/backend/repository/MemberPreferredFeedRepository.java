@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberPreferredFeedRepository extends JpaRepository<MemberPreferredFeed, Long> {
 
     Boolean existsByMemberAndFeed(Member member, Feed feed);
-    void deleteByMemberAndArtist(Member member, Feed feed);
+    void deleteByMemberAndFeed(Member member, Feed feed);
 }

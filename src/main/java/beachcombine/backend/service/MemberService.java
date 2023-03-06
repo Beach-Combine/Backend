@@ -157,7 +157,7 @@ public class MemberService {
         Member findMember = getMemberOrThrow(memberId);
         Feed findFeed = getFeedOrThrow(feedId);
 
-        memberPreferredFeedRepository.deleteByMemberAndArtist(findMember, findFeed);
+        memberPreferredFeedRepository.deleteByMemberAndFeed(findMember, findFeed);
     }
 
     // 예외 처리 - 존재하는 member인지
