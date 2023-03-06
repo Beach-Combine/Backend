@@ -93,4 +93,14 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // 회원-피드 좋아요 관계 취소 (피드 좋아요 취소하기)
+    @DeleteMapping("preferred-feeds/{feedId}")
+    public ResponseEntity<Void> deleteLikeFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
+                                               @PathVariable("feedId") Long feedId) {
+
+        memberService.deleteLikeFeed(userDetails.getMember().getId(), feedId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

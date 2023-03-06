@@ -151,6 +151,15 @@ public class MemberService {
         return memberPreferredFeed.getId();
     }
 
+    // 회원-피드 좋아요 관계 취소 (피드 좋아요 취소하기)
+    public void deleteLikeFeed(Long memberId, Long feedId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+        Feed findFeed = getFeedOrThrow(feedId);
+
+        memberPreferredFeedRepository.deleteByMemberAndArtist(findMember, findFeed);
+    }
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long memberId) {
 
