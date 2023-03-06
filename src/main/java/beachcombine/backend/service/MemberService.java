@@ -2,10 +2,14 @@ package beachcombine.backend.service;
 
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
+import beachcombine.backend.domain.Feed;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.domain.MemberPreferredFeed;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.repository.FeedRepository;
+import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +27,8 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final FeedRepository feedRepository;
+    private final MemberPreferredFeedRepository memberPreferredFeedRepository;
     private final ImageService imageService;
 
     // 회원 정보 조회
@@ -72,7 +78,7 @@ public class MemberService {
     public void checkNicknameDuplicate(String nickname) {
 
         if (memberRepository.existsByNickname(nickname)) {
-            throw new CustomException(ErrorCode.EXIST_USER_NICKNAME);
+            throw new CustomException(ErrorCode.EXIST_MEMBER_NICKNAME);
         }
     }
 
@@ -124,11 +130,39 @@ public class MemberService {
         return responseList;
     }
 
+    // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
+    public Long likeFeed(Long memberId, Long feedId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+        Feed findFeed = getFeedOrThrow(feedId);
+
+        // 중복 예외 처리
+        if(memberPreferredFeedRepository.existsByMemberAndFeed(findMember, findFeed)) {
+            throw new CustomException(ErrorCode.EXIST_MEMBER_PREFERRED_FEED);
+        }
+
+        MemberPreferredFeed memberPreferredFeed = MemberPreferredFeed.builder()
+                .member(findMember)
+                .feed(findFeed)
+                .build();
+
+        memberPreferredFeedRepository.save(memberPreferredFeed);
+
+        return memberPreferredFeed.getId();
+    }
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long memberId) {
 
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+    }
+
+    // 예외 처리 - 존재하는 feed인지
+    private Feed getFeedOrThrow(Long feedId) {
+
+        return feedRepository.findById(feedId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FEED));
     }
 }
 

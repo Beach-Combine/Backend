@@ -2,6 +2,7 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
@@ -80,6 +81,20 @@ public class MemberController {
                                                                         @RequestParam(required = false) Integer lastPoint) {
 
         List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
+    @PostMapping("preferred-feeds/{feedId}")
+    public ResponseEntity<IdResponse> likeFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
+                                         @PathVariable("feedId") Long feedId) {
+
+        Long memberPreferredFeedId = memberService.likeFeed(userDetails.getMember().getId(), feedId);
+
+        IdResponse response = IdResponse.builder()
+                .id(memberPreferredFeedId)
+                .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
