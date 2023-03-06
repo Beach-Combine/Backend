@@ -26,7 +26,7 @@ public class FeedController {
     @PostMapping("{recordId}")
     public ResponseEntity<IdResponse> saveFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
                                      @PathVariable("recordId") Long recordId,
-                                     FeedSaveRequest request) throws IOException {
+                                     FeedSaveRequest request) {
 
         Long feedId = feedService.saveFeed(userDetails.getMember().getId(), request, recordId);
 
@@ -35,5 +35,15 @@ public class FeedController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 피드 삭제하기
+    @DeleteMapping("{feedId}")
+    public ResponseEntity<Void> deleteFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
+                                           @PathVariable("feedId") Long feedId) {
+
+        feedService.deleteFeed(userDetails.getMember().getId(), feedId);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
