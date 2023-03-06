@@ -3,6 +3,7 @@ package beachcombine.backend.controller;
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.FeedSaveRequest;
 import beachcombine.backend.dto.request.RecordSaveRequest;
+import beachcombine.backend.dto.response.FeedResponse;
 import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.service.FeedService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +36,14 @@ public class FeedController {
                 .id(feedId)
                 .build();
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 피드 목록 조회
+    @GetMapping("")
+    public ResponseEntity<List<FeedResponse>> getFeedList() {
+
+        List<FeedResponse> response = feedService.getFeedList();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
