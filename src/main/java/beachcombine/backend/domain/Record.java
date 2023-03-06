@@ -31,7 +31,7 @@ public class Record extends BaseEntity {
     private Member member; // 청소한 사람 (Record:Member=다:1)
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "record_id", referencedColumnName = "id")
+    @JoinColumn(name = "feed_id")
     private Feed feed;
 
     private Time duration; // time -> 00:00:00 (시, 분, 초)
