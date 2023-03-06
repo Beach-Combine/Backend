@@ -7,7 +7,6 @@ import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.FeedSaveRequest;
 import beachcombine.backend.dto.response.FeedResponse;
-import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.repository.FeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
@@ -16,10 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +35,7 @@ public class FeedService {
         Member findMember = getMemberOrThrow(memberId);
         Record findRecord = getRecordOrThrow(recordId);
 
-        if(findRecord.getFeed() != null ){
+        if (findRecord.getFeed() != null) {
             throw new CustomException(ErrorCode.EXIST_FEED_RECORD);
         }
 
@@ -71,7 +68,7 @@ public class FeedService {
         List<Feed> findFeedList = feedRepository.findAllByOrderByCreatedDateDesc();
         List<FeedResponse> responseList = new ArrayList<>();
 
-        for(Feed feed: findFeedList){
+        for (Feed feed : findFeedList) {
             Record record = feed.getRecord();
             Member member = record.getMember();
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
@@ -117,7 +114,7 @@ public class FeedService {
     // 예외 처리 - 삭제/편집 권한을 가진 member 인가
     private void checkPermissionByFeed(Member member, Feed feed) {
 
-        if(!feed.getRecord().getMember().getId().equals(member.getId())) {
+        if (!feed.getRecord().getMember().getId().equals(member.getId())) {
             throw new CustomException(ErrorCode.PERMISSION_DENIED);
         }
     }
@@ -125,7 +122,7 @@ public class FeedService {
     // 예외 처리 - 삭제/편집 권한을 가진 member 인가
     private void checkPermissionByRecord(Member member, Record record) {
 
-        if(!record.getMember().getId().equals(member.getId())) {
+        if (!record.getMember().getId().equals(member.getId())) {
             throw new CustomException(ErrorCode.PERMISSION_DENIED);
         }
     }

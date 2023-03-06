@@ -2,7 +2,6 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.FeedSaveRequest;
-import beachcombine.backend.dto.request.RecordSaveRequest;
 import beachcombine.backend.dto.response.FeedResponse;
 import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.service.FeedService;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,8 +25,8 @@ public class FeedController {
     // 피드 기록하기
     @PostMapping("{recordId}")
     public ResponseEntity<IdResponse> saveFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
-                                     @PathVariable("recordId") Long recordId,
-                                     FeedSaveRequest request) {
+                                               @PathVariable("recordId") Long recordId,
+                                               FeedSaveRequest request) {
 
         Long feedId = feedService.saveFeed(userDetails.getMember().getId(), request, recordId);
 

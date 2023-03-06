@@ -9,9 +9,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
-
 @Entity
 @Getter
 @Setter
@@ -28,10 +25,10 @@ public class Beach extends BaseEntity {
     private String name;
     private String badgeImage;
 
-    @Column(nullable = false, precision =10, scale = 8)
+    @Column(nullable = false, precision = 10, scale = 8)
     private BigDecimal lat;
-    @Column(nullable = false, precision =11, scale = 8)
-    private BigDecimal  lng;
+    @Column(nullable = false, precision = 11, scale = 8)
+    private BigDecimal lng;
 
     private String beachRange;
 
