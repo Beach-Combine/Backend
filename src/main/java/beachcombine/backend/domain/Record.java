@@ -30,7 +30,7 @@ public class Record extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member; // 청소한 사람 (Record:Member=다:1)
 
-    @OneToOne(fetch = LAZY, cascade=CascadeType.ALL)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "feed_id", referencedColumnName="feed_id")
     private Feed feed;
 
