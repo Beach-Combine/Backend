@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="MEMBER_PREFERRED_ARTIST", uniqueConstraints = {@UniqueConstraint(
+@Table(name="MEMBER_PREFERRED_FEED", uniqueConstraints = {@UniqueConstraint(
         name="MEMBER_FEED_UNIQUE",
         columnNames = {"MEMBER_ID", "FEED_ID"}
 )})

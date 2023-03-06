@@ -1,7 +1,6 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
-import beachcombine.backend.domain.Member;
 import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
@@ -10,9 +9,6 @@ import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
