@@ -165,4 +165,3 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_FEED));
     }
 }
-

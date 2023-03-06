@@ -5,6 +5,7 @@ import beachcombine.backend.common.entity.BaseEntity;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,10 +14,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@BatchSize(size = 50)
 public class Member extends BaseEntity {
 
     @Id

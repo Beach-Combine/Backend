@@ -24,7 +24,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     // 회원 정보 조회
     @GetMapping("")
