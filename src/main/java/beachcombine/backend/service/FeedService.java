@@ -38,9 +38,9 @@ public class FeedService {
             throw new CustomException(ErrorCode.EXIST_FEED_RECORD);
         }
 
+
         Feed feed = Feed.builder()
                 .review(request.getReview())
-                .record(findRecord)
                 .build();
         findRecord.setFeed(feed);
         feedRepository.save(feed);
