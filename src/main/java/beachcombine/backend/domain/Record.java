@@ -1,6 +1,5 @@
 package beachcombine.backend.domain;
 
-
 import beachcombine.backend.common.entity.BaseEntity;
 import lombok.*;
 
@@ -11,7 +10,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder

@@ -10,7 +10,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,6 +26,7 @@ public class Trashcan extends BaseEntity {
     private BigDecimal  lng;
     private String address;
 
+    @Builder.Default
     private Boolean isCertified=false;
     private Boolean isAddedByUser;
 
