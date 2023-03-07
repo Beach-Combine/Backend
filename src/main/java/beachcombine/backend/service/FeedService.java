@@ -44,6 +44,7 @@ public class FeedService {
         Feed feed = Feed.builder()
                 .review(request.getReview())
                 .build();
+
         findRecord.setFeed(feed); // feed.setRecord(findRecord);
         feedRepository.save(feed);
 
