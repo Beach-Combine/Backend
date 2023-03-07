@@ -2,6 +2,7 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.request.RecordSaveRequest;
+import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.RecordResponse;
 import beachcombine.backend.service.RecordService;
@@ -43,6 +44,15 @@ public class RecordController {
     public ResponseEntity<List<RecordResponse>> getRecordList(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
         List<RecordResponse> response = recordService.getRecordList(userDetails.getMember().getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 마이페이지 - (지도) 청소한 해변 조회
+    @GetMapping("/map")
+    public ResponseEntity<List<BeachMarkerResponse>> getMyBeachMarker(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        List<BeachMarkerResponse> response = recordService.getMyBeachMarker(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
