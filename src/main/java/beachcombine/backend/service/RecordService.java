@@ -68,6 +68,7 @@ public class RecordService {
         List<Record> recordList = recordRepository.findAllByMemberId(memberId);
         for (Record record: recordList){
 
+            Boolean isWritten = (record.getFeed() != null);
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
             RecordResponse recordResponse = RecordResponse.builder()
@@ -78,6 +79,7 @@ public class RecordService {
                     .range(record.getDistance())
                     .beforeImage(beforeImageUrl)
                     .afterImage(afterImageUrl)
+                    .isWritten(isWritten)
                     .build();
             responseList.add(recordResponse);
         }

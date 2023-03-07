@@ -16,7 +16,8 @@ public enum ErrorCode {
     UNAUTHORIZED_ID(HttpStatus.UNAUTHORIZED, "아이디가 틀립니다."),
     UNAUTHORIZED_PASSWORD(HttpStatus.UNAUTHORIZED, "패스워드가 틀립니다."),
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."),
-    EXIST_USER_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
+    EXIST_MEMBER_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
+    EXIST_MEMBER_PREFERRED_FEED(HttpStatus.CONFLICT, "이미 좋아요한 피드입니다."),
     BAD_REQUEST_OPTION_VALUE(HttpStatus.BAD_REQUEST, "option 값이 잘못된 요청입니다."),
 
     // Beach 예외
@@ -26,6 +27,9 @@ public enum ErrorCode {
     // Record 예외
     NOT_FOUND_RECORD(HttpStatus.NOT_FOUND, "해당 기록을 찾을 수 없습니다."),
 
+    // Feed 예외
+    EXIST_FEED_RECORD(HttpStatus.CONFLICT, "이미 피드가 작성된 레코드입니다."),
+    NOT_FOUND_FEED(HttpStatus.NOT_FOUND, "해당 피드를 찾을 수 없습니다."),
 
     // Token 예외
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),

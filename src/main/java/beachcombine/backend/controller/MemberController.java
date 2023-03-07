@@ -1,7 +1,7 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
-import beachcombine.backend.domain.Member;
+import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
@@ -9,9 +9,6 @@ import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +24,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     // 회원 정보 조회
     @GetMapping("")
@@ -82,5 +78,29 @@ public class MemberController {
         List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
+    @PostMapping("preferred-feeds/{feedId}")
+    public ResponseEntity<IdResponse> likeFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
+                                         @PathVariable("feedId") Long feedId) {
+
+        Long memberPreferredFeedId = memberService.likeFeed(userDetails.getMember().getId(), feedId);
+
+        IdResponse response = IdResponse.builder()
+                .id(memberPreferredFeedId)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 회원-피드 좋아요 관계 취소 (피드 좋아요 취소하기)
+    @DeleteMapping("preferred-feeds/{feedId}")
+    public ResponseEntity<Void> deleteLikeFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
+                                               @PathVariable("feedId") Long feedId) {
+
+        memberService.deleteLikeFeed(userDetails.getMember().getId(), feedId);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
