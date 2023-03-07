@@ -6,6 +6,8 @@ import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.RecordSaveRequest;
+import beachcombine.backend.dto.response.BeachMarkerResponse;
+import beachcombine.backend.dto.response.BeachResponse;
 import beachcombine.backend.dto.response.RecordResponse;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.MemberRepository;
@@ -61,6 +63,7 @@ public class RecordService {
     // 청소기록 목록 조회
     public List<RecordResponse> getRecordList(Long memberId) {
 
+        Member findMember = getMemberOrThrow(memberId);
         List<RecordResponse> responseList = new ArrayList<>();
         List<Record> recordList = recordRepository.findAllByMemberId(memberId);
         for (Record record: recordList){
@@ -81,6 +84,25 @@ public class RecordService {
             responseList.add(recordResponse);
         }
 
+        return responseList;
+    }
+
+    // 마이페이지 - (지도) 청소한 해변 조회
+    public List<BeachMarkerResponse> getMyBeachMarker(Long memberId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+        List<Beach> beachList = recordRepository.findBeachList(memberId);
+        List<BeachMarkerResponse> responseList = new ArrayList<>();
+        for (Beach beach: beachList){
+            String imageUrl = imageService.processImage(beach.getBadgeImage());
+            BeachMarkerResponse beachMarkerResponse = BeachMarkerResponse.builder()
+                    .id(beach.getId())
+                    .lat(beach.getLat().toString())
+                    .lng(beach.getLng().toString())
+                    .image(imageUrl) // 해변 뱃지 이미지
+                    .build();
+            responseList.add(beachMarkerResponse);
+        }
         return responseList;
     }
 
