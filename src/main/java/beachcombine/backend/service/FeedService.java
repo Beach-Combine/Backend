@@ -58,7 +58,12 @@ public class FeedService {
 
         checkPermissionByFeed(findMember, findFeed);
 
-        feedRepository.deleteById(feedId);
+        Record findRecord = findFeed.getRecord(); // 연관된 Record 가져오기
+        if(findRecord != null) {
+            findRecord.setFeed(null);
+        }
+
+        feedRepository.deleteById(feedId); // Feed 삭제
     }
 
     // 피드 목록 조회
