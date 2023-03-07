@@ -29,15 +29,4 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom{
                 .fetch();
     }
 
-//    @Override
-//    public List<Record> findRecordGroupByBeach(Long memberId, Long BeachId) {
-//
-//        return queryFactory
-//                .select(record)
-//                .from(record)
-//                .where(record.member.id.eq(memberId))
-//                .groupBy(record.beach)
-//                .orderBy(OrderByNull.DEFAULT)
-//                .fetch();
-//    }
 }
