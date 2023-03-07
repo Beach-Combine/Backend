@@ -11,4 +11,5 @@ public interface RecordRepository extends JpaRepository<Record, Long>, RecordRep
 
     Record findTopByBeachIdOrderByCreatedDateDesc (Long beachId);
     List<Record> findAllByMemberId(Long memberId);
+    List<Record> findAllByMemberIdAndBeachIdOrderByCreatedDateDesc(Long memberId, Long BeachId);
 }
