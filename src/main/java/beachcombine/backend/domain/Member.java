@@ -1,6 +1,5 @@
 package beachcombine.backend.domain;
 
-
 import beachcombine.backend.common.entity.BaseEntity;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import lombok.*;

@@ -24,10 +24,10 @@ public class Beach extends BaseEntity {
     private String name;
     private String badgeImage;
 
-    @Column(nullable = false, precision =10, scale = 8)
+    @Column(nullable = false, precision = 10, scale = 8)
     private BigDecimal lat;
-    @Column(nullable = false, precision =11, scale = 8)
-    private BigDecimal  lng;
+    @Column(nullable = false, precision = 11, scale = 8)
+    private BigDecimal lng;
 
     private String beachRange;
 

@@ -53,6 +53,8 @@ public class Record extends BaseEntity {
     public void setFeed(Feed feed) {
 
         this.feed = feed;
-        feed.setRecord(this);
+        if (feed != null) { // feed 삭제할 경우(인자로 null이 들어오는 경우) NPE 방지 위함
+            feed.setRecord(this);
+        }
     }
 }
