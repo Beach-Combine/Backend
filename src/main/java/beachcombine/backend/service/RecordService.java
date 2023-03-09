@@ -112,10 +112,9 @@ public class RecordService {
 
         Member findMember = getMemberOrThrow(memberId);
         List<RecordResponse> responseList = new ArrayList<>();
-        List<Record> recordList = recordRepository.findAllByMemberIdAndBeachIdOrderByCreatedDateDesc(memberId, beachId);
+        List<Record> recordList = recordRepository.findMyBeachRecord(memberId, beachId);
         for (Record record: recordList){
 
-            Boolean isWritten = (record.getFeed() != null);
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
             RecordResponse recordResponse = RecordResponse.builder()
@@ -126,7 +125,6 @@ public class RecordService {
                     .range(record.getDistance())
                     .beforeImage(beforeImageUrl)
                     .afterImage(afterImageUrl)
-                    .isWritten(isWritten)
                     .build();
             responseList.add(recordResponse);
         }

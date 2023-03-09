@@ -8,4 +8,5 @@ import java.util.List;
 public interface RecordRepositoryCustom {
 
     List<Beach> findBeachList(Long memberId);
+    List<Record> findMyBeachRecord(Long memberId, Long beachId);
 }
