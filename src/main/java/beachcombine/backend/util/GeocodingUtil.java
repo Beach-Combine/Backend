@@ -86,7 +86,6 @@ public class GeocodingUtil {
 
             JSONObject jo = new JSONObject(responseStrBuilder.toString());
             JSONArray results = jo.getJSONArray("results");
-            Map<String, String> ret = new HashMap<String, String>();
             if(results.length() > 0) {
                 JSONObject jsonObject = results.getJSONObject(0);
                 String address = jsonObject.getString("formatted_address");
