@@ -8,6 +8,7 @@ import beachcombine.backend.dto.request.TrashcanSaveRequest;
 import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.TrashcanRepository;
+import beachcombine.backend.util.GeocodingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class TrashcanService {
     private final TrashcanRepository trashcanRepository;
     private final MemberRepository memberRepository;
     private final ImageService imageService;
+    private final GeocodingUtil geocodingUtil;
 
     // (지도) 인증된 쓰레기통 위치 조회
     @Transactional(readOnly = true)
@@ -69,11 +71,36 @@ public class TrashcanService {
         return trashcan.getId();
     }
 
-    // 예외 처리 - 존재하는 member인지
-    private Member getMemberOrThrow(Long id) {
+    // 쓰레기통 인증하기
+    public void certifyTrashcan(Long memberId, Long trashcanId) {
 
-        return memberRepository.findById(id)
+        // 관리자 인증
+        Member member = getMemberOrThrow(memberId);
+        if(!member.getRole().equals("ROLE_ADMIN")){
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
+        Trashcan findTrashcan = getTrashcanOrThrow(trashcanId);
+        if(findTrashcan.getIsCertified()) {
+            throw new CustomException(ErrorCode.ALREADY_CERTIFIED_TRASHCAN);
+        }
+
+        // 좌표 -> 상세주소 변환
+        String address = geocodingUtil.getAddressByCoords(findTrashcan.getLat(), findTrashcan.getLng());
+        findTrashcan.certifyTrashcan(address);
+    }
+
+    // 예외 처리 - 존재하는 member인지
+    private Member getMemberOrThrow(Long memberId) {
+
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+    }
+
+    // 예외 처리 - 존재하는 trashcan인지
+    private Trashcan getTrashcanOrThrow(Long trashcanId) {
+
+        return trashcanRepository.findById(trashcanId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TRASHCAN));
     }
 
     // 예외 처리 - 이미지 있는지

@@ -27,7 +27,7 @@ public class Trashcan extends BaseEntity {
     private String address;
 
     @Builder.Default
-    private Boolean isCertified=false;
+    private Boolean isCertified = false;
     private Boolean isAddedByUser;
 
     private String image; // 사용자가 쓰레기통 등록할 때 업로드하는 사진. 나중에 쓰레기통 인증할 때 사용
@@ -35,4 +35,10 @@ public class Trashcan extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // 신고한 사람 (Trashcan:Member=다:1)
+
+    public void certifyTrashcan(String address) {
+
+        this.isCertified = true;
+        this.address = address;
+    }
 }

@@ -121,7 +121,7 @@ public class InitService {
                 JSONObject object = (JSONObject) jsonArray.get(i);
                 String address = (String) object.get("설치장소");
                 // int trashcanCount = (int) object.get("개수");
-                Map<String, String> coords = geocodingUtil.getGeoDataByAddress(address);
+                Map<String, String> coords = geocodingUtil.getCoordsByAddress(address);
 
                 Trashcan trashcan = Trashcan.builder()
                         .lat(new BigDecimal(coords.get("lat")))

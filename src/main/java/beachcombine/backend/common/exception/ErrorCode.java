@@ -20,6 +20,7 @@ public enum ErrorCode {
     EXIST_MEMBER_PREFERRED_FEED(HttpStatus.CONFLICT, "이미 좋아요한 피드입니다."),
     BAD_REQUEST_OPTION_VALUE(HttpStatus.BAD_REQUEST, "option 값이 잘못된 요청입니다."),
     PERMISSION_DENIED(HttpStatus.UNAUTHORIZED, "타인의 글은 수정 및 삭제할 수 없습니다"),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 권한이 없는 멤버입니다."),
 
     // Beach 예외
     NOT_FOUND_BEACH(HttpStatus.NOT_FOUND, "해당 해변을 찾을 수 없습니다."),
@@ -31,6 +32,10 @@ public enum ErrorCode {
     // Feed 예외
     EXIST_FEED_RECORD(HttpStatus.CONFLICT, "이미 피드가 작성된 레코드입니다."),
     NOT_FOUND_FEED(HttpStatus.NOT_FOUND, "해당 피드를 찾을 수 없습니다."),
+
+    // Trashcan 예외
+    NOT_FOUND_TRASHCAN(HttpStatus.NOT_FOUND, "해당 쓰레기통을 찾을 수 없습니다."),
+    ALREADY_CERTIFIED_TRASHCAN(HttpStatus.CONFLICT, "이미 인증된 쓰레기통입니다."),
 
     // Token 예외
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
