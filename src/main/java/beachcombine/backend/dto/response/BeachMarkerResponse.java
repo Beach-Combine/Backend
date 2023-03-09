@@ -11,6 +11,7 @@ import lombok.*;
 public class BeachMarkerResponse {
 
     private Long id;
+    private String name;
     private String lat;
     private String lng;
     private String image; // 최근 청소기록 유저 프로필이미지

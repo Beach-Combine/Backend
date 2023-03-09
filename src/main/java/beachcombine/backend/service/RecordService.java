@@ -97,6 +97,7 @@ public class RecordService {
             String imageUrl = imageService.processImage(beach.getBadgeImage());
             BeachMarkerResponse beachMarkerResponse = BeachMarkerResponse.builder()
                     .id(beach.getId())
+                    .name(beach.getName())
                     .lat(beach.getLat().toString())
                     .lng(beach.getLng().toString())
                     .image(imageUrl) // 해변 뱃지 이미지
