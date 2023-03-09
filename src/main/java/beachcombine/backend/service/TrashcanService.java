@@ -69,6 +69,28 @@ public class TrashcanService {
         return trashcan.getId();
     }
 
+    // 쓰레기통 인증 요청 목록 조회
+    public List<TrashcanMarkerResponse> findUncertifiedTrashcans(Long memberId) {
+
+        // 관리자 인증
+        Member member = getMemberOrThrow(memberId);
+        if(!member.getRole().equals("ROLE_ADMIN")){
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
+        List<Trashcan> findTrashcanList  = trashcanRepository.findByIsCertified(false);
+        List<TrashcanMarkerResponse> responseList = findTrashcanList.stream()
+                .map(m -> TrashcanMarkerResponse.builder()
+                        .id(m.getId())
+                        .lat(String.valueOf(m.getLat()))
+                        .lng(String.valueOf(m.getLng()))
+                        .address(m.getAddress())
+                        .build())
+                .collect(Collectors.toList());
+
+        return responseList;
+    }
+
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long id) {
 
