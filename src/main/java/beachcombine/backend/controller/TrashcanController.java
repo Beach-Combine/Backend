@@ -47,4 +47,5 @@ public class TrashcanController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
 }

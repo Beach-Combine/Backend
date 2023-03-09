@@ -22,6 +22,6 @@ public class Feed extends BaseEntity {
 
     private String review;
 
-    @OneToOne(mappedBy = "feed", fetch= LAZY)
+    @OneToOne(mappedBy = "feed", fetch = LAZY)
     private Record record; // 피드 작성자 정보는 record 에서 조회
 }
