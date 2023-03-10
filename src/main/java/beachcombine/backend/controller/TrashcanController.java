@@ -46,6 +46,17 @@ public class TrashcanController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    // 쓰레기통 인증하기
+    @PostMapping("/admin/trashcans/certify/{trashcanId}")
+    public ResponseEntity<IdResponse> certifyTrashcan(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("trashcanId") Long trashcanId) {
+
+        trashcanService.certifyTrashcan(userDetails.getMember().getId(), trashcanId);
+
+        IdResponse response = IdResponse.builder()
+                .id(trashcanId)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     // 쓰레기통 인증 요청 목록 조회
     @GetMapping("/admin/trashcans/certification-requests")
