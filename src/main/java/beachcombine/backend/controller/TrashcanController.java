@@ -58,4 +58,12 @@ public class TrashcanController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    // 쓰레기통 인증 요청 목록 조회
+    @GetMapping("/admin/trashcans/certification-requests")
+    public ResponseEntity<List<TrashcanMarkerResponse>> findUncertifiedTrashcans(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        List<TrashcanMarkerResponse> response = trashcanService.findUncertifiedTrashcans(userDetails.getMember().getId());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
