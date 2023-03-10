@@ -19,13 +19,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("trashcans")
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
 
     // (지도) 인증된 쓰레기통 위치 조회
-    @GetMapping("map")
+    @GetMapping("/trashcans/map")
     public ResponseEntity<List<TrashcanMarkerResponse>> findCertifiedTrashcanMarkers(){
 
         List<TrashcanMarkerResponse> response = trashcanService.findCertifiedTrashcanMarkers();
@@ -34,7 +33,7 @@ public class TrashcanController {
     }
 
     // 쓰레기통 신고하기
-    @PostMapping("")
+    @PostMapping("/trashcans")
     public ResponseEntity<IdResponse> saveTrashcan (@AuthenticationPrincipal PrincipalDetails userDetails,
                                                     TrashcanSaveRequest request) throws IOException {
 
@@ -47,5 +46,13 @@ public class TrashcanController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
+    // 쓰레기통 인증 요청 목록 조회
+    @GetMapping("/admin/trashcans/certification-requests")
+    public ResponseEntity<List<TrashcanMarkerResponse>> findUncertifiedTrashcans(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        List<TrashcanMarkerResponse> response = trashcanService.findUncertifiedTrashcans(userDetails.getMember().getId());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 }

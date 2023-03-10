@@ -20,6 +20,7 @@ public enum ErrorCode {
     EXIST_MEMBER_PREFERRED_FEED(HttpStatus.CONFLICT, "이미 좋아요한 피드입니다."),
     BAD_REQUEST_OPTION_VALUE(HttpStatus.BAD_REQUEST, "option 값이 잘못된 요청입니다."),
     PERMISSION_DENIED(HttpStatus.UNAUTHORIZED, "타인의 글은 수정 및 삭제할 수 없습니다"),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 권한이 없는 멤버입니다."),
 
     // Beach 예외
     NOT_FOUND_BEACH(HttpStatus.NOT_FOUND, "해당 해변을 찾을 수 없습니다."),
