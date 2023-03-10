@@ -56,4 +56,13 @@ public class RecordController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // 마이페이지 - (지도) 특정 위치 청소 기록 목록 조회
+    @GetMapping("/{beachId}/member")
+    public ResponseEntity<List<RecordResponse>> getMyBeachRecord(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("beachId") Long beachId) {
+
+        List<RecordResponse> response = recordService.getMyBeachRecord(userDetails.getMember().getId(), beachId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
