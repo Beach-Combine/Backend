@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtExceptionFilter(), JwtAuthorizationFilter.class)
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/auth/**").permitAll()
-                        .antMatchers("/members/**", "/records/**").access("hasRole('ROLE_USER')")
+                        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                         .anyRequest().authenticated() // 그외 나머지 요청은 인증 필요
                 )// 요청에 대한 사용권한 체크
                 .build();
