@@ -1,6 +1,8 @@
 package beachcombine.backend.common.init;
 
 import beachcombine.backend.domain.Beach;
+import beachcombine.backend.domain.Giftcard;
+import beachcombine.backend.domain.Store;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.repository.TrashcanRepository;
 import beachcombine.backend.util.GeocodingUtil;
@@ -83,12 +85,25 @@ public class InitService {
                         "{35.1746, 129.1975}, {35.1759, 129.1971}")
                 .build();
 
+        Store store1 = Store.builder()
+                .name("zero-waste store")
+                .location("Gangnam-gu")
+                .image("storeimageUrl")
+                .build();
+
+        Giftcard giftcard1 = Giftcard.builder()
+                .cost(1000)
+                .store(store1)
+                .build();
+
         em.merge(beach1);
         em.merge(beach2);
         em.merge(beach3);
         em.merge(beach4);
         em.merge(beach5);
         em.merge(beach6);
+        em.persist(store1);
+        em.merge(giftcard1);
     }
 
 
