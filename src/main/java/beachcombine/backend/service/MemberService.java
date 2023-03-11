@@ -160,6 +160,7 @@ public class MemberService {
         memberPreferredFeedRepository.deleteByMemberAndFeed(findMember, findFeed);
     }
 
+    // 회원 전체 포인트 조회
     public Integer getMemberPoint(Long memberId) {
 
         Member findMember = getMemberOrThrow(memberId);
