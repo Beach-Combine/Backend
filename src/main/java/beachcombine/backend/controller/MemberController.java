@@ -2,6 +2,7 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.response.IdResponse;
+import beachcombine.backend.dto.response.MemberPointResponse;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
@@ -102,5 +103,18 @@ public class MemberController {
         memberService.deleteLikeFeed(userDetails.getMember().getId(), feedId);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 회원 전체 포인트 조회
+    @GetMapping("point")
+    public ResponseEntity<MemberPointResponse> getMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        Integer totalPoint = memberService.getMemberPoint(userDetails.getMember().getId());
+
+        MemberPointResponse response = MemberPointResponse.builder()
+                .totalPoint(totalPoint)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
