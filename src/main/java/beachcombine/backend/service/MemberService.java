@@ -104,7 +104,7 @@ public class MemberService {
     public List<MemberRankingResponse> getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
 
         List<Member> memberList = new ArrayList<>();
-        List<MemberRankingResponse> responseList = new ArrayList<>();
+        List<MemberRankingResponse> response = new ArrayList<>();
 
         if (range.equals("all")) {
             memberList = memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint);
@@ -118,16 +118,15 @@ public class MemberService {
 
         for (Member member : memberList) {
             String imageUrl = imageService.processImage(member.getImage());
-            MemberRankingResponse response = MemberRankingResponse.builder()
+            response.add(MemberRankingResponse.builder()
                     .id(member.getId())
                     .nickname(member.getNickname())
                     .image(imageUrl)
                     .point(range.equals("all") ? member.getTotalPoint() : member.getMonthPoint())
-                    .build();
-            responseList.add(response);
+                    .build());
         }
 
-        return responseList;
+        return response;
     }
 
     // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
