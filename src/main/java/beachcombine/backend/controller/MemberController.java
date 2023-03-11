@@ -105,14 +105,14 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    // 회원 전체 포인트 조회
+    // 회원 잔여 포인트 조회
     @GetMapping("point")
     public ResponseEntity<MemberPointResponse> getMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        Integer totalPoint = memberService.getMemberPoint(userDetails.getMember().getId());
+        Integer point = memberService.getMemberPoint(userDetails.getMember().getId());
 
         MemberPointResponse response = MemberPointResponse.builder()
-                .totalPoint(totalPoint)
+                .point(point)
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

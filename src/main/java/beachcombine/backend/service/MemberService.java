@@ -160,12 +160,12 @@ public class MemberService {
         memberPreferredFeedRepository.deleteByMemberAndFeed(findMember, findFeed);
     }
 
-    // 회원 전체 포인트 조회
+    // 회원 잔여 포인트 조회
     public Integer getMemberPoint(Long memberId) {
 
         Member findMember = getMemberOrThrow(memberId);
 
-        return findMember.getTotalPoint();
+        return findMember.getTotalPoint() - findMember.getPurchasePoint();
     }
 
     // 예외 처리 - 존재하는 member인지
