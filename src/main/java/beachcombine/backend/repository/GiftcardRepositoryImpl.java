@@ -1,7 +1,6 @@
 package beachcombine.backend.repository;
 
 import beachcombine.backend.domain.Giftcard;
-import beachcombine.backend.domain.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import static beachcombine.backend.domain.QGiftcard.giftcard;
 import static beachcombine.backend.domain.QPurchase.purchase;
-import static beachcombine.backend.domain.QMember.member;
 
 public class GiftcardRepositoryImpl implements GiftcardRepositoryCustom{
 
