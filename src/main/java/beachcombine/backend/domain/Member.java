@@ -51,6 +51,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Member=다:1)
 
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Purchase> purchaseList = new ArrayList<>();  // 구매 기록 리스트 (Purchase:Member=다:1)
+
     public List<String> getRoleAsList() {
 
         if (this.role.length() > 0) {
