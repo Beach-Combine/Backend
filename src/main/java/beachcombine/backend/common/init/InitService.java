@@ -1,9 +1,6 @@
 package beachcombine.backend.common.init;
 
-import beachcombine.backend.domain.Beach;
-import beachcombine.backend.domain.Giftcard;
-import beachcombine.backend.domain.Store;
-import beachcombine.backend.domain.Trashcan;
+import beachcombine.backend.domain.*;
 import beachcombine.backend.repository.TrashcanRepository;
 import beachcombine.backend.util.GeocodingUtil;
 
@@ -24,6 +21,7 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -96,6 +94,19 @@ public class InitService {
                 .store(store1)
                 .build();
 
+        for(int i=0; i<25; i++) {
+            Member member = Member.builder()
+                    .loginId(i+"st_"+"user")
+                    .password("")
+                    .email(i+"st_"+"user@gmail.com")
+                    .nickname(i+"st_"+"user")
+                    .role("ROLE_USER")
+                    .totalPoint(i*100)
+                    .monthPoint(i*100)
+                    .build();
+            em.merge(member);
+        }
+
         em.merge(beach1);
         em.merge(beach2);
         em.merge(beach3);
@@ -105,7 +116,6 @@ public class InitService {
         em.persist(store1);
         em.merge(giftcard1);
     }
-
 
     // 공공데이터포털 - 부산 수영구 쓰레기통 정보 API
     public ResponseEntity<Void> loadTrashcanDataFromApiAndSave() {
