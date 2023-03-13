@@ -99,4 +99,9 @@ public class Member extends BaseEntity {
         return false;
     }
 
+    public void resetMonthPoint() {
+
+        this.monthPoint = 0;
+    }
+
 }
