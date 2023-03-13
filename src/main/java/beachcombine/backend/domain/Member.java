@@ -91,6 +91,15 @@ public class Member extends BaseEntity {
         return false;
     }
 
+    public Boolean updatePurchasePoint(int cost) {
+
+        if(this.totalPoint - this.purchasePoint < cost) {
+            return false;
+        }
+        this.purchasePoint += cost;
+        return true;
+    }
+
     public boolean isUpdatedNickname(String nickname) {
 
         if (StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)) {

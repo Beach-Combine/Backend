@@ -16,6 +16,7 @@ public enum ErrorCode {
     UNAUTHORIZED_ID(HttpStatus.UNAUTHORIZED, "아이디가 틀립니다."),
     UNAUTHORIZED_PASSWORD(HttpStatus.UNAUTHORIZED, "패스워드가 틀립니다."),
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."),
+    NOT_FOUND_POINT(HttpStatus.NOT_FOUND, "잔액이 부족합니다."),
     EXIST_MEMBER_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
     EXIST_MEMBER_PREFERRED_FEED(HttpStatus.CONFLICT, "이미 좋아요한 피드입니다."),
     BAD_REQUEST_OPTION_VALUE(HttpStatus.BAD_REQUEST, "option 값이 잘못된 요청입니다."),
@@ -36,6 +37,9 @@ public enum ErrorCode {
     // Trashcan 예외
     NOT_FOUND_TRASHCAN(HttpStatus.NOT_FOUND, "해당 쓰레기통을 찾을 수 없습니다."),
     ALREADY_CERTIFIED_TRASHCAN(HttpStatus.CONFLICT, "이미 인증된 쓰레기통입니다."),
+
+    // Giftcard 예외
+    NOT_FOUND_GIFTCARD(HttpStatus.NOT_FOUND, "해당 기프트카드를 찾을 수 없습니다."),
 
     // Token 예외
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
