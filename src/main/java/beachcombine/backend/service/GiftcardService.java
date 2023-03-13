@@ -58,9 +58,12 @@ public class GiftcardService {
         Purchase purchase = Purchase.builder()
                 .giftcard(findGiftcard)
                 .build();
-
         purchase.setMember(findMember);
         purchaseRepository.save(purchase);
+
+        if(!findMember.updatePurchasePoint(findGiftcard.getCost())) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POINT);
+        }
 
         return purchase.getId();
     }
