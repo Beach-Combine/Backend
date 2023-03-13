@@ -1,8 +1,14 @@
 package beachcombine.backend.service;
 
+import beachcombine.backend.common.exception.CustomException;
+import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Giftcard;
+import beachcombine.backend.domain.Member;
+import beachcombine.backend.domain.Purchase;
 import beachcombine.backend.dto.response.GiftcardResponse;
 import beachcombine.backend.repository.GiftcardRepository;
+import beachcombine.backend.repository.MemberRepository;
+import beachcombine.backend.repository.PurchaseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +24,11 @@ import java.util.List;
 public class GiftcardService {
 
     private final GiftcardRepository giftcardRepository;
+    private final MemberRepository memberRepository;
+    private final PurchaseRepository purchaseRepository;
     private final ImageService imageService;
 
+    // 카드 목록 조회
     public List<GiftcardResponse> getGiftcardList() {
 
         List<Giftcard> giftcardList = giftcardRepository.findAll();
@@ -37,5 +46,39 @@ public class GiftcardService {
         }
 
         return response;
+    }
+
+    // 카드 구매하기
+    public Long purchaseGiftcard(Long memberId, Long giftcardId) {
+
+        // 예외 처리
+        Member findMember = getMemberOrThrow(memberId);
+        Giftcard findGiftcard = getGiftcardOrThrow(giftcardId);
+
+        Purchase purchase = Purchase.builder()
+                .giftcard(findGiftcard)
+                .build();
+
+        purchase.setMember(findMember);
+        purchaseRepository.save(purchase);
+
+        return purchase.getId();
+    }
+
+    // 카드 구매 목록 조회
+
+
+    // 예외 처리 - 존재하는 member 인가
+    private Member getMemberOrThrow(Long id) {
+
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+    }
+
+    // 예외 처리 - 존재하는 beach 인가
+    private Giftcard getGiftcardOrThrow(Long id) {
+
+        return giftcardRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GIFTCARD));
     }
 }

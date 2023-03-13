@@ -37,6 +37,9 @@ public enum ErrorCode {
     NOT_FOUND_TRASHCAN(HttpStatus.NOT_FOUND, "해당 쓰레기통을 찾을 수 없습니다."),
     ALREADY_CERTIFIED_TRASHCAN(HttpStatus.CONFLICT, "이미 인증된 쓰레기통입니다."),
 
+    // Giftcard 예외
+    NOT_FOUND_GIFTCARD(HttpStatus.NOT_FOUND, "해당 기프트카드를 찾을 수 없습니다."),
+
     // Token 예외
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않습니다.");
