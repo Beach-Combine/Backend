@@ -46,6 +46,11 @@ public class GiftcardController {
 
 
     // 카드 구매 목록 조회
+    @GetMapping("purchase")
+    public ResponseEntity<List<GiftcardResponse>> getPurchasedGiftcardList(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
+        List<GiftcardResponse> response = giftcardService.getPurchasedGiftcardList(userDetails.getMember().getId());
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

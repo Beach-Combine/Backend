@@ -51,7 +51,6 @@ public class GiftcardService {
     // 카드 구매하기
     public Long purchaseGiftcard(Long memberId, Long giftcardId) {
 
-        // 예외 처리
         Member findMember = getMemberOrThrow(memberId);
         Giftcard findGiftcard = getGiftcardOrThrow(giftcardId);
 
@@ -69,7 +68,24 @@ public class GiftcardService {
     }
 
     // 카드 구매 목록 조회
+    public List<GiftcardResponse> getPurchasedGiftcardList(Long memberId) {
 
+        List<Giftcard> giftcardList = giftcardRepository.findByMember(memberId);
+        List<GiftcardResponse> response = new ArrayList<>();
+
+        for (Giftcard giftcard : giftcardList) {
+            String imageUrl = imageService.processImage(giftcard.getStore().getImage());
+            response.add(GiftcardResponse.builder()
+                    .id(giftcard.getId())
+                    .name(giftcard.getStore().getName())
+                    .location(giftcard.getStore().getLocation())
+                    .image(imageUrl)
+                    .cost(giftcard.getCost())
+                    .build());
+        }
+
+        return response;
+    }
 
     // 예외 처리 - 존재하는 member 인가
     private Member getMemberOrThrow(Long id) {
