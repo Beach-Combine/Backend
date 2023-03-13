@@ -8,17 +8,20 @@ import beachcombine.backend.domain.MemberPreferredFeed;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.repository.FeedRepository;
 import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +103,14 @@ public class MemberService {
         }
     }
 
-    // 랭킹 조회
+    // '월별 포인트' 초기화
+    @Scheduled(cron="0 0 0 1 * ?", zone = "Asia/Seoul") // 초 분 시 일 월 요일
+    public void resetMonthPoint() {
+
+        memberRepository.findAll().forEach(m -> m.resetMonthPoint());
+    }
+
+   // 랭킹 조회
     public List<MemberRankingResponse> getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
 
         List<Member> memberList = new ArrayList<>();
