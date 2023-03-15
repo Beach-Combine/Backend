@@ -70,12 +70,12 @@ public class MemberController {
 
     // 랭킹 조회
     @GetMapping("ranking")
-    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
+    public ResponseEntity<MemberRankingResponse> getMemberRanking(@RequestParam String range,
                                                                         @RequestParam int pageSize,
                                                                         @RequestParam(required = false) Long lastId,
                                                                         @RequestParam(required = false) Integer lastPoint) {
 
-        List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
+        MemberRankingResponse response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

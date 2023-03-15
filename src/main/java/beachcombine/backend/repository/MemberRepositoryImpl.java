@@ -24,7 +24,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .from(member)
                 .where(whereClauseTotal(lastId, lastPoint))
                 .orderBy(member.totalPoint.desc(), member.id.asc())
-                .limit(pageSize)
+                .limit(pageSize + 1)
                 .fetch();
     }
 
@@ -36,7 +36,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .from(member)
                 .where(whereClauseMonth(lastId, lastPoint))
                 .orderBy(member.monthPoint.desc(), member.id.asc())
-                .limit(pageSize)
+                .limit(pageSize + 1)
                 .fetch();
     }
 

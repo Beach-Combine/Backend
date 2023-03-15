@@ -111,10 +111,9 @@ public class MemberService {
     }
 
    // 랭킹 조회
-    public List<MemberRankingResponse> getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
+    public MemberRankingResponse getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
 
         List<Member> memberList = new ArrayList<>();
-        List<MemberRankingResponse> response = new ArrayList<>();
 
         if (range.equals("all")) {
             memberList = memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint);
@@ -126,17 +125,18 @@ public class MemberService {
             throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
         }
 
-        for (Member member : memberList) {
-            String imageUrl = imageService.processImage(member.getImage());
-            response.add(MemberRankingResponse.builder()
-                    .id(member.getId())
-                    .nickname(member.getNickname())
-                    .image(imageUrl)
-                    .point(range.equals("all") ? member.getTotalPoint() : member.getMonthPoint())
-                    .build());
+        boolean nextPage = false;
+        if (memberList.size() == pageSize + 1) {
+            nextPage = true;
+            memberList.remove(pageSize + 0); // pageSize+1개만큼 가져옴. 마지막 원소 삭제 필요
         }
 
-        return response;
+        return MemberRankingResponse.builder()
+                .nextPage(nextPage)
+                .memberDtoList(memberList.stream()
+                        .map(m -> MemberRankingResponse.MemberDto.of(m, imageService.processImage(m.getImage()), range))
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
