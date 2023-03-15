@@ -43,7 +43,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private BooleanExpression whereClauseTotal(Long lastId, Integer lastPoint) {
 
         if(lastId != null && lastPoint != null) {
-            return member.totalPoint.loe(lastPoint).and(member.id.gt(lastId));
+            return (member.totalPoint.lt(lastPoint))
+                    .or(member.totalPoint.eq(lastPoint).and(member.id.gt(lastId)));
         }
         return null;
     }
@@ -51,7 +52,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private BooleanExpression whereClauseMonth(Long lastId, Integer lastPoint) {
 
         if(lastId != null && lastPoint != null) {
-            return member.monthPoint.loe(lastPoint).and(member.id.gt(lastId));
+            return (member.monthPoint.lt(lastPoint))
+                    .or(member.monthPoint.eq(lastPoint).and(member.id.gt(lastId)));
         }
         return null;
     }
