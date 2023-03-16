@@ -31,6 +31,9 @@ jobs:
         cd ./src/main/resources
         touch ./env.properties
         echo "${{ secrets.ENV }}" > ./env.properties
+        cd ./src/main/resources
+        touch ./beach-combine-3770712535c0.json.properties
+        echo "${{ secrets.BEACHCOMBINE }}" > ./beach-combine-3770712535c0.json
       shell: bash
     # Gradle build (Test 제외)
     - name: Build with Gradle
