@@ -94,6 +94,7 @@ public class FeedService {
                     .afterImage(afterImageUrl)
                     .beachName(record.getBeach().getName())
                     .isPreferred(memberPreferredFeedRepository.existsByMemberAndFeed(findMember, feed))
+                    .like(memberPreferredFeedRepository.countByFeed(feed))
                     .build();
             responseList.add(feedResponse);
         }
