@@ -26,11 +26,15 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     # 환경 변수 설정
-    - name: Set environment values
+    - name: Set environment values 1
       run: |
         cd ./src/main/resources
         touch ./env.properties
         echo "${{ secrets.ENV }}" > ./env.properties
+      shell: bash
+    - name: Set environment values 2
+      run: |
+        cd ./src/main/resources
         touch ./beach-combine-3770712535c0.json
         echo "${{ secrets.BEACHCOMBINE }}" > ./beach-combine-3770712535c0.json
       shell: bash
