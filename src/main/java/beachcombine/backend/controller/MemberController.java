@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class MemberController {
 
     // 회원 정보 수정
     @PatchMapping("")
-    public ResponseEntity<Void> updateMember(@AuthenticationPrincipal PrincipalDetails userDetails, MemberUpdateRequest dto) throws IOException {
+    public ResponseEntity<Void> updateMember(@AuthenticationPrincipal PrincipalDetails userDetails, @Valid MemberUpdateRequest dto) throws IOException {
 
         memberService.updateMember(userDetails.getMember().getId(), dto);
 

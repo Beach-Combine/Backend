@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class FeedController {
     @PostMapping("{recordId}")
     public ResponseEntity<IdResponse> saveFeed(@AuthenticationPrincipal PrincipalDetails userDetails,
                                                @PathVariable("recordId") Long recordId,
-                                               FeedSaveRequest request) {
+                                               @Valid FeedSaveRequest request) {
 
         Long feedId = feedService.saveFeed(userDetails.getMember().getId(), request, recordId);
 

@@ -9,6 +9,10 @@ spring:
     password: ${application.spring.datasource.password}
     databaseAPI: ${application.spring.datasource.databaseAPI}
 
+  mvc:
+    throw-exception-if-no-handler-found: true
+    log-resolved-exception: false
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,6 +26,11 @@ spring:
         project-id: ${application.spring.cloud.gcp.storage.project-id}
         bucket: ${application.spring.cloud.gcp.storage.bucket}
       geocodingAPI: ${application.spring.cloud.gcp.geocodingAPI}
+
+logging:
+  level:
+    org.springframework: INFO
+    com.example.thirdpartylib: INFO
 
 jwt:
   secret: ${application.jwt.secret}

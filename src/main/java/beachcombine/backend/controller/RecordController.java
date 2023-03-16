@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class RecordController {
     @PostMapping("{beachId}")
     public ResponseEntity<IdResponse> saveRecord (@AuthenticationPrincipal PrincipalDetails userDetails,
                                                   @PathVariable("beachId") Long beachId,
-                                                  RecordSaveRequest request) throws IOException {
+                                                  @Valid RecordSaveRequest request) throws IOException {
 
         Long recordId = recordService.saveRecord(userDetails.getMember().getId(), request, beachId);
 

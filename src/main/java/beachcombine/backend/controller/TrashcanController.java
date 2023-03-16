@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class TrashcanController {
     // 쓰레기통 신고하기
     @PostMapping("/trashcans")
     public ResponseEntity<IdResponse> saveTrashcan (@AuthenticationPrincipal PrincipalDetails userDetails,
-                                                    TrashcanSaveRequest request) throws IOException {
+                                                    @Valid TrashcanSaveRequest request) throws IOException {
 
         Long trashcanId = trashcanService.saveTrashcan(userDetails.getMember().getId(), request);
 

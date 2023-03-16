@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
 
     // 일반 에러
-    //일반 에러
     @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
 
