@@ -39,9 +39,9 @@ public class FeedController {
 
     // 피드 목록 조회
     @GetMapping("")
-    public ResponseEntity<List<FeedResponse>> getFeedList() {
+    public ResponseEntity<List<FeedResponse>> getFeedList(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        List<FeedResponse> response = feedService.getFeedList();
+        List<FeedResponse> response = feedService.getFeedList(userDetails.getMember().getId());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
