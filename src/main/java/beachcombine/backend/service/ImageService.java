@@ -44,6 +44,9 @@ public class ImageService {
         if (StringUtils.isBlank(image)) {
             return null;
         }
+        if (image.startsWith("https://")) { // 구글 프로필 이미지 처리
+            return image;
+        }
         return "https://storage.googleapis.com/" + bucketName + "/" + image;
     }
 }
