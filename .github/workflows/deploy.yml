@@ -57,5 +57,5 @@ jobs:
         envs: GITHUB_SHA
         script: |
           sudo docker pull choo000407/beach_combine:${GITHUB_SHA::7}
-          sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beach_combine
+          sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beachcombine_spring
           sudo docker-compose up -d
