@@ -20,4 +20,5 @@ public class FeedResponse {
     private String beachName;
     private boolean isPreferred;
     private Long like;
+    private String memberImage;
 }
