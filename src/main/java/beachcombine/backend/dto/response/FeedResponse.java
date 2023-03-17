@@ -18,4 +18,6 @@ public class FeedResponse {
     private String beforeImage;
     private String afterImage;
     private String beachName;
+    private boolean isPreferred;
+    private Long like;
 }
