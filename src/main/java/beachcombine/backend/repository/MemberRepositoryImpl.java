@@ -24,7 +24,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .from(member)
                 .where(whereClauseTotal(lastId, lastPoint))
                 .orderBy(member.totalPoint.desc(), member.id.asc())
-                .limit(pageSize)
+                .limit(pageSize + 1)
                 .fetch();
     }
 
@@ -36,14 +36,15 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .from(member)
                 .where(whereClauseMonth(lastId, lastPoint))
                 .orderBy(member.monthPoint.desc(), member.id.asc())
-                .limit(pageSize)
+                .limit(pageSize + 1)
                 .fetch();
     }
 
     private BooleanExpression whereClauseTotal(Long lastId, Integer lastPoint) {
 
         if(lastId != null && lastPoint != null) {
-            return member.totalPoint.loe(lastPoint).and(member.id.gt(lastId));
+            return (member.totalPoint.lt(lastPoint))
+                    .or(member.totalPoint.eq(lastPoint).and(member.id.gt(lastId)));
         }
         return null;
     }
@@ -51,7 +52,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     private BooleanExpression whereClauseMonth(Long lastId, Integer lastPoint) {
 
         if(lastId != null && lastPoint != null) {
-            return member.monthPoint.loe(lastPoint).and(member.id.gt(lastId));
+            return (member.monthPoint.lt(lastPoint))
+                    .or(member.monthPoint.eq(lastPoint).and(member.id.gt(lastId)));
         }
         return null;
     }

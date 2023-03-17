@@ -34,6 +34,14 @@ jobs:
         touch ./env.properties
         echo "${{ secrets.ENV }}" > ./env.properties
       shell: bash
+    # 환경 변수 설정 (JSON)
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@v1.2.2
+      with:
+        name: "beach-combine-3770712535c0.json"
+        json: ${{ secrets.BEACHCOMBINE }}
+        dir: 'src/main/resources/'
     # Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
@@ -57,5 +65,5 @@ jobs:
         envs: GITHUB_SHA
         script: |
           sudo docker pull choo000407/beach_combine:${GITHUB_SHA::7}
-          sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beach_combine
+          sudo docker tag choo000407/beach_combine:${GITHUB_SHA::7} beachcombine_spring
           sudo docker-compose up -d

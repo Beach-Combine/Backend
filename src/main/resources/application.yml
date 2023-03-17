@@ -27,6 +27,11 @@ spring:
         bucket: ${application.spring.cloud.gcp.storage.bucket}
       geocodingAPI: ${application.spring.cloud.gcp.geocodingAPI}
 
+    servlet:
+      multipart:
+        max-file-size: 50MB
+        max-request-size: 50MB
+
 logging:
   level:
     org.springframework: INFO

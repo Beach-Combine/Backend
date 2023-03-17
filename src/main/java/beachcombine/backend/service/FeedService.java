@@ -8,6 +8,7 @@ import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.FeedSaveRequest;
 import beachcombine.backend.dto.response.FeedResponse;
 import beachcombine.backend.repository.FeedRepository;
+import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class FeedService {
     private final RecordRepository recordRepository;
     private final ImageService imageService;
     private final MemberRepository memberRepository;
+    private final MemberPreferredFeedRepository memberPreferredFeedRepository;
 
     // 피드 기록하기
     public Long saveFeed(Long memberId, FeedSaveRequest request, Long recordId) {
@@ -69,7 +71,9 @@ public class FeedService {
 
     // 피드 목록 조회
     @Transactional(readOnly = true)
-    public List<FeedResponse> getFeedList() {
+    public List<FeedResponse> getFeedList(Long memberId) {
+
+        Member findMember = getMemberOrThrow(memberId);
 
         List<Feed> findFeedList = feedRepository.findAllByOrderByCreatedDateDesc();
         List<FeedResponse> responseList = new ArrayList<>();
@@ -89,6 +93,8 @@ public class FeedService {
                     .beforeImage(beforeImageUrl)
                     .afterImage(afterImageUrl)
                     .beachName(record.getBeach().getName())
+                    .isPreferred(memberPreferredFeedRepository.existsByMemberAndFeed(findMember, feed))
+                    .like(memberPreferredFeedRepository.countByFeed(feed))
                     .build();
             responseList.add(feedResponse);
         }

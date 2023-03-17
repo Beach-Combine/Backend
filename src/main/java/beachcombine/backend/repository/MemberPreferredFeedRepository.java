@@ -9,4 +9,6 @@ public interface MemberPreferredFeedRepository extends JpaRepository<MemberPrefe
 
     Boolean existsByMemberAndFeed(Member member, Feed feed);
     void deleteByMemberAndFeed(Member member, Feed feed);
+
+    Long countByFeed(Feed feed);
 }

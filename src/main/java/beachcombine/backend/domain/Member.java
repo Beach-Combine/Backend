@@ -51,6 +51,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Member=다:1)
 
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Purchase> purchaseList = new ArrayList<>();  // 구매 기록 리스트 (Purchase:Member=다:1)
+
     public List<String> getRoleAsList() {
 
         if (this.role.length() > 0) {
@@ -87,12 +91,26 @@ public class Member extends BaseEntity {
         return false;
     }
 
+    public Boolean updatePurchasePoint(int cost) {
+
+        if(this.totalPoint - this.purchasePoint < cost) {
+            return false;
+        }
+        this.purchasePoint += cost;
+        return true;
+    }
+
     public boolean isUpdatedNickname(String nickname) {
 
         if (StringUtils.isNotBlank(nickname) && !nickname.equals(this.nickname)) {
             return true;
         }
         return false;
+    }
+
+    public void resetMonthPoint() {
+
+        this.monthPoint = 0;
     }
 
 }

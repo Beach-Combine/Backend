@@ -2,10 +2,10 @@ package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
 import beachcombine.backend.dto.response.IdResponse;
+import beachcombine.backend.dto.response.MemberPointResponse;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
-import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,12 +71,12 @@ public class MemberController {
 
     // 랭킹 조회
     @GetMapping("ranking")
-    public ResponseEntity<List<MemberRankingResponse>> getMemberRanking(@RequestParam String range,
+    public ResponseEntity<MemberRankingResponse> getMemberRanking(@RequestParam String range,
                                                                         @RequestParam int pageSize,
                                                                         @RequestParam(required = false) Long lastId,
                                                                         @RequestParam(required = false) Integer lastPoint) {
 
-        List<MemberRankingResponse> response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
+        MemberRankingResponse response = memberService.getMemberRanking(range, pageSize, lastId, lastPoint);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -103,5 +103,18 @@ public class MemberController {
         memberService.deleteLikeFeed(userDetails.getMember().getId(), feedId);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 회원 잔여 포인트 조회
+    @GetMapping("point")
+    public ResponseEntity<MemberPointResponse> getMemberPoint(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        Integer point = memberService.getMemberPoint(userDetails.getMember().getId());
+
+        MemberPointResponse response = MemberPointResponse.builder()
+                .point(point)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -8,17 +8,20 @@ import beachcombine.backend.domain.MemberPreferredFeed;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.repository.FeedRepository;
 import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,11 +103,17 @@ public class MemberService {
         }
     }
 
-    // 랭킹 조회
-    public List<MemberRankingResponse> getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
+    // '월별 포인트' 초기화
+    @Scheduled(cron="0 0 0 1 * ?", zone = "Asia/Seoul") // 초 분 시 일 월 요일
+    public void resetMonthPoint() {
+
+        memberRepository.findAll().forEach(m -> m.resetMonthPoint());
+    }
+
+   // 랭킹 조회
+    public MemberRankingResponse getMemberRanking(String range, int pageSize, Long lastId, Integer lastPoint) {
 
         List<Member> memberList = new ArrayList<>();
-        List<MemberRankingResponse> responseList = new ArrayList<>();
 
         if (range.equals("all")) {
             memberList = memberRepository.findByTotalPointRanking(pageSize, lastId, lastPoint);
@@ -116,18 +125,18 @@ public class MemberService {
             throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
         }
 
-        for (Member member : memberList) {
-            String imageUrl = imageService.processImage(member.getImage());
-            MemberRankingResponse response = MemberRankingResponse.builder()
-                    .id(member.getId())
-                    .nickname(member.getNickname())
-                    .image(imageUrl)
-                    .point(range.equals("all") ? member.getTotalPoint() : member.getMonthPoint())
-                    .build();
-            responseList.add(response);
+        boolean nextPage = false;
+        if (memberList.size() == pageSize + 1) {
+            nextPage = true;
+            memberList.remove(pageSize + 0); // pageSize+1개만큼 가져옴. 마지막 원소 삭제 필요
         }
 
-        return responseList;
+        return MemberRankingResponse.builder()
+                .nextPage(nextPage)
+                .memberDtoList(memberList.stream()
+                        .map(m -> MemberRankingResponse.MemberDto.of(m, imageService.processImage(m.getImage()), range))
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     // 회원-피드 좋아요 관계 등록 (피드 좋아요하기)
@@ -158,6 +167,14 @@ public class MemberService {
         Feed findFeed = getFeedOrThrow(feedId);
 
         memberPreferredFeedRepository.deleteByMemberAndFeed(findMember, findFeed);
+    }
+
+    // 회원 잔여 포인트 조회
+    public Integer getMemberPoint(Long memberId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+
+        return findMember.getTotalPoint() - findMember.getPurchasePoint();
     }
 
     // 예외 처리 - 존재하는 member인지
