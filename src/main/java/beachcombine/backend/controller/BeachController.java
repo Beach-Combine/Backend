@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -51,7 +52,7 @@ public class BeachController {
 
     // 해변 근처 인증하기
     @GetMapping("{beachId}/range")
-    public ResponseEntity<Void> verifyNearBeach(@PathVariable("beachId") Long beachId, NearBeachRequest dto) {
+    public ResponseEntity<Void> verifyNearBeach(@PathVariable("beachId") Long beachId, @Valid NearBeachRequest dto) {
 
         beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
         return new ResponseEntity(HttpStatus.OK);

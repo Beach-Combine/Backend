@@ -9,6 +9,7 @@ spring:
     password: ${application.spring.datasource.password}
     databaseAPI: ${application.spring.datasource.databaseAPI}
 
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -27,6 +28,7 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
 
 jwt:
   secret: ${application.jwt.secret}
