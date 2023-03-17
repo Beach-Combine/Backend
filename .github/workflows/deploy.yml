@@ -28,7 +28,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     # 환경 변수 설정
-    - name: Set environment values 1
+    - name: Set environment values
       run: |
         cd ./src/main/resources
         touch ./env.properties
