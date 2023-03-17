@@ -9,9 +9,6 @@ spring:
     password: ${application.spring.datasource.password}
     databaseAPI: ${application.spring.datasource.databaseAPI}
 
-  mvc:
-    throw-exception-if-no-handler-found: true
-    log-resolved-exception: false
 
   jpa:
     hibernate:
@@ -27,15 +24,11 @@ spring:
         bucket: ${application.spring.cloud.gcp.storage.bucket}
       geocodingAPI: ${application.spring.cloud.gcp.geocodingAPI}
 
-    servlet:
-      multipart:
-        max-file-size: 50MB
-        max-request-size: 50MB
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
-logging:
-  level:
-    org.springframework: INFO
-    com.example.thirdpartylib: INFO
 
 jwt:
   secret: ${application.jwt.secret}
