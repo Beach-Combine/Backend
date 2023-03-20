@@ -6,10 +6,7 @@ import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
 import beachcombine.backend.dto.request.RecordSaveRequest;
-import beachcombine.backend.dto.response.BeachMarkerResponse;
-import beachcombine.backend.dto.response.BeachResponse;
-import beachcombine.backend.dto.response.RecordResponse;
-import beachcombine.backend.dto.response.RecordResponseList;
+import beachcombine.backend.dto.response.*;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
@@ -22,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -109,32 +107,19 @@ public class RecordService {
     }
 
     // 마이페이지 - (지도) 특정 위치 청소 기록 목록 조회
-    public RecordResponseList getMyBeachRecord(Long memberId, Long beachId) {
+    public BeachRecordListResponse getMyBeachRecord(Long memberId, Long beachId) {
 
         Member findMember = getMemberOrThrow(memberId);
         Beach findBeach = getBeachOrThrow(beachId);
-        List<RecordResponse> responseList = new ArrayList<>();
         List<Record> recordList = recordRepository.findMyBeachRecord(memberId, beachId);
-        for (Record record: recordList){
 
-            String beforeImageUrl = imageService.processImage(record.getBeforeImage());
-            String afterImageUrl = imageService.processImage(record.getAfterImage());
-            RecordResponse recordResponse = RecordResponse.builder()
-                    .recordId(record.getId())
-                    .beachId(record.getBeach().getId())
-                    .time(record.getDuration())
-                    .date(record.getCreatedDate())
-                    .range(record.getDistance())
-                    .beforeImage(beforeImageUrl)
-                    .afterImage(afterImageUrl)
-                    .build();
-            responseList.add(recordResponse);
-        }
-        RecordResponseList recordResponseList = RecordResponseList.builder()
-                .beachName(findBeach.getName())
-                .recordList(responseList)
+        BeachRecordListResponse beachRecordListResponse = BeachRecordListResponse.builder()
+                .beach(BeachRecordListResponse.BeachDto.from(findBeach))
+                .recordList(recordList.stream()
+                        .map(r -> BeachRecordListResponse.RecordDto.from(r, imageService.processImage(r.getBeforeImage()), imageService.processImage(r.getAfterImage())))
+                        .collect(Collectors.toList()))
                 .build();
-        return recordResponseList;
+        return beachRecordListResponse;
     }
 
 
