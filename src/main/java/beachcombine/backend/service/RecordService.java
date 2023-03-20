@@ -9,6 +9,7 @@ import beachcombine.backend.dto.request.RecordSaveRequest;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.BeachResponse;
 import beachcombine.backend.dto.response.RecordResponse;
+import beachcombine.backend.dto.response.RecordResponseList;
 import beachcombine.backend.repository.BeachRepository;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RecordRepository;
@@ -108,9 +109,10 @@ public class RecordService {
     }
 
     // 마이페이지 - (지도) 특정 위치 청소 기록 목록 조회
-    public List<RecordResponse> getMyBeachRecord(Long memberId, Long beachId) {
+    public RecordResponseList getMyBeachRecord(Long memberId, Long beachId) {
 
         Member findMember = getMemberOrThrow(memberId);
+        Beach findBeach = getBeachOrThrow(beachId);
         List<RecordResponse> responseList = new ArrayList<>();
         List<Record> recordList = recordRepository.findMyBeachRecord(memberId, beachId);
         for (Record record: recordList){
@@ -128,7 +130,11 @@ public class RecordService {
                     .build();
             responseList.add(recordResponse);
         }
-        return responseList;
+        RecordResponseList recordResponseList = RecordResponseList.builder()
+                .beachName(findBeach.getName())
+                .recordList(responseList)
+                .build();
+        return recordResponseList;
     }
 
 

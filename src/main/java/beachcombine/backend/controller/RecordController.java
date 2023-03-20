@@ -5,6 +5,7 @@ import beachcombine.backend.dto.request.RecordSaveRequest;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.IdResponse;
 import beachcombine.backend.dto.response.RecordResponse;
+import beachcombine.backend.dto.response.RecordResponseList;
 import beachcombine.backend.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,9 +61,9 @@ public class RecordController {
 
     // 마이페이지 - (지도) 특정 위치 청소 기록 목록 조회
     @GetMapping("/{beachId}/member")
-    public ResponseEntity<List<RecordResponse>> getMyBeachRecord(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("beachId") Long beachId) {
+    public ResponseEntity<RecordResponseList> getMyBeachRecord(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("beachId") Long beachId) {
 
-        List<RecordResponse> response = recordService.getMyBeachRecord(userDetails.getMember().getId(), beachId);
+        RecordResponseList response = recordService.getMyBeachRecord(userDetails.getMember().getId(), beachId);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
