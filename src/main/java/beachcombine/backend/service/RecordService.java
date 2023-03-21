@@ -62,23 +62,22 @@ public class RecordService {
     // 청소기록 목록 조회
     public List<RecordResponse> getRecordList(Long memberId) {
 
-        Member findMember = getMemberOrThrow(memberId);
         List<RecordResponse> responseList = new ArrayList<>();
         List<Record> recordList = recordRepository.findAllByMemberId(memberId);
         for (Record record: recordList){
-
             Boolean isWritten = (record.getFeed() != null);
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
             RecordResponse recordResponse = RecordResponse.builder()
                     .recordId(record.getId())
-                    .beachId(record.getBeach().getId())
                     .time(record.getDuration())
                     .date(record.getCreatedDate())
                     .range(record.getDistance())
                     .beforeImage(beforeImageUrl)
                     .afterImage(afterImageUrl)
                     .isWritten(isWritten)
+                    .beachId(record.getBeach().getId())
+                    .beachName(record.getBeach().getName())
                     .build();
             responseList.add(recordResponse);
         }
