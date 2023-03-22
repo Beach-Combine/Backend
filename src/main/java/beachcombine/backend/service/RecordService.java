@@ -98,7 +98,7 @@ public class RecordService {
                     .name(beach.getName())
                     .lat(beach.getLat().toString())
                     .lng(beach.getLng().toString())
-                    .image(imageUrl) // 해변 뱃지 이미지
+                    .memberImage(imageUrl) // 해변 뱃지 이미지
                     .build();
             responseList.add(beachMarkerResponse);
         }
