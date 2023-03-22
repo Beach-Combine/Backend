@@ -69,7 +69,7 @@ public class BeachService {
                         .id(m.getId())
                         .lat(String.valueOf(m.getLat()))
                         .lng(String.valueOf(m.getLng()))
-                        .image(getRecordMemberImage(m))
+                        .memberImage(getRecordMemberImage(m))
                         .build())
                 .collect(Collectors.toList());
 

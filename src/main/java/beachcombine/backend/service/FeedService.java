@@ -84,7 +84,6 @@ public class FeedService {
             Member member = record.getMember();
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
-            String memberImage = imageService.processImage(getMemberImage(member));
 
             FeedResponse feedResponse = FeedResponse.builder()
                     .id(feed.getId())
@@ -97,7 +96,7 @@ public class FeedService {
                     .beachName(record.getBeach().getName())
                     .isPreferred(memberPreferredFeedRepository.existsByMemberAndFeed(findMember, feed))
                     .like(memberPreferredFeedRepository.countByFeed(feed))
-                    .memberImage(memberImage)
+                    .memberImage(getMemberImage(member))
                     .build();
             responseList.add(feedResponse);
         }
