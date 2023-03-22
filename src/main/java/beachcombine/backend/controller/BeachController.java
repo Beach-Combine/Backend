@@ -1,7 +1,6 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.dto.request.NearBeachRequest;
-import beachcombine.backend.dto.response.BeachBadgeResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.dto.response.BeachLatestRecordResponse;
 import beachcombine.backend.service.BeachService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 @RestController
@@ -23,15 +21,6 @@ import java.util.List;
 public class BeachController {
 
     private final BeachService beachService;
-
-    // 해변 뱃지 조회
-    @GetMapping("{beachId}/badge")
-    public ResponseEntity<BeachBadgeResponse> findBadgeImage(@PathVariable("beachId") Long beachId) {
-
-        BeachBadgeResponse response = beachService.findBadgeImage(beachId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
     // 해변 상세조회 (최근 청소 기록 제공)
     @GetMapping("{beachId}")
@@ -54,7 +43,7 @@ public class BeachController {
     @GetMapping("{beachId}/range")
     public ResponseEntity<Void> verifyNearBeach(@PathVariable("beachId") Long beachId, @Valid NearBeachRequest dto) {
 
-        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
+        beachService.verifyNearBeach(beachId, new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

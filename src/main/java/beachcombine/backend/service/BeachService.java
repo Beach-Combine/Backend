@@ -5,7 +5,6 @@ import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
-import beachcombine.backend.dto.response.BeachBadgeResponse;
 import beachcombine.backend.dto.response.BeachLatestRecordResponse;
 import beachcombine.backend.dto.response.BeachMarkerResponse;
 import beachcombine.backend.repository.BeachRepository;
@@ -33,22 +32,6 @@ public class BeachService {
     private final RayCastingUtil rayCastingUtil;
 
 
-    // 해변 뱃지 조회
-    @Transactional(readOnly = true)
-    public BeachBadgeResponse findBadgeImage(Long beachId) {
-
-        Beach findBeach = getBeachOrThrow(beachId);
-
-        String imageUrl = imageService.processImage(findBeach.getBadgeImage());
-
-        BeachBadgeResponse response = BeachBadgeResponse.builder()
-                .id(findBeach.getId())
-                .badgeImage(imageUrl)
-                .build();
-
-        return response;
-    }
-
     // 해변 상세 조회 (최근 청소 기록 제공)
     @Transactional(readOnly = true)
     public BeachLatestRecordResponse findLatestRecord(Long beachId) {
@@ -56,7 +39,7 @@ public class BeachService {
         Beach findBeach = getBeachOrThrow(beachId);
         Record findRecord = getLatestRecord(beachId);
 
-        if(findRecord == null || !findRecord.getMember().getProfilePublic()) { // 청소 기록 없거나 멤버가 프로필 비공개 설정했을 때
+        if (findRecord == null || !findRecord.getMember().getProfilePublic()) { // 청소 기록 없거나 멤버가 프로필 비공개 설정했을 때
             BeachLatestRecordResponse response = BeachLatestRecordResponse.builder()
                     .beach(BeachLatestRecordResponse.BeachDto.from(findBeach))
                     .build();
@@ -83,13 +66,13 @@ public class BeachService {
         List<Beach> findBeachList = beachRepository.findAll();
         List<BeachMarkerResponse> responseList = findBeachList.stream()
                 .map(m -> BeachMarkerResponse.builder()
-                    .id(m.getId())
-                    .lat(String.valueOf(m.getLat()))
-                    .lng(String.valueOf(m.getLng()))
-                    .image(getRecordMemberImage(m))
-                    .build())
+                        .id(m.getId())
+                        .lat(String.valueOf(m.getLat()))
+                        .lng(String.valueOf(m.getLng()))
+                        .image(getRecordMemberImage(m))
+                        .build())
                 .collect(Collectors.toList());
-        
+
         return responseList;
     }
 
@@ -126,14 +109,14 @@ public class BeachService {
 
         Beach findBeach = getBeachOrThrow(beachId);
         String beachRange = findBeach.getBeachRange();
-        beachRange = beachRange.replace("{","");
-        beachRange = beachRange.replace(" ","");
-        beachRange = beachRange.substring(0,beachRange.length()-1);
+        beachRange = beachRange.replace("{", "");
+        beachRange = beachRange.replace(" ", "");
+        beachRange = beachRange.substring(0, beachRange.length() - 1);
         String[] s1 = beachRange.split("},");
 
         List<BigDecimal> xCoords = new ArrayList();
         List<BigDecimal> yCoords = new ArrayList();
-        for(int i=0; i<s1.length; i++){
+        for (int i = 0; i < s1.length; i++) {
             String[] group1 = s1[i].split(",");
             xCoords.add(new BigDecimal(group1[0]));
             yCoords.add(new BigDecimal(group1[1]));

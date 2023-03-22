@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 public class RecordResponse {
 
     private Long recordId;
-    private Long beachId;
     private Time time;
     private LocalDateTime date; // created_date , datetime(6)
     private Long range;
     private String beforeImage;
     private String afterImage;
     private Boolean isWritten;
-
+    private Long beachId;
+    private String beachName;
 }
