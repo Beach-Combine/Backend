@@ -31,8 +31,6 @@ public class BeachService {
     private final ImageService imageService;
     private final RayCastingUtil rayCastingUtil;
 
-    private final String defaultBeachImage = "defaultImageLink";
-    private final String hiddenProfileImage = "hiddenImageLink";
 
     // 해변 상세 조회 (최근 청소 기록 제공)
     @Transactional(readOnly = true)
@@ -71,7 +69,7 @@ public class BeachService {
                         .id(m.getId())
                         .lat(String.valueOf(m.getLat()))
                         .lng(String.valueOf(m.getLng()))
-                        .image(getRecordMemberImage(m))
+                        .memberImage(getRecordMemberImage(m))
                         .build())
                 .collect(Collectors.toList());
 
@@ -82,12 +80,12 @@ public class BeachService {
 
         Record findRecord = getLatestRecord(beach.getId());
         if (findRecord == null) {
-            return imageService.processImage(defaultBeachImage);
+            return "none";
         }
 
         Member findMember = findRecord.getMember();
         if (!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
-            return imageService.processImage(hiddenProfileImage);
+            return "lock";
         }
 
         return imageService.processImage(findMember.getImage());

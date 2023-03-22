@@ -49,9 +49,9 @@ public class RecordController {
 
     // 마이페이지 - (지도) 청소한 해변 조회
     @GetMapping("/map")
-    public ResponseEntity<List<BeachMarkerResponse>> getMyBeachMarker(@AuthenticationPrincipal PrincipalDetails userDetails) {
+    public ResponseEntity<List<MyBeachMarkerResponse>> getMyBeachMarker(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        List<BeachMarkerResponse> response = recordService.getMyBeachMarker(userDetails.getMember().getId());
+        List<MyBeachMarkerResponse> response = recordService.getMyBeachMarker(userDetails.getMember().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

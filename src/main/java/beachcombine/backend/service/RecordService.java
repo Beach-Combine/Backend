@@ -86,21 +86,20 @@ public class RecordService {
     }
 
     // 마이페이지 - (지도) 청소한 해변 조회
-    public List<BeachMarkerResponse> getMyBeachMarker(Long memberId) {
+    public List<MyBeachMarkerResponse> getMyBeachMarker(Long memberId) {
 
         Member findMember = getMemberOrThrow(memberId);
         List<Beach> beachList = recordRepository.findBeachList(memberId);
-        List<BeachMarkerResponse> responseList = new ArrayList<>();
+        List<MyBeachMarkerResponse> responseList = new ArrayList<>();
         for (Beach beach: beachList){
             String imageUrl = imageService.processImage(beach.getBadgeImage());
-            BeachMarkerResponse beachMarkerResponse = BeachMarkerResponse.builder()
+            MyBeachMarkerResponse myBeachMarkerResponse = MyBeachMarkerResponse.builder()
                     .id(beach.getId())
                     .name(beach.getName())
                     .lat(beach.getLat().toString())
                     .lng(beach.getLng().toString())
-                    .image(imageUrl) // 해변 뱃지 이미지
                     .build();
-            responseList.add(beachMarkerResponse);
+            responseList.add(myBeachMarkerResponse);
         }
         return responseList;
     }
