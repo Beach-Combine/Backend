@@ -54,7 +54,7 @@ public class BeachController {
     @GetMapping("{beachId}/range")
     public ResponseEntity<Void> verifyNearBeach(@PathVariable("beachId") Long beachId, @Valid NearBeachRequest dto) {
 
-        beachService.verifyNearBeach(dto.getBeachId(), new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
+        beachService.verifyNearBeach(beachId, new BigDecimal(dto.getLat()), new BigDecimal(dto.getLng()));
         return new ResponseEntity(HttpStatus.OK);
     }
 }
