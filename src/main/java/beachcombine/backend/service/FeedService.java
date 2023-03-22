@@ -2,6 +2,7 @@ package beachcombine.backend.service;
 
 import beachcombine.backend.common.exception.CustomException;
 import beachcombine.backend.common.exception.ErrorCode;
+import beachcombine.backend.domain.Beach;
 import beachcombine.backend.domain.Feed;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Record;
@@ -83,7 +84,7 @@ public class FeedService {
             Member member = record.getMember();
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
-            String memberImage = imageService.processImage(member.getImage());
+            String memberImage = imageService.processImage(getMemberImage(member));
 
             FeedResponse feedResponse = FeedResponse.builder()
                     .id(feed.getId())
@@ -139,5 +140,13 @@ public class FeedService {
         if (!record.getMember().getId().equals(member.getId())) {
             throw new CustomException(ErrorCode.PERMISSION_DENIED);
         }
+    }
+
+    public String getMemberImage(Member member) {
+
+        if (!member.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
+            return "lock";
+        }
+        return imageService.processImage(member.getImage());
     }
 }

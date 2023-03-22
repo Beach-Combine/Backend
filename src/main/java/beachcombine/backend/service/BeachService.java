@@ -32,8 +32,6 @@ public class BeachService {
     private final ImageService imageService;
     private final RayCastingUtil rayCastingUtil;
 
-    private final String defaultBeachImage = "defaultImageLink";
-    private final String hiddenProfileImage = "hiddenImageLink";
 
     // 해변 뱃지 조회
     @Transactional(readOnly = true)
@@ -99,12 +97,12 @@ public class BeachService {
 
         Record findRecord = getLatestRecord(beach.getId());
         if (findRecord == null) {
-            return imageService.processImage(defaultBeachImage);
+            return "none";
         }
 
         Member findMember = findRecord.getMember();
         if (!findMember.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
-            return imageService.processImage(hiddenProfileImage);
+            return "lock";
         }
 
         return imageService.processImage(findMember.getImage());
