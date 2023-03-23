@@ -84,6 +84,7 @@ public class FeedService {
             Member member = record.getMember();
             String beforeImageUrl = imageService.processImage(record.getBeforeImage());
             String afterImageUrl = imageService.processImage(record.getAfterImage());
+            String memberImage = imageService.processImage(member.getImage());
 
             FeedResponse feedResponse = FeedResponse.builder()
                     .id(feed.getId())
@@ -96,7 +97,7 @@ public class FeedService {
                     .beachName(record.getBeach().getName())
                     .isPreferred(memberPreferredFeedRepository.existsByMemberAndFeed(findMember, feed))
                     .like(memberPreferredFeedRepository.countByFeed(feed))
-                    .memberImage(getMemberImage(member))
+                    .memberImage(memberImage)
                     .build();
             responseList.add(feedResponse);
         }
@@ -141,11 +142,4 @@ public class FeedService {
         }
     }
 
-    public String getMemberImage(Member member) {
-
-        if (!member.getProfilePublic()) { // 멤버가 프로필 비공개 설정했을 때
-            return "lock";
-        }
-        return imageService.processImage(member.getImage());
-    }
 }
