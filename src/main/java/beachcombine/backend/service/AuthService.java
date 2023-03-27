@@ -17,12 +17,14 @@ import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,7 @@ public class AuthService {
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisTemplate redisTemplate;
 
     // 일반 회원가입 (테스트용)
     public Long saveMember(AuthJoinRequest request) {
@@ -151,5 +154,13 @@ public class AuthService {
                 .build();
 
         return response;
+    }
+
+    // 로그아웃
+    public void logout(String accessToken) {
+        Long expiration = jwtUtils.validateAccessToken(accessToken);
+
+        redisTemplate.opsForValue()
+                .set(accessToken, "blackList", expiration, TimeUnit.MILLISECONDS);
     }
 }
