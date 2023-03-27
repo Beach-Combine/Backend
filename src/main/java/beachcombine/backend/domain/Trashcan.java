@@ -41,4 +41,10 @@ public class Trashcan extends BaseEntity {
         this.isCertified = true;
         this.address = address;
     }
+
+    public void updateCoords(BigDecimal lat, BigDecimal lng) {
+
+        this.lat = lat;
+        this.lng = lng;
+    }
 }

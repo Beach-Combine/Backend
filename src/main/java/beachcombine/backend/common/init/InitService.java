@@ -1,5 +1,7 @@
 package beachcombine.backend.common.init;
 
+import beachcombine.backend.common.exception.CustomException;
+import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.*;
 import beachcombine.backend.repository.TrashcanRepository;
 import beachcombine.backend.util.GeocodingUtil;
@@ -115,6 +117,14 @@ public class InitService {
         em.merge(beach6);
         em.persist(store1);
         em.merge(giftcard1);
+
+        // 쓰레기통 좌표 수정
+        Trashcan trashcan1 = trashcanRepository.findById(77L)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TRASHCAN));
+        trashcan1.updateCoords(new BigDecimal( 35.1527), new BigDecimal(129.1182));
+        Trashcan trashcan2 = trashcanRepository.findById(78L)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_TRASHCAN));
+        trashcan2.updateCoords(new BigDecimal(35.1471), new BigDecimal(129.1145));
     }
 
     // 공공데이터포털 - 부산 수영구 쓰레기통 정보 API
@@ -158,7 +168,6 @@ public class InitService {
                 trashcanRepository.save(trashcan);
 
             }
-
             return new ResponseEntity(HttpStatus.OK);
 
         } catch (Exception e) {
