@@ -14,8 +14,8 @@ public class InitDB {
     @PostConstruct
     public void init() {
 
-        initService.initDatabase();
         initService.loadTrashcanDataFromApiAndSave();
+        initService.initDatabase();
     }
 
 }
