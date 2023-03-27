@@ -65,7 +65,7 @@ public class AuthController {
     }
 
     // 로그아웃
-    @PostMapping("/members/logout")
+    @PostMapping("logout")
     public ResponseEntity<Void> logout(@RequestHeader("accessToken") String accessToken) {
 
         authService.logout(accessToken);
