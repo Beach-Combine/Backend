@@ -98,13 +98,14 @@ public class InitService {
 
         for(int i=0; i<25; i++) {
             Member member = Member.builder()
-                    .loginId(i+"st_"+"user")
+                    .loginId("google_"+i+"st_"+"user")
                     .password("")
                     .email(i+"st_"+"user@gmail.com")
                     .nickname(i+"st_"+"user")
                     .role("ROLE_USER")
                     .totalPoint(i*100)
                     .monthPoint(i*100)
+                    .provider("google")
                     .build();
             em.merge(member);
         }
