@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -25,7 +26,7 @@ public class AuthController {
 
     // 일반 회원가입 (테스트용)
     @PostMapping("join")
-    public ResponseEntity<IdResponse> join(@RequestBody AuthJoinRequest request) {
+    public ResponseEntity<IdResponse> join(@RequestBody @Valid AuthJoinRequest request) {
 
         Long memberId = authService.saveMember(request);
 
@@ -38,7 +39,7 @@ public class AuthController {
 
     // 일반 로그인 (테스트용)
     @PostMapping("login")
-    public ResponseEntity<AuthTokenResponse> login(@RequestBody AuthLoginRequest request) {
+    public ResponseEntity<AuthTokenResponse> login(@RequestBody @Valid AuthLoginRequest request) {
 
         AuthTokenResponse response = authService.login(request);
 
@@ -47,7 +48,7 @@ public class AuthController {
 
     // 구글 로그인
     @PostMapping("google")
-    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody AuthGoogleLoginRequest request) {
+    public ResponseEntity<AuthTokenResponse> googleLogin(@RequestBody @Valid AuthGoogleLoginRequest request) {
 
         AuthTokenResponse response = authService.googleLogin(request);
 
