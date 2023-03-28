@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable() // csrf 보안 토큰 disable처리.
+                .csrf().disable() // csrf 보안 토큰 disable처리
                 .formLogin().disable() // jwt 서버라서 아이디,비밀번호를 formLogin으로 안함
                 .httpBasic().disable() // 매 요청마다 id, pwd 보내는 방식으로 인증하는 httpBasic 사용X
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용하지 x
