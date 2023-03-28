@@ -77,11 +77,11 @@ public class JwtUtils {
         return jwt.getClaim("username").asString();
     }
 
-    // access 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
-    public Boolean validateAccessToken(String token) {
+    // refresh 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
+    public Boolean validateRefreshToken(String token) {
 
         try {
-            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+            JWT.require(Algorithm.HMAC512(refreshSecretKey)).build().verify(token);
             return true;
         } catch (TokenExpiredException e) {
             throw new JwtException("TOKEN_EXPIRED");
@@ -90,12 +90,15 @@ public class JwtUtils {
         }
     }
 
-    // refresh 토큰의 유효성 + 만료일자 확인 -> 유효하면 true 리턴
-    public Boolean validateRefreshToken(String token) {
+    // access 토큰의 유효성 + 만료일자 확인 -> 유효하면 남은 유효시간 반환
+    public Long  validateAccessToken(String token) {
 
         try {
-            JWT.require(Algorithm.HMAC512(refreshSecretKey)).build().verify(token);
-            return true;
+            Date expiration = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token).getExpiresAt(); // 제대로 동작한다면 이 부분 주석 지우기.
+            Long now = new Date().getTime();
+            // accessToken 의 현재 남은시간 반환
+            return (expiration.getTime() - now);
+
         } catch (TokenExpiredException e) {
             throw new JwtException("TOKEN_EXPIRED");
         } catch (JWTVerificationException e) {

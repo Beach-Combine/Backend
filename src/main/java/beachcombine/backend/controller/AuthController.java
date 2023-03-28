@@ -64,4 +64,13 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // 로그아웃
+    @PostMapping("logout")
+    public ResponseEntity<Void> logout(@RequestBody Map<String, String> accessToken) {
+
+        authService.logout(accessToken.get("accessToken"));
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

@@ -5,6 +5,7 @@ import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,7 @@ public class WebSecurityConfig {
     private final MemberRepository memberRepository;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtils jwtUtils;
+    private final RedisTemplate redisTemplate;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
@@ -62,7 +64,7 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() throws Exception {
-        return new JwtAuthorizationFilter(authenticationManagerBean(), memberRepository, jwtUtils);
+        return new JwtAuthorizationFilter(authenticationManagerBean(), memberRepository, jwtUtils, redisTemplate);
     }
 
     @Bean
