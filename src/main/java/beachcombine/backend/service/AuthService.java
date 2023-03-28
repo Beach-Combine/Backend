@@ -157,10 +157,10 @@ public class AuthService {
     }
 
     // 로그아웃
-    public void logout(String accessToken) {
+    public void logout(String request) {
 
-        String token = accessToken.replace("Bearer ", "");
-        Long expiration = jwtUtils.validateAccessToken(token);
+        String accessToken = request.replace("Bearer ", "");
+        Long expiration = jwtUtils.validateAccessToken(accessToken);
 
         redisTemplate.opsForValue()
                 .set(accessToken, "blackList", expiration, TimeUnit.MILLISECONDS);
