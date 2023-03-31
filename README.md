@@ -13,7 +13,41 @@ This project is an app development project aimed at achieving the UN SDGs goal o
 
 <br/>
 
-## 📲 Execution Method
+## ✔️ How to Start
+### Prerequisites
+* Java 8
+* IntelliJ IDEA or eclipse
+* MySQL Workbrench
+* Redis
+
+### Clone
+Clone this repo to your local machine using:  
+```
+git clone https://github.com/Beach-Combine/Backend.git
+```
+### Setup
+- Add `env.properties` in `resources`
+  - Fill in after the equal sign with your own
+```
+application.spring.datasource.url=jdbc:mysql://localhost:3308/beachcombine?serverTimezone=Asia/Seoul
+application.spring.datasource.username=root
+application.spring.datasource.password=
+application.jwt.secret=
+application.jwt.secret_refresh=
+application.spring.cloud.gcp.storage.credentials.location=classpath:beach-combine-3770712535c0.json
+application.spring.cloud.gcp.storage.project-id=
+application.spring.cloud.gcp.storage.bucket=
+application.spring.cloud.gcp.geocodingAPI=
+application.spring.datasource.databaseAPI=
+```
+- Add `beach-combine-3770712535c0.json` in `resources`
+  - Private key issued by GCP (If you don't want to use image-related APIs, it's okay to just create a file and leave the file content empty)
+- Creating a database called `beachcombine` in MySQL workbrench
+- `compileQuerydsl`
+- Run `BackendApplication`
+<br/>
+
+## 📲 Easy Start
 
 For Android User
 
