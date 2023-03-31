@@ -19,11 +19,11 @@ This project is an app development project aimed at achieving the UN SDGs goal o
 
 <br/>
 
-## 📲 Execution Method
+## 📲 Execution Method
 
 For Android User
 
-1. Download apk file [here](https://drive.google.com/file/d/1b2KX29Ry0wW-YsW7Ppdn6b2xL5n8T3l2/view?usp=sharing). (Available for Android version 12 or higher)
+1. Download apk file ⭐ [here](https://drive.google.com/file/d/1b2KX29Ry0wW-YsW7Ppdn6b2xL5n8T3l2/view?usp=sharing) ⭐. (Available for Android version 12 or higher)
 2. You can use it right away by installing it on your smartphone!
 
 - Currently, this service is providing beta service for Busan, Korea.
