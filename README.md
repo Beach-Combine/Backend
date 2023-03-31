@@ -14,18 +14,18 @@ This project is an app development project aimed at achieving the UN SDGs goal o
 <br/>
 
 ## ✔️ How to Start
-### Prerequisites
+### 1) Prerequisites
 * Java 8
 * IntelliJ IDEA or eclipse
 * MySQL Workbrench
 * Redis
 
-### Clone
+### 2) Clone
 Clone this repo to your local machine using:  
 ```
 git clone https://github.com/Beach-Combine/Backend.git
 ```
-### Setup
+### 3) Setup
 - Add `env.properties` in `resources`
   - Fill in after the equal sign with your own
 ```
@@ -44,6 +44,7 @@ application.spring.datasource.databaseAPI=
   - Private key issued by GCP (If you don't want to use image-related APIs, it's okay to just create a file and leave the file content empty)
 - Creating a database called `beachcombine` in MySQL workbrench
 - `compileQuerydsl`
+- Set the `ddl-auto` value of `application.yml` from `none` to `create` only on the first run. After that set it back to none.
 - Run `BackendApplication`
 <br/>
 
