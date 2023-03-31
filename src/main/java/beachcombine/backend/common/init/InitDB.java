@@ -11,11 +11,12 @@ public class InitDB {
 
     private final InitService initService;
 
-    @PostConstruct
-    public void init() {
-
-        initService.loadTrashcanDataFromApiAndSave();
-        initService.initDatabase();
-    }
+    // 초기 환경설정에서만 주석 해제해서 사용
+//    @PostConstruct
+//    public void init() {
+//
+//        initService.loadTrashcanDataFromApiAndSave();
+//        initService.initDatabase();
+//    }
 
 }
