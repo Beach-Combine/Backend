@@ -32,7 +32,7 @@ application.spring.datasource.databaseAPI=
   - Private key issued by GCP (If you don't want to use image-related APIs, it's okay to just create a file and leave the file content empty)
 - Creating a database called `beachcombine` in MySQL workbrench
 - `compileQuerydsl`
-- Change the value of the ddl-auto variable inside application.yml from none to create only on the first execution.
+- Change the value of the `ddl-auto` variable inside `application.yml` from `none` to `create` only on the first execution.
 - Run `BackendApplication`
 <br/>
 
