@@ -3,7 +3,7 @@
 
 ## ✔️ How to Start
 ### 1) Prerequisites
-* Java 8
+* Java 11
 * IntelliJ IDEA or eclipse
 * MySQL Workbrench
 * Redis
@@ -15,7 +15,7 @@ git clone https://github.com/Beach-Combine/Backend.git
 ```
 ### 3) Setup
 - Add `env.properties` in `resources`
-  - Fill in after the equal sign with your own
+  - Fill in the blank space after the equal sign with your own words
 ```
 application.spring.datasource.url=jdbc:mysql://localhost:3308/beachcombine?serverTimezone=Asia/Seoul
 application.spring.datasource.username=root
@@ -32,7 +32,7 @@ application.spring.datasource.databaseAPI=
   - Private key issued by GCP (If you don't want to use image-related APIs, it's okay to just create a file and leave the file content empty)
 - Creating a database called `beachcombine` in MySQL workbrench
 - `compileQuerydsl`
-- Set the `ddl-auto` value of `application.yml` from `none` to `create` only on the first run. After that set it back to none.
+- Change the value of the ddl-auto variable inside application.yml from none to create only on the first execution.
 - Run `BackendApplication`
 <br/>
 
