@@ -9,11 +9,14 @@ import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.dto.response.TrashcanMarkerResponse;
+import beachcombine.backend.event.MemberEvent;
+import beachcombine.backend.event.NotificationCode;
 import beachcombine.backend.repository.FeedRepository;
 import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,7 @@ public class MemberService {
     private final FeedRepository feedRepository;
     private final MemberPreferredFeedRepository memberPreferredFeedRepository;
     private final ImageService imageService;
+    private final ApplicationEventPublisher eventPublisher;
 
     // 회원 정보 조회
     @Transactional(readOnly = true)
@@ -100,6 +104,14 @@ public class MemberService {
 
         if (!findMember.updateMemberPoint(option)) {
             throw new CustomException(ErrorCode.BAD_REQUEST_OPTION_VALUE);
+        }
+
+        // 알림 생성
+        if (option == 0) { // 기존 등록된 쓰레기통
+            eventPublisher.publishEvent(new MemberEvent(findMember, NotificationCode.CLEANING_AND_TRASH_DISPOSAL));
+        }
+        if (option == 1) {
+            eventPublisher.publishEvent(new MemberEvent(findMember, NotificationCode.CLEANING_WITHOUT_TRASH_DISPOSAL));
         }
     }
 

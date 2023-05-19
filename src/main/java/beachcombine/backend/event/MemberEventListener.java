@@ -18,6 +18,10 @@ public class MemberEventListener {
 
         Member member = memberEvent.getMember();
         NotificationCode notificationCode = memberEvent.getNotificationCode();
+
+        // 테스트
+        log.info(member.getNickname() + " get point.");
+
         // DB에 Notification 정보 저장
     }
 }
