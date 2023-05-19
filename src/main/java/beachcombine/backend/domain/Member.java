@@ -88,6 +88,11 @@ public class Member extends BaseEntity {
             this.monthPoint += 30;
             return true;
         }
+        if (option == 2) {
+            this.totalPoint += 70;
+            this.monthPoint += 70;
+            return true;
+        }
         return false;
     }
 
