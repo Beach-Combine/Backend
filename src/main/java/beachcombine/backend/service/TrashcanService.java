@@ -6,11 +6,14 @@ import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.Trashcan;
 import beachcombine.backend.dto.request.TrashcanSaveRequest;
 import beachcombine.backend.dto.response.TrashcanMarkerResponse;
+import beachcombine.backend.event.MemberEvent;
+import beachcombine.backend.event.NotificationCode;
 import beachcombine.backend.repository.MemberRepository;
 import beachcombine.backend.repository.TrashcanRepository;
 import beachcombine.backend.util.GeocodingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +31,7 @@ public class TrashcanService {
     private final TrashcanRepository trashcanRepository;
     private final MemberRepository memberRepository;
     private final ImageService imageService;
+    private final ApplicationEventPublisher eventPublisher;
     private final GeocodingUtil geocodingUtil;
 
     // (지도) 인증된 쓰레기통 위치 조회
@@ -76,9 +80,9 @@ public class TrashcanService {
 
         // 관리자 인증
         Member member = getMemberOrThrow(memberId);
-        if(!member.getRole().equals("ROLE_ADMIN")){
-            throw new CustomException(ErrorCode.ACCESS_DENIED);
-        }
+//        if(!member.getRole().equals("ROLE_ADMIN")){
+//            throw new CustomException(ErrorCode.ACCESS_DENIED);
+//        }
         Trashcan findTrashcan = getTrashcanOrThrow(trashcanId);
         if(findTrashcan.getIsCertified()) {
             throw new CustomException(ErrorCode.ALREADY_CERTIFIED_TRASHCAN);
@@ -91,6 +95,7 @@ public class TrashcanService {
         // 추가 포인트 70점 지급
         Member findMember = findTrashcan.getMember();
         findMember.updateMemberPoint(2);
+        eventPublisher.publishEvent(new MemberEvent(findMember, NotificationCode.TRASHCAN_CREDENTIAL));
     }
 
     // 쓰레기통 인증 요청 목록 조회
@@ -98,9 +103,9 @@ public class TrashcanService {
 
         // 관리자 인증
         Member member = getMemberOrThrow(memberId);
-        if(!member.getRole().equals("ROLE_ADMIN")){
-            throw new CustomException(ErrorCode.ACCESS_DENIED);
-        }
+//        if(!member.getRole().equals("ROLE_ADMIN")){
+//            throw new CustomException(ErrorCode.ACCESS_DENIED);
+//        }
         List<Trashcan> findTrashcanList  = trashcanRepository.findByIsCertified(false);
         List<TrashcanMarkerResponse> responseList = findTrashcanList.stream()
                 .map(m -> TrashcanMarkerResponse.builder()
