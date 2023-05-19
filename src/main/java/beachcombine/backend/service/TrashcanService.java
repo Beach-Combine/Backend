@@ -87,6 +87,10 @@ public class TrashcanService {
         // 좌표 -> 상세주소 변환
         String address = geocodingUtil.getAddressByCoords(findTrashcan.getLat(), findTrashcan.getLng());
         findTrashcan.certifyTrashcan(address);
+
+        // 추가 포인트 70점 지급
+        Member findMember = findTrashcan.getMember();
+        findMember.updateMemberPoint(2);
     }
 
     // 쓰레기통 인증 요청 목록 조회
