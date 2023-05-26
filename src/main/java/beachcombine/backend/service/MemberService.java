@@ -5,15 +5,18 @@ import beachcombine.backend.common.exception.ErrorCode;
 import beachcombine.backend.domain.Feed;
 import beachcombine.backend.domain.Member;
 import beachcombine.backend.domain.MemberPreferredFeed;
+import beachcombine.backend.domain.Notification;
 import beachcombine.backend.dto.response.MemberRankingResponse;
 import beachcombine.backend.dto.response.MemberResponse;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
+import beachcombine.backend.dto.response.NotificationResponse;
 import beachcombine.backend.dto.response.TrashcanMarkerResponse;
 import beachcombine.backend.event.MemberEvent;
 import beachcombine.backend.event.NotificationCode;
 import beachcombine.backend.repository.FeedRepository;
 import beachcombine.backend.repository.MemberPreferredFeedRepository;
 import beachcombine.backend.repository.MemberRepository;
+import beachcombine.backend.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -35,6 +38,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final FeedRepository feedRepository;
     private final MemberPreferredFeedRepository memberPreferredFeedRepository;
+    private final NotificationRepository notificationRepository;
     private final ImageService imageService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -187,6 +191,26 @@ public class MemberService {
         Member findMember = getMemberOrThrow(memberId);
 
         return findMember.getTotalPoint() - findMember.getPurchasePoint();
+    }
+
+    // 알람 목록 조회
+    public List<NotificationResponse> getNotificationList(Long memberId) {
+
+        // 관리자 인증
+        Member member = getMemberOrThrow(memberId);
+
+        List<Notification> findNotificationList  = notificationRepository.findAllByMemberId(memberId);
+        List<NotificationResponse> responseList = findNotificationList.stream()
+                .map(m -> NotificationResponse.builder()
+                        .notificationId(m.getId())
+                        .memberId(m.getMember().getId())
+                        .title(m.getTitle())
+                        .message(m.getMessage())
+                        .details(m.getDetails())
+                        .build())
+                .collect(Collectors.toList());
+
+        return responseList;
     }
 
     // 예외 처리 - 존재하는 member인지
