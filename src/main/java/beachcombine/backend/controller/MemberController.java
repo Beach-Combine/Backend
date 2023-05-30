@@ -1,10 +1,7 @@
 package beachcombine.backend.controller;
 
 import beachcombine.backend.common.auth.PrincipalDetails;
-import beachcombine.backend.dto.response.IdResponse;
-import beachcombine.backend.dto.response.MemberPointResponse;
-import beachcombine.backend.dto.response.MemberRankingResponse;
-import beachcombine.backend.dto.response.MemberResponse;
+import beachcombine.backend.dto.response.*;
 import beachcombine.backend.dto.request.MemberUpdateRequest;
 import beachcombine.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -115,6 +112,14 @@ public class MemberController {
                 .point(point)
                 .build();
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 알람 목록 조회
+    @GetMapping("notification")
+    public ResponseEntity<List<NotificationResponse>> getMemberNotification(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        List<NotificationResponse> response = memberService.getNotificationList(userDetails.getMember().getId());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
