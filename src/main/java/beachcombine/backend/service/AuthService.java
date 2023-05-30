@@ -121,6 +121,7 @@ public class AuthService {
                 .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
                 .role(findMember.getRole())
+                .tutorialCompleted(findMember.getTutorialCompleted())
                 .build();
 
         return response;
