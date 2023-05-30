@@ -213,6 +213,16 @@ public class MemberService {
         return responseList;
     }
 
+    // 튜토리얼 완료 등록
+    public Long completeTutorial(Long memberId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+
+        findMember.updateTutorialCompleted();
+
+        return findMember.getId();
+    }
+
     // 예외 처리 - 존재하는 member인지
     private Member getMemberOrThrow(Long memberId) {
 

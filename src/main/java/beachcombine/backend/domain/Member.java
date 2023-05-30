@@ -121,4 +121,8 @@ public class Member extends BaseEntity {
         this.monthPoint = 0;
     }
 
+    public void updateTutorialCompleted() {
+
+        this.tutorialCompleted = true;
+    }
 }

@@ -122,4 +122,17 @@ public class MemberController {
         List<NotificationResponse> response = memberService.getNotificationList(userDetails.getMember().getId());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // 튜토리얼 완료 등록
+    @PatchMapping("tutorial")
+    public ResponseEntity<IdResponse> completeTutorial(@AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        Long memberid = memberService.completeTutorial(userDetails.getMember().getId());
+
+        IdResponse response = IdResponse.builder()
+                .id(memberid)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
