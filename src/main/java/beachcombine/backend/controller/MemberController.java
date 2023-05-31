@@ -127,10 +127,10 @@ public class MemberController {
     @PatchMapping("tutorial")
     public ResponseEntity<IdResponse> completeTutorial(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        Long memberid = memberService.completeTutorial(userDetails.getMember().getId());
+        Long memberId = memberService.completeTutorial(userDetails.getMember().getId());
 
         IdResponse response = IdResponse.builder()
-                .id(memberid)
+                .id(memberId)
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
