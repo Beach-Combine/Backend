@@ -48,6 +48,9 @@ public class Member extends BaseEntity {
     private Boolean profilePublic = true; // 프로필 공개 여부
 
     @Builder.Default
+    private Boolean tutorialCompleted = false; // 튜토리얼 완료 여부
+
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Record> records = new ArrayList<>();  // 청소 기록 리스트 (Record:Member=다:1)
 
@@ -118,4 +121,8 @@ public class Member extends BaseEntity {
         this.monthPoint = 0;
     }
 
+    public void updateTutorialCompleted() {
+
+        this.tutorialCompleted = true;
+    }
 }

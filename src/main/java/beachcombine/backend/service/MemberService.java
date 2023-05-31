@@ -196,9 +196,6 @@ public class MemberService {
     // 알람 목록 조회
     public List<NotificationResponse> getNotificationList(Long memberId) {
 
-        // 관리자 인증
-        Member member = getMemberOrThrow(memberId);
-
         List<Notification> findNotificationList  = notificationRepository.findAllByMemberId(memberId);
         List<NotificationResponse> responseList = findNotificationList.stream()
                 .map(m -> NotificationResponse.builder()
@@ -211,6 +208,16 @@ public class MemberService {
                 .collect(Collectors.toList());
 
         return responseList;
+    }
+
+    // 튜토리얼 완료 등록
+    public Long completeTutorial(Long memberId) {
+
+        Member findMember = getMemberOrThrow(memberId);
+
+        findMember.updateTutorialCompleted();
+
+        return findMember.getId();
     }
 
     // 예외 처리 - 존재하는 member인지
