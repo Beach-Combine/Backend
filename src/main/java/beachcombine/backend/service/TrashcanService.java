@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,13 +107,18 @@ public class TrashcanService {
 //        if(!member.getRole().equals("ROLE_ADMIN")){
 //            throw new CustomException(ErrorCode.ACCESS_DENIED);
 //        }
-        List<Trashcan> findTrashcanList  = trashcanRepository.findByIsCertified(false);
+        List<Trashcan> findTrashcanList  = trashcanRepository.findByIsAddedByUser(true);
         List<TrashcanMarkerResponse> responseList = findTrashcanList.stream()
                 .map(m -> TrashcanMarkerResponse.builder()
                         .id(m.getId())
                         .lat(String.valueOf(m.getLat()))
                         .lng(String.valueOf(m.getLng()))
+                        .is_certified(m.getIsCertified())
+                        .date(m.getCreatedDate().toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                        .nickname(m.getMember().getNickname())
                         .address(m.getAddress())
+                        .trashcanImage(imageService.processImage(m.getImage()))
+                        .memberImage(imageService.processImage(m.getMember().getImage()))
                         .build())
                 .collect(Collectors.toList());
 
