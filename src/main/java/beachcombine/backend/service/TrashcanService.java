@@ -116,6 +116,7 @@ public class TrashcanService {
                         .date(m.getCreatedDate().toLocalDate())
                         .nickname(m.getMember().getNickname())
                         .address(m.getAddress())
+                        .image(imageService.processImage(m.getImage()))
                         .build())
                 .collect(Collectors.toList());
 
