@@ -17,6 +17,7 @@ public class TrashcanMarkerResponse {
     private Long id;
     private String nickname;
     private Boolean is_certified;
-    private LocalDate date;
-    private String image;
+    private String date;
+    private String trashcanImage;
+    private String memberImage;
 }
