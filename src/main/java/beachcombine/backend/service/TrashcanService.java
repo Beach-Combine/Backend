@@ -102,11 +102,6 @@ public class TrashcanService {
     // 쓰레기통 인증 요청 목록 조회
     public List<TrashcanMarkerResponse> findUncertifiedTrashcans(Long memberId) {
 
-        // 관리자 인증
-        Member member = getMemberOrThrow(memberId);
-//        if(!member.getRole().equals("ROLE_ADMIN")){
-//            throw new CustomException(ErrorCode.ACCESS_DENIED);
-//        }
         List<Trashcan> findTrashcanList  = trashcanRepository.findByIsAddedByUser(true);
         List<TrashcanMarkerResponse> responseList = findTrashcanList.stream()
                 .map(m -> TrashcanMarkerResponse.builder()
