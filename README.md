@@ -17,7 +17,7 @@ git clone https://github.com/Beach-Combine/Backend.git
 - Add `env.properties` in `resources`
   - Fill in the blank space after the equal sign with your own words
 ```
-application.spring.datasource.url=jdbc:mysql://localhost:3308/beachcombine?serverTimezone=Asia/Seoul
+application.spring.datasource.url=jdbc:mysql://localhost:3306/beachcombine?serverTimezone=Asia/Seoul
 application.spring.datasource.username=root
 application.spring.datasource.password=
 application.jwt.secret=
