@@ -38,14 +38,32 @@ application.spring.datasource.databaseAPI=
 
 ## 📲 Easy Start
 
-For Android User
+### For Android User 
 
-1. Download apk file ⭐ [here](https://drive.google.com/file/d/1b2KX29Ry0wW-YsW7Ppdn6b2xL5n8T3l2/view?usp=sharing) ⭐. (Available for Android version 12 or higher)
+1. Download apk file ⭐ [here](https://drive.google.com/file/d/1o0lQqgl7VHFFrbijnl_atLjot7o1Y9GQ/view?usp=sharing) ⭐. (Available for Android version 12 or higher)
 2. You can use it right away by installing it on your smartphone!
+- Currently, this service is providing beta service for Busan, Korea
 
-- Currently, this service is providing beta service for Busan, Korea.
+### Tip
+Our service is currently focused on Busan, South Korea. Therefore, we provide a testing feature for customers in inland areas or those who cannot visit Busan to experience the entire cleaning process.
+
+Upon entering the home screen, users will see a `Test` button. When they press this button, their current location will be moved to the Busan area, allowing them to explore various features. If users move to a different location from their current position, the screen will reflect the corresponding change. Feel free to click on nearby markers to experience different feedback.
+
+Please note that this feature is designed solely for testing purposes and is not reflected in the actual database. Therefore, no rewards will be given upon completing the entire cleaning process. Keep this in mind!
+
+In the actual Busan sea, all features can be used without any issues. Come and enjoy Busan!
 
 <br/>
+
+## ⚙️ Release Note
+### 2022-03-31
+> v1.0.0 release
+### 2022-06-05
+> v1.1.0 release
+- Added Admin Feature
+- Added Testing Feature
+- Added Notification Feature
+- Added Tutorial Feature
 
 ## 💡 How to use
 
@@ -55,7 +73,7 @@ For Android User
 
 ## 📽 Demo Video Link
 
-[![BeachCombine](https://github.com/Beach-Combine/.github/blob/main/images/video.JPG?raw=true)](https://www.youtube.com/watch?v=QcZ9F5scACw)
+[![BeachCombine](https://github.com/Beach-Combine/.github/blob/main/images/video.JPG?raw=true)](https://youtu.be/AJusc-HUwQA)
 
 <br/>
 
