@@ -56,9 +56,9 @@ In the actual Busan sea, all features can be used without any issues. Come and e
 <br/>
 
 ## ⚙️ Release Note
-### 2022-03-31
+### 2023-03-31
 > v1.0.0 release
-### 2022-06-05
+### 2023-06-05
 > v1.1.0 release
 - Added Admin Feature
 - Added Testing Feature
